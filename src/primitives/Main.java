@@ -1,4 +1,4 @@
-package premitives;
+package primitives;
 
 public class Main {
 
