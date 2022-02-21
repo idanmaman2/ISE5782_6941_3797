@@ -19,10 +19,7 @@ public class Point {
                 '}';
     }
 
-    public Point add (Vector v) {
-        return new Point ()
-    }
 
-    public
+
 
 }
