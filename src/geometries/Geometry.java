@@ -1,14 +1,10 @@
 package geometries;
 
-<<<<<<< HEAD
+
 import primitives.Point;
 import primitives.Vector;
 
 public interface Geometry {
-    Vector getNormal(Point pt );
+    public Vector getNormal (Point point);
 }
-=======
-public interface Geometry {
-    public Vector getNormal (Point3D point);
-}
->>>>>>> origin/master
+
