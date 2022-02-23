@@ -9,54 +9,54 @@ public class Vector extends Point {
                 pt2.xyz.d2 - pt1.xyz.d2,
                 pt2.xyz.d3 - pt1.xyz.d3 );
     }
-    public Vector(double d1, double d2, double d3) {
+    public Vector(double d1, double d2, double d3) { //simple constructor
         super(d1, d2, d3);
-        if (new Double3(d1,d2,d3).equals(Double3.ZERO))
+        if (new Double3(d1,d2,d3).equals(Double3.ZERO))//gets a point
             throw  new IllegalArgumentException("cant enter the zero vector");
 
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(Object obj) { // using fathers func
         return super.equals(obj);
     }
 
     @Override
-    public String toString() {
+    public String toString() { // prints the point
         return "Vector{" +
                 "xyz=" + xyz +
                 '}';
     }
 
-    public Vector add(Vector vc) {
+    public Vector add(Vector vc) { // adding all vals for each parameter
         return new Vector(this.xyz.d1 + vc.xyz.d1,
                 this.xyz.d2 + vc.xyz.d2,
                 this.xyz.d3 + vc.xyz.d3);
     }
 
-    public Vector scale(double sc) {
+    public Vector scale(double sc) { // duplicate by scale
         return new Vector(sc * this.xyz.d1,
                 sc * this.xyz.d2,
                 sc * this.xyz.d3
         );
     }
 
-    public double dotProduct(Vector vc) {
+    public double dotProduct(Vector vc) { // shows with product
         return this.xyz.d1 * vc.xyz.d1 +
                 this.xyz.d2 * vc.xyz.d2 +
                 this.xyz.d3 * vc.xyz.d3;
 
     }
 
-    public double lengthSquared() {
+    public double lengthSquared() { // Dot product
         return this.dotProduct(this);
     }
 
-    public double length() {
+    public double length() { // returns square root
         return Math.sqrt(this.lengthSquared());
     }
 
-    public Vector normalize(){
+    public Vector normalize(){ // normalize
         double length = this.length() ;
         return (length == 1  ?
                 this  :
@@ -68,7 +68,7 @@ public class Vector extends Point {
      * x1 | y1  z1 x1 y1
      * x2 |  y2 z2 x2 y2
      * */
-    public Vector crossProduct(Vector vc){
+    public Vector crossProduct(Vector vc){ // two different vectors (minus), normal formula
         return new Vector( (this.xyz.d2 * vc.xyz.d3 - this.xyz.d3 * vc.xyz.d2)  ,
                 (this.xyz.d3 * vc.xyz.d1 - this.xyz.d1 * vc.xyz.d3 )  ,
                 (this.xyz.d1 * vc.xyz.d2 - this.xyz.d2 * vc.xyz.d1) ) ;
