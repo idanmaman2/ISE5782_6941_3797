@@ -44,12 +44,12 @@ public class Vector extends Point {
 
     }
 
-    public double lenghtSquared() {
+    public double lengthSquared() {
         return this.dotProduct(this);
     }
 
     public double length() {
-        return Math.sqrt(this.lenghtSquared());
+        return Math.sqrt(this.lengthSquared());
     }
 
     public Vector normalize(){

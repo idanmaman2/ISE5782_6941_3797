@@ -3,7 +3,7 @@ package geometries;
 import primitives.Point;
 import primitives.Vector;
 
-public class Plane {
+public class Plane implements Geometry {
     public final Point q0 ;
     private final Vector normal ;
     public Plane(Point q1 , Point q2 , Point q3 ){
@@ -18,8 +18,11 @@ public class Plane {
         this.q0 = q0;
         this.normal = normal;
     }
-
-    public Vector getNormal(){
+        @Override
+        public Vector getNormal(Point point) {
+            return normal ;
+        }
+    public Vector getNormal() {
         return normal ;
     }
 
