@@ -1,13 +1,14 @@
 package geometries;
 
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
 
 public class Cylinder extends Tube{
     double height;
 
-    public Cylinder(double height) {//simple constructor
-        this.height = height;
+    public Cylinder(Ray axisRay, double radius) {
+        super(axisRay, radius);
     }
 
     @Override
