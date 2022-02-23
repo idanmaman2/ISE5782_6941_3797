@@ -33,9 +33,9 @@ public class Point {
     }
 
     public Vector subtract (Point v) {
-        return new Vector (v.xyz.d1 - this.xyz.d1 ,
-                v.xyz.d2  - this.xyz.d2 ,
-                v.xyz.d3  - this.xyz.d3);
+        return new Vector (this.xyz.d1 - v.xyz.d1 ,
+                this.xyz.d2  - v.xyz.d2 ,
+                this.xyz.d3  - v.xyz.d3);
     }
 
 }
