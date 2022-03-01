@@ -71,7 +71,7 @@ public class Vector extends Point {
     public Vector crossProduct(Vector vc){ // two different vectors (minus), normal formula
         return new Vector( (this.xyz.d2 * vc.xyz.d3 - this.xyz.d3 * vc.xyz.d2)  ,
                 (this.xyz.d3 * vc.xyz.d1 - this.xyz.d1 * vc.xyz.d3 )  ,
-                (this.xyz.d1 * vc.xyz.d2 - this.xyz.d2 * vc.xyz.d1) ) ;
+                (this.xyz.d1 * vc.xyz.d2 - this.xyz.d2 * vc.xyz.d1) ) ; 
 
     }
     public boolean checkColinear(Vector v){
