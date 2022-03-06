@@ -14,6 +14,16 @@ public class Cylinder extends Tube{
 
     @Override
     public Vector getNormal(Point point) {
-        return super.getNormal(point);
+   
+        double radiusSquared = this.radius * this.radius;
+        Vector toOtherBase = this.axisRay.getDir().scale(this.height) ; 
+        Point p0Ver2 = this.axisRay.getP0().add(toOtherBase);
+        double crossProductp01 =  this.axisRay.getDir().dotProduct(this.axisRay.getP0().subtract(point));
+        double crossProductp02 =   this.axisRay.getDir().dotProduct(p0Ver2.subtract(point));
+        return   (point.distanceSquared(this.axisRay.getP0()) < radiusSquared  && crossProductp01  == 0) || 
+        (point.distanceSquared(p0Ver2) < radiusSquared && crossProductp02 == 0) ? this.axisRay.getDir() : super.getNormal(point) ;
+  
+      
     }
+
 }
