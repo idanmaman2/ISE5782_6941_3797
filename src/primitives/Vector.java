@@ -1,7 +1,11 @@
 package primitives;
 
 import java.awt.*;
-
+/**
+ *represnts linear vector in the real numbers world
+ *
+ * @author Idan and Eliyahu
+ */
 public class Vector extends Point {
 
     public Vector (Point pt1 , Point pt2 ) { //from pt1 to pt2  -> pt1pt2 vector

@@ -3,7 +3,11 @@ package geometries;
 import primitives.Point;
 import primitives.Vector;
 import primitives.Ray;
-
+/**
+ *Tube
+ *
+ * @author Idan and Eliyahu
+ */
 public class Tube implements Geometry{
 
     protected Ray axisRay;
@@ -16,11 +20,6 @@ public class Tube implements Geometry{
 
     @Override
     public Vector getNormal(Point point) {
-        double t  =  axisRay.getDir().dotProduct(
-            point.subtract(
-                axisRay.getP0()));
-        Point O = axisRay.getP0().add(
-            axisRay.getDir().scale(t));
-        return point.subtract(O);
+        return null;
     }
 }

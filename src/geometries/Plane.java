@@ -2,7 +2,11 @@ package geometries;
 
 import primitives.Point;
 import primitives.Vector;
-
+/**
+ *Plane
+ *
+ * @author Idan and Eliyahu
+ */
 public class Plane implements Geometry {
     public final Point q0 ;
     private final Vector normal ;
@@ -18,10 +22,10 @@ public class Plane implements Geometry {
     }
         @Override
         public Vector getNormal(Point point) { //get
-            return normal ;
+            return null ;
         }
     public Vector getNormal() { // get without the point
-        return normal ;
+        return null ;
     }
 
 }
