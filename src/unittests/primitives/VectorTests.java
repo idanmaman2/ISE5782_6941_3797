@@ -1,13 +1,10 @@
-package unittests;
+package unittests.primitives;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import static primitives.Util.*;
-
-import geometries.*;
 import primitives.*;
 
 public class VectorTests {
@@ -35,7 +32,7 @@ public class VectorTests {
     Vector v1 = new Vector(1,0,0); 
     assertEquals("scale() wrong result pos scalar", v1.length(),1 , 0.00001 );
     Vector v2 = new Vector(-1,0,0); 
-    assertEquals("scale() wrong result pos scalar", v1.length(),1 , 0.00001 );
+    assertEquals("scale() wrong result pos scalar", v2.length(),1 , 0.00001 );
 
 
     }
@@ -46,7 +43,7 @@ public class VectorTests {
        Vector v1 = new Vector(1,0,0); 
        assertEquals("scale() wrong result pos scalar", v1.length(),1 , 0.00001 );
        Vector v2 = new Vector(-1,0,0); 
-       assertEquals("scale() wrong result pos scalar", v1.length(),1 , 0.00001 );
+       assertEquals("scale() wrong result pos scalar", v2.length(),1 , 0.00001 );
 
 
     }
@@ -56,7 +53,7 @@ public class VectorTests {
     Vector v1 = new Vector(1,1,1); 
     assertEquals("scale() wrong result pos scalar", v1.lengthSquared(),3 , 0.00001 );
     Vector v2 = new Vector(-1,1,-1); 
-    assertEquals("scale() wrong result pos scalar", v1.lengthSquared(),3 , 0.00001 );
+    assertEquals("scale() wrong result pos scalar", v2.lengthSquared(),3 , 0.00001 );
 
 
     }
