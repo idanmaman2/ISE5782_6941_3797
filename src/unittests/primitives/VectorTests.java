@@ -6,7 +6,10 @@ import static org.junit.Assert.assertTrue;
 import org.junit.jupiter.api.Test;
 import static primitives.Util.*;
 import primitives.*;
-
+  /*
+  tests vector ops 
+ * @author Idan ane Eliot 
+  */ 
 public class VectorTests {
 
     @Test 
