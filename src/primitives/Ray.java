@@ -1,5 +1,9 @@
 package primitives;
-
+/**
+ *represnts linear ray in the real numbers world
+ *that contains point of start and dir - linear line !
+ * @author Idan and Eliyahu
+ */
 public class Ray {
     private final Point p0;
     private final Vector dir;
@@ -12,7 +16,7 @@ public class Ray {
     }
     public Ray(Point p0, Vector dir) { //simple constructor
         this.p0 = p0;
-        this.dir = dir;
+        this.dir = dir.normalize();
     }
 
     @Override

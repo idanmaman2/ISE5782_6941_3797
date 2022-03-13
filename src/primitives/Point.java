@@ -1,5 +1,9 @@
 package primitives;
-
+/**
+ *represnts linear point in the real numbers world
+ *
+ * @author Idan and Eliyahu
+ */
 public class Point {
     protected final Double3 xyz;
     public Point(double d1 , double d2 , double d3 ) {//simple constructor

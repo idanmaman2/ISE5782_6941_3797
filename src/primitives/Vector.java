@@ -1,13 +1,12 @@
 package primitives;
 
-
+/**
+ *represnts linear vector in the real numbers world
+ *
+ * @author Idan and Eliyahu
+ */
 public class Vector extends Point {
 
-    public Vector (Point pt1 , Point pt2 ) { //from pt1 to pt2  -> pt1pt2 vector
-        super(pt1.subtract(pt2).xyz);
-        if (this.xyz.equals(Double3.ZERO))//gets a point
-            throw  new IllegalArgumentException("cant enter the zero vector");
-    }
     public Vector(double d1, double d2, double d3) { //simple constructor
         super(d1, d2, d3);
         if (this.xyz.equals(Double3.ZERO))//gets a point
