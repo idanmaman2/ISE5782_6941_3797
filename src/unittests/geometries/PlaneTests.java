@@ -44,6 +44,7 @@ public class PlaneTests {
 
 	/**
 	 * Test method for {@link geometries.Polygon#getNormal(primitives.Point)}.
+	 * 1.checks if it is on the plane 
 	 */
 	@Test
 	public void testGetNormal() {
@@ -52,7 +53,7 @@ public class PlaneTests {
 		Plane pl = new Plane(new Point(0, 0, 0), new Point(1, 0, 0), new Point(0, 1, 0));
 		assertThrows(IllegalArgumentException.class, 
 		() -> new Vector(0, 0, 1).crossProduct(pl.getNormal(new Point(0, 1, 0))),
-		"Bad normal to Plane");	 // checks if it is on the plane 
+		"Bad normal to Plane");	 
 
 	
 	

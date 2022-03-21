@@ -30,15 +30,11 @@ public class Point {
     }
 
     public Point add (Vector v) { // adding two points
-        return new Point (v.xyz.d1+ this.xyz.d1 ,
-                v.xyz.d2 + this.xyz.d2 ,
-                v.xyz.d3 + this.xyz.d3);
+        return new Point (this.xyz.add(v.xyz));
     }
 
     public Vector subtract (Point v) { // subtract the two
-        return new Vector (this.xyz.d1 - v.xyz.d1 ,
-                this.xyz.d2  - v.xyz.d2 ,
-                this.xyz.d3  - v.xyz.d3);
+        return new Vector (this.xyz.subtract (v.xyz));
     }
 
 }

@@ -57,9 +57,9 @@ public class CylinderTests {
 
 		// =============== Boundary Values Tests ==================
 //checks if this is in the down base center
-        assertEquals(new Vector(0, 0, 1), pl.getNormal(new Point(0, 0, 0)), "Bad normal to trinagle");
+        assertEquals(new Vector(0, 0, 1), pl.getNormal(new Point(0, 0, 0)), "Bad normal to Cylinder");
 		//checks if this is in the up base center
-		assertEquals(new Vector(0, 0, 1), pl.getNormal(new Point(0, 0, 2)), "Bad normal to trinagle");
+		assertEquals(new Vector(0, 0, 1), pl.getNormal(new Point(0, 0, 2)), "Bad normal to Cylinder");
         
 	}
 }
