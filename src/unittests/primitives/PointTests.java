@@ -25,19 +25,9 @@ public class PointTests {
 
     assertEquals("distanceSquared() wrong result pos scalar", p1.distanceSquared(p1),0 , 0.00001 );
     // =============== Boundary Values Tests ==================
-    p1  = new Point(1,0,0); 
-    p2 = new Point(2,0,0); 
-    assertEquals("distanceSquared() wrong result pos scalar", p2.distanceSquared(p1),1 , 0.00001 );
-    p1  = new Point(0,1,0); 
-    p2 = new Point(0,2,0); 
-    assertEquals("distanceSquared() wrong result pos scalar", p2.distanceSquared(p1),1 , 0.00001 );
-    p1  = new Point(0,0,1); 
-    p2 = new Point(0,0,2); 
-    assertEquals("distanceSquared() wrong result pos scalar", p2.distanceSquared(p1),1 , 0.00001 );
-    
-    
     
     }
+
     @Test
     public void testDistance(){ // square root
         // ============ Equivalence Partitions Tests ==============
@@ -48,15 +38,6 @@ public class PointTests {
     
         assertEquals("distance() wrong result pos scalar", p1.distance(p1),0 , 0.00001 );
         // =============== Boundary Values Tests ==================
-        p1  = new Point(1,0,0); 
-        p2 = new Point(2,0,0); 
-        assertEquals("distance() wrong result pos scalar", p2.distance(p1),1 , 0.00001 );
-        p1  = new Point(0,1,0); 
-        p2 = new Point(0,2,0); 
-        assertEquals("distance() wrong result pos scalar", p2.distance(p1),1 , 0.00001 );
-        p1  = new Point(0,0,1); 
-        p2 = new Point(0,0,2); 
-        assertEquals("distance() wrong result pos scalar", p2.distance(p1),1 , 0.00001 );
     }
     @Test
     public void testAdd () { 
@@ -66,6 +47,7 @@ public class PointTests {
         assertEquals("add() wrong result pos scalar", p1.add(v1),new Point(2,1,1));
 
     }
+
     @Test
     public void testSubtract () { // subtract the two
             // ============ Equivalence Partitions Tests ==============

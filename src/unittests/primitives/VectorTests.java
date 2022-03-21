@@ -29,16 +29,20 @@ public class VectorTests {
     assertTrue("dotProduct() result is not right", isZero(vn1.dotProduct(vn2)));
 
     }
+
     @Test 
     public void testNormalize(){//TODO
-    // ============ Equivalence Partitions Tests ==============
-    Vector v1 = new Vector(1,0,0); 
-    assertEquals("scale() wrong result pos scalar", v1.length(),1 , 0.00001 );
-    Vector v2 = new Vector(-1,0,0); 
-    assertEquals("scale() wrong result pos scalar", v2.length(),1 , 0.00001 );
-
-
+        Vector v = new Vector(0, 3, 4);
+        Vector n = v.normalize();
+        // ============ Equivalence Partitions Tests ==============
+        // TC01: Simple test
+        assertEquals(1d, n.lengthSquared(), 0.00001, "wrong normalized vector length");
+        assertThrows(IllegalArgumentException.class, () -> v.crossProduct(n), //
+        "normalized vector is not in the same direction");
+        assertEquals(new Vector(0, 0.6, 0.8), n, "wrong normalized vector");
+        
     }
+
     @Test 
     public void testLength(){
     // ============ Equivalence Partitions Tests ==============
@@ -47,9 +51,8 @@ public class VectorTests {
        assertEquals("scale() wrong result pos scalar", v1.length(),1 , 0.00001 );
        Vector v2 = new Vector(-1,0,0); 
        assertEquals("scale() wrong result pos scalar", v2.length(),1 , 0.00001 );
-
-
     }
+
     @Test 
     public void testLengthSqured(){
     // ============ Equivalence Partitions Tests ==============
@@ -57,9 +60,8 @@ public class VectorTests {
     assertEquals("scale() wrong result pos scalar", v1.lengthSquared(),3 , 0.00001 );
     Vector v2 = new Vector(-1,1,-1); 
     assertEquals("scale() wrong result pos scalar", v2.lengthSquared(),3 , 0.00001 );
-
-
     }
+
     @Test 
     public void testScale(){
     // ============ Equivalence Partitions Tests ==============
@@ -72,6 +74,7 @@ public class VectorTests {
      assertThrows("scale() for parallel vectors does not throw an exception",
      IllegalArgumentException.class, () -> v1.scale(0));
     }
+
     @Test
     public void testCrossProduct() {
         Vector v1 = new Vector(1, 2, 3);
@@ -94,6 +97,7 @@ public class VectorTests {
         assertThrows("crossProduct() for parallel vectors does not throw an exception",
                 IllegalArgumentException.class, () -> v1.crossProduct(v3));
     }
+
     @Test
     public void testAdd() {
         Vector v1 = new Vector(1,1,0); 

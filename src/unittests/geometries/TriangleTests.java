@@ -61,6 +61,10 @@ public class TriangleTests {
 		// ============ Equivalence Partitions Tests ==============
 		// TC01: There is a simple single test here
 		Polygon pl = new Triangle(new Point(0, 0, 0), new Point(1, 0, 0), new Point(0, 1, 0));
-		assertEquals(new Vector(0,0 , 1), pl.getNormal(new Point(0, 1, 0)), "Bad normal to trinagle");//checks on the triangle 
+		assertThrows(IllegalArgumentException.class, 
+		() -> new Vector(0, 0, 1).crossProduct(pl.getNormal(new Point(0, 1, 0))),
+		"Bad normal to triangle");	
+		assertEquals(1,pl.getNormal(new Point(0, 1, 0)).length(),0.00001,"the normal is not normlaize ");
+		
 	}
 }

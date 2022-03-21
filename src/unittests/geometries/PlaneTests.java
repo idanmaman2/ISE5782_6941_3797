@@ -54,7 +54,7 @@ public class PlaneTests {
 		assertThrows(IllegalArgumentException.class, 
 		() -> new Vector(0, 0, 1).crossProduct(pl.getNormal(new Point(0, 1, 0))),
 		"Bad normal to Plane");	 
-
+		assertEquals(1,pl.getNormal(new Point(0, 1, 0)).length(),0.00001,"the normal is not normlaize");
 	
 	
 	

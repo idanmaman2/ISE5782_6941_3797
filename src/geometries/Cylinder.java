@@ -8,6 +8,11 @@ import primitives.Vector;
  *
  * @author Idan and Eliyahu
  */
+
+ /**
+     * constructor cylinder with get height 
+     * @return double
+     */
 public class Cylinder extends Tube{
     double height;
     public double getHeight() {
@@ -17,14 +22,25 @@ public class Cylinder extends Tube{
         super(axisRay, radius);
         this.height = height; 
     }
+
+    /**
+     * equals between objects
+     * @return boolean
+     */
     @Override
-    public boolean equals(Object obj) {//checks if equals
+    public boolean equals(Object obj) {
         return (obj instanceof Cylinder) &&
         super.equals(obj)&&  this.height == ((Cylinder) obj).height;
     }
+
     @Override
+    /**
+     * get normal of vector
+     * @return normal
+     */
     public Vector getNormal(Point point) {
-        // checks if it in the bases center to avoid zero vector 
+        
+        //  checks if it in the bases center to avoid zero vector 
         if( point.equals(axisRay.getP0() ) ||  
             point.equals(axisRay.getP0().add(this.axisRay.getDir().scale(height)) ) ){
             return  this.axisRay.getDir() ;
