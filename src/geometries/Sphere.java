@@ -3,13 +3,13 @@ package geometries;
 import primitives.Point;
 import primitives.Vector;
 /**
- *Sphere
+ *Spgere
  *
  * @author Idan and Eliyahu
  */
 public class Sphere implements Geometry{
-    final Point center;
-    final double radius;
+    Point center;
+    double radius;
 
     public Sphere(Point center, double radius) {//simple constructor
         this.center = center;
@@ -18,6 +18,9 @@ public class Sphere implements Geometry{
 
     @Override
     public Vector getNormal(Point point) {
-        return null;
+        return point.subtract(center).normalize();
+    }
+    public boolean equals(Object obj) {//checks if equals
+        return (obj instanceof Sphere) && this.center.equals(((Sphere) obj).center) && this.radius == ((Sphere) obj).radius;
     }
 }
