@@ -1,7 +1,10 @@
 package geometries;
 
-import primitives.Point;
-import primitives.Vector;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import primitives.*;
+
 /**
  *Plane
  *
@@ -46,4 +49,26 @@ public class Plane implements Geometry {
         && q0.subtract(((Plane) obj).q0).dotProduct(normal) == 0  ;
     }
 
-}
+    @Override 
+    public List<Point> findIntsersections(Ray ray){
+
+        double nv = this.getNormal().dotProduct(ray.getDir()); 
+        if(Util.isZero(nv)){
+            return  null ; 
+        } 
+        else{
+            double nqp =  this.getNormal().dotProduct(this.q0.subtract(ray.getP0()));
+            double t = nqp / nv  ; 
+            if(Util.alignZero(t) > 0 ){
+               return Arrays.asList(ray.getPoint(t));   
+            }
+            else{
+                return null ; 
+            }
+        }
+
+
+    }
+
+    }
+

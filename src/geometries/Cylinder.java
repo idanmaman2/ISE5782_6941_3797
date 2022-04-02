@@ -1,8 +1,10 @@
 package geometries;
 
-import primitives.Point;
-import primitives.Ray;
-import primitives.Vector;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import primitives.*;
 /**
  *Limited Tube
  *
@@ -57,6 +59,26 @@ public class Cylinder extends Tube{
                 super.getNormal(point) ;
   
       
+    }
+    
+    @Override
+    public List<Point> findIntsersections(Ray ray) {
+        /**
+         * we find the projection and calcs its size and if it is like the height the point inside the cilinder (we can use dot product cause the axsis in normalized )
+         * 
+         */
+        List<Point> res = new ArrayList<>();
+        List<Point> lst = super.findIntsersections(ray);
+        if (lst != null)
+            for (Point point : lst) {
+                double distance = Util.alignZero(point.subtract(axisRay.getP0()).dotProduct(axisRay.getDir()));
+                if (Util.isZero( distance- this.height))
+                    res.add(point);
+            }
+
+        if (res.size() == 0)
+            return null;
+        return res;
     }
 
 }

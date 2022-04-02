@@ -12,7 +12,7 @@ import primitives.Vector;
   test point ops
  * @author Idan ane Eliot 
   */ 
-    
+      
 public class PointTests {
         
     @Test
