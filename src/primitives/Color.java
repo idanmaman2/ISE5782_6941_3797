@@ -48,7 +48,7 @@ public class Color {
 	 *
 	 * @param rgb triad of Red/Green/Blue components 
 	 */
-	private Color(Double3 rgb) {
+	public Color(Double3 rgb) {
 		if (rgb.d1 < 0 || rgb.d2 < 0 || rgb.d3 < 0)
 			throw new IllegalArgumentException("Negative color component is illegal");
 		this.rgb = rgb;

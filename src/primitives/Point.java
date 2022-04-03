@@ -11,7 +11,7 @@ public class Point {
         this.xyz = new Double3(d1,d2,d3);
     }
 
-    protected Point(Double3 xyz){
+    public Point(Double3 xyz){
         this.xyz = xyz ; 
     }
 
