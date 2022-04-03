@@ -59,7 +59,7 @@ public class Triangle extends Polygon {
         double u = Math.sqrt(uSquared);
         double v = Math.sqrt(vSquared);
         double w = Math.sqrt(wSqaured);
-        if(Math.abs(u) < 1 && Math.abs(v)< 1 && Math.abs(w) < 1  ){
+        if(u < 1 && v< 1 && w < 1 && !Util.isZero(u) && !Util.isZero(v)  && !Util.isZero(w) &&  Util.isZero(w+v+u-1)){
             return Arrays.asList(P) ; 
         } 
         return null ;
