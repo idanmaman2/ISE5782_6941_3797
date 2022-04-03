@@ -29,6 +29,7 @@ public class Triangle extends Polygon {
          * Triangle Area = abs((b-a) x (c-a)) / 2 
          * 
          */
+try{
         List<Point> intersections = this.plane.findIntsersections(ray);
         Point P = intersections.get(0);
         Point A = this.vertices.get(0); 
@@ -37,22 +38,12 @@ public class Triangle extends Polygon {
         Vector CA = C.subtract(A);
         Vector BA = B.subtract(A);
         Vector PA;
-        try{
-            PA = P.subtract(A);
-        }
-        catch(IllegalArgumentException e) {
-            return null ; 
-        } 
+        PA = P.subtract(A);
         double capArea = CA.crossProduct(PA).lengthSquared();
         double abcArea = CA.crossProduct(BA).lengthSquared();
         double abpArea = BA.crossProduct(PA).lengthSquared();
         double bcpArea;
-        try{
-            bcpArea = (B.subtract(P)).crossProduct(C.subtract(P)).lengthSquared();
-        }
-        catch(IllegalArgumentException e) {
-            return null ; 
-        }  
+        bcpArea = (B.subtract(P)).crossProduct(C.subtract(P)).lengthSquared(); 
         double uSquared = capArea / abcArea ; 
         double vSquared = abpArea / abcArea ; 
         double wSqaured = bcpArea / abcArea ; 
@@ -63,6 +54,10 @@ public class Triangle extends Polygon {
             return List.of(P) ; 
         } 
         return null ;
+    }
+    catch(IllegalArgumentException e) {
+        return null ; 
+    } 
     } 
     
 }

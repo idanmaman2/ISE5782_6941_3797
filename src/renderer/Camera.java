@@ -123,8 +123,7 @@ public class Camera {
         double Ry =  (double)writer.getNy()/this.height ; 
         for (int i = 0; i < writer.getNy(); i++) {
             for (int j = 0; j < writer.getNx(); j++) {
-                if (j % Rx < interval ||
-                        i % Ry < interval)
+                if (j % interval ==0  || i % interval == 0)
                     writer.writePixel(j, i, color);
             }
         }

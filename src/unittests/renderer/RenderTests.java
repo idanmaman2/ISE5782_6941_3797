@@ -7,7 +7,11 @@ import geometries.*;
 import primitives.*;
 import renderer.*;
 import Scene.*;
+import org.w3c.dom.*;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.*;
+import java.io.*;
 /**
  * Test rendering a basic image
  * 
@@ -44,15 +48,22 @@ public class RenderTests {
 		camera.writeToImage();
 	}
 
+
+
+
+
+
+
 	/**
 	 * Test for XML based scene - for bonus
 	 */
 	@Test
 	public void basicRenderXml() {
-		Scene scene = new Scene("XML Test scene");
+		xmlReader xml = new  xmlReader("basicRenderTestTwoColors");
+		Scene scene = new Scene("XML Test scene").setAl(xml.getAmbient()).setBg(xml.getBG());
 		// enter XML file name and parse from XML file into scene object
 		// ...
-
+		scene.geometries.add(xml.getGeometries());
 		Camera camera = new Camera(Point.ZERO, new Vector(0, 0, -1), new Vector(0, 1, 0)) //
 				.setVPDistance(100) //
 				.setVPSize(500, 500)

@@ -11,9 +11,9 @@ import primitives.*;
  * @author Idan and Eliyahu
  */
 public class Geometries implements Intersectable {
-    private List<Intersectable> items = new LinkedList<Intersectable>(); 
+    private List<Intersectable> items ; 
     public Geometries(Intersectable... geometries){
-        items.addAll(List.of(geometries));
+        items =new LinkedList<Intersectable>(List.of(geometries));
     }
     public void add(Intersectable... geometries){
         items.addAll(List.of(geometries));
@@ -21,9 +21,13 @@ public class Geometries implements Intersectable {
     public List<Point> findIntsersections(Ray ray){
         List<Point> it = new LinkedList<Point>();
         for(Intersectable element : this.items){
-            it.addAll(element.findIntsersections(ray));
+            List<Point> x =element.findIntsersections(ray);
+            if(x!= null ){
+                it.addAll(x);
+            }
+           
         }
-        return it ;
+        return it.size() == 0 ? null :  it ;
     }
 
 
