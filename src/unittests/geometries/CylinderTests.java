@@ -12,7 +12,7 @@ import primitives.*;
 /**
  * Testing Cylinders
  * 
- * @author Idan ane Eliot 
+ * @author Idan ane Elliot
  *
  */
 public class CylinderTests {

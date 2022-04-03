@@ -53,4 +53,7 @@ public class Point {
         return new Vector (this.xyz.subtract (v.xyz));
     }
 
+    public double getX() {
+        return xyz.d1;
+    }
 }
