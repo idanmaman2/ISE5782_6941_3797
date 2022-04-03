@@ -16,11 +16,14 @@ public class xmlReader {
     public Color getBG (){
         return new Color(xmlAtDouble3("background-color",root));
     }
+    
     public AmbientLight getAmbient(){
         Node sonAB = root.getElementsByTagName("ambient-light").item(0);
         return new AmbientLight(new Color(xmlAtDouble3("color", sonAB)),xmlAtDouble3("dx",sonAB) );
     }
+
     public Geometries getGeometries(){
+
         Geometries g = new Geometries();
         Node geo = root.getElementsByTagName("geometries").item(0);
         for(int i =0  ; i <  geo.getChildNodes().getLength() ; i++ ){
@@ -31,10 +34,29 @@ public class xmlReader {
             if(x.getNodeName() == "sphere"){
                 g.add(new Sphere( new Point(xmlAtDouble3("center",x)) , Double.parseDouble(x.getAttributes().getNamedItem("radius").getTextContent())));
             }
+            if(x.getNodeName() == "geometries"){
+                g.add(getGeometries(x));
+            }
         } 
         return g ;
     }
-
+   
+    public Geometries getGeometries(Node geo){
+        Geometries g = new Geometries();
+        for(int i =0  ; i <  geo.getChildNodes().getLength() ; i++ ){
+            Node x = geo.getChildNodes().item(i);
+            if(x.getNodeName() == "triangle"){
+                    g.add(new Triangle(new Point(xmlAtDouble3("p0",x)), new Point(xmlAtDouble3("p1",x)) , new Point(xmlAtDouble3("p2",x))));
+            }
+            if(x.getNodeName() == "sphere"){
+                g.add(new Sphere( new Point(xmlAtDouble3("center",x)) , Double.parseDouble(x.getAttributes().getNamedItem("radius").getTextContent())));
+            }
+            if(x.getNodeName() == "geometries"){
+                g.add();
+            }
+        } 
+        return g ;
+    }
 
     public xmlReader(String name){
         this.fileName  = name ;
