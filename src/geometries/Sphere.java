@@ -34,11 +34,11 @@ public class Sphere implements Geometry{
 
     
     @Override 
-    public List<Point> findIntsersections(Ray ray){
-        Vector u = this.center.subtract(ray.getP0()); 
-        double tm = ray.getDir().dotProduct(u);
-        double d  = Math.sqrt(u.lengthSquared() - tm*tm ); 
-        if( Util.alignZero(d  - this.radius) > 0  ){
+    public List<Point> findIntsersections(Ray rayC){
+        Vector u = this.center.subtract(rayC.getP0()); 
+        double tm = rayC.getDir().dotProduct(u);
+        double d  = Math.sqrt(u.lengthSquared() - (tm*tm) ); 
+        if( d >= this.radius ){
             return null; 
         }
         double th = Math.sqrt(this.radius * this.radius - d * d); 
@@ -49,10 +49,10 @@ public class Sphere implements Geometry{
         }
         LinkedList<Point> arr = new LinkedList<>(); 
         if(t1 > 0  ){
-            arr.add(ray.getPoint(t1));
+            arr.add(rayC.getPoint(t1));
         }
         if(t2 > 0 ){
-            arr.add(ray.getPoint(t2));
+            arr.add(rayC.getPoint(t2));
         }
         return arr;
     }

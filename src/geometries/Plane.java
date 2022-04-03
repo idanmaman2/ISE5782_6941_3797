@@ -60,7 +60,7 @@ public class Plane implements Geometry {
             double nqp =  this.getNormal().dotProduct(this.q0.subtract(ray.getP0()));
             double t = nqp / nv  ; 
             if(Util.alignZero(t) > 0 ){
-               return Arrays.asList(ray.getPoint(t));   
+               return List.of(ray.getPoint(t));   
             }
             else{
                 return null ; 

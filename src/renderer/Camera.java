@@ -70,10 +70,10 @@ public class Camera {
 
     public Ray constructRay(int nX, int nY, int j, int i){
        Point Pc  = this.p0 .add(this.vTo.scale(this.length));
-       double  Rx = this.width / nX ;
-       double Ry = this.height / nY ; 
-       double xj = (j-(nX-1)/2.0)*Rx ; 
-       double yi = -(i-(nY-1)/2.0)*Ry ; 
+       double  Rx = this.width / (double)nX ;
+       double Ry = this.height / (double)nY ; 
+       double xj = (j-(nX-1)/2.0d)*Rx ; 
+       double yi = -(i-(nY-1)/2.0d)*Ry ; 
        Point Pij = Pc;
         if (xj != 0) {
             Pij = Pij.add(this.vRight.scale(xj));
