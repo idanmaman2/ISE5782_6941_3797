@@ -5,6 +5,7 @@ package primitives;
  * @author Idan and Eliyahu
  */
 public class Point {
+    public static final Point ZERO =new Point(Double3.ZERO);
     protected final Double3 xyz;
     public Point(double d1 , double d2 , double d3 ) {//simple constructor
         this.xyz = new Double3(d1,d2,d3);

@@ -1,4 +1,7 @@
 package primitives;
+
+import java.util.List;
+
 /**
  *represnts linear ray in the real numbers world
  *that contains point of start and dir - linear line !
@@ -50,4 +53,16 @@ public class Ray {
     public Point getPoint(double t){
         return this.p0.add(this.dir.scale(t));
         }
+
+
+    public Point findClosestPoint (List<Point> lst){
+        Point closest = lst.get(0); ;
+        for(Point item :lst){
+            if(item.distanceSquared(this.p0) < closest.distanceSquared(this.p0)){
+                closest = item;
+            }
+        }
+        return closest;
+    }
+
 }

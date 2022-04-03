@@ -1,5 +1,7 @@
 package renderer;
 
+import java.util.MissingResourceException;
+
 import primitives.*;
 
 public class Camera {
@@ -7,7 +9,20 @@ public class Camera {
     private Vector vTo,vRight,vUp ;
 
     private double height,width,length ; 
+    private ImageWriter writer ; 
+    private RayTracerBase rayTrace ;
 
+    public Camera setWriter(ImageWriter writer) {
+        this.writer = writer;
+        return this;
+    }
+
+    public Camera setRayTrace(RayTracerBase rayTrace) {
+        this.rayTrace = rayTrace;
+        return this;
+    }
+
+    
     public Point getP0() {
         return this.p0;
     }
@@ -84,9 +99,44 @@ public class Camera {
        return new Ray(this.p0 , Pij.subtract(this.p0));
     }
 
+    public void renderImage() {
+        if(this.rayTrace == null || 
+        this.writer == null || 
+        this.height == 0 || this.width == 0 || this.length == 0 || 
+        this.vTo == null || this.vUp == null || this.p0 == null){
+            throw new MissingResourceException("enter all the values","Camera","i am not your slave");
+        }
+        int sum = 0 ; 
+        for(int i=0 ; i < writer.getNx() ; i++ ){
+            for(int j=0 ; j< writer.getNy() ; j++ ){
+                Color color = rayTrace.traceRay(this.constructRay(writer.getNx(), writer.getNy(), j, i));
+                if(color !=null){
+                    writer.writePixel(j, i, color);
+                }
+                
+            }
+        } 
+    }
+
+    public void printGrid(int interval, Color color) {
+        double  Rx =  (double)writer.getNx()/this.width;
+        double Ry =  (double)writer.getNy()/this.height ; 
+        for (int i = 0; i < writer.getNy(); i++) {
+            for (int j = 0; j < writer.getNx(); j++) {
+                if (j % Rx < interval ||
+                        i % Ry < interval)
+                    writer.writePixel(j, i, color);
+            }
+        }
+    }
+
+    public void writeToImage() {
+        writer.writeToImage();
+    }
+
     //TO DO -> CHNAGE DIR AND ANGLE OF CAMERA METHODS 
 
-
+ 
 
     
 
