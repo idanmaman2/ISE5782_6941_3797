@@ -10,7 +10,7 @@ import primitives.*;
  *
  * @author Idan and Eliyahu
  */
-public class Sphere implements Geometry{
+public class Sphere extends Geometry{
     Point center;
     double radius;
 
@@ -35,9 +35,20 @@ public class Sphere implements Geometry{
     
     @Override 
     public List<Point> findIntsersections(Ray rayC){
-        Vector u = this.center.subtract(rayC.getP0()); 
-        double tm = rayC.getDir().dotProduct(u);
-        double d  = Math.sqrt(u.lengthSquared() - (tm*tm) ); 
+        Vector u; 
+            double tm ;
+            double d ; 
+        if(center.equals(rayC.getP0())){
+            tm = 0 ;
+            d =0 ;
+        }
+        else {
+           u = this.center.subtract(rayC.getP0()); 
+             tm = rayC.getDir().dotProduct(u);
+             d  = Math.sqrt(u.lengthSquared() - (tm*tm) ); 
+        }
+        
+
         if( d >= this.radius ){
             return null; 
         }
@@ -56,4 +67,37 @@ public class Sphere implements Geometry{
         }
         return arr;
     }
+
+
+    @Override 
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray rayC){
+        Vector u = this.center.subtract(rayC.getP0()); 
+        double tm = rayC.getDir().dotProduct(u);
+        double d  = Math.sqrt(u.lengthSquared() - (tm*tm) ); 
+        if( d >= this.radius ){
+            return null; 
+        }
+        double th = Math.sqrt(this.radius * this.radius - d * d); 
+        double t1 = tm + th ;  
+        double t2 = tm - th ; 
+        if(t1 < 0 && t2 < 0 ){
+            return null ; 
+        }
+        LinkedList<GeoPoint> arr = new LinkedList<>(); 
+        if(t1 > 0  ){
+            arr.add(new Intersectable.GeoPoint(rayC.getPoint(t1),this));
+        }
+        if(t2 > 0 ){
+            arr.add(new Intersectable.GeoPoint(rayC.getPoint(t2),this) );
+        }
+        return arr;
+    }
+
+
+
+
+
+
+
+
 }

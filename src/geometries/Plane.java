@@ -10,7 +10,7 @@ import primitives.*;
  *
  * @author Idan and Eliyahu
  */
-public class Plane implements Geometry {
+public class Plane extends Geometry {
     public final Point q0 ;
     private final Vector normal ;
 
@@ -23,7 +23,7 @@ public class Plane implements Geometry {
 
     public Plane(Point q0, Vector normal) { //simple constructor
         this.q0 = q0;
-        this.normal = normal;
+        this.normal = normal.normalize();
     }
 
         @Override
@@ -57,6 +57,9 @@ public class Plane implements Geometry {
             return  null ; 
         } 
         else{
+            if(q0.equals(ray.getP0())){
+                return null;
+            }
             double nqp =  this.getNormal().dotProduct(this.q0.subtract(ray.getP0()));
             double t = nqp / nv  ; 
             if(Util.alignZero(t) > 0 ){
@@ -66,9 +69,28 @@ public class Plane implements Geometry {
                 return null ; 
             }
         }
-
-
     }
+
+    @Override 
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
+
+        double nv = this.getNormal().dotProduct(ray.getDir()); 
+        if(Util.isZero(nv)){
+            return  null ; 
+        } 
+        else{
+            double nqp =  this.getNormal().dotProduct(this.q0.subtract(ray.getP0()));
+            double t = nqp / nv  ; 
+            if(Util.alignZero(t) > 0 ){
+               return List.of(new Intersectable.GeoPoint( ray.getPoint(t), this));   
+            }
+            else{
+                return null ; 
+            }
+        }
+    }
+
+
 
     }
 

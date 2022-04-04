@@ -2,6 +2,8 @@ package primitives;
 
 import java.util.List;
 
+import geometries.Intersectable;
+
 /**
  *represnts linear ray in the real numbers world
  *that contains point of start and dir - linear line !
@@ -64,5 +66,16 @@ public class Ray {
         }
         return closest;
     }
+
+    public Intersectable.GeoPoint findClosestGeoPoint (List<Intersectable.GeoPoint> lst){
+        Intersectable.GeoPoint closest = lst.get(0); ;
+        for(Intersectable.GeoPoint item :lst){
+            if(item.point.distanceSquared(this.p0) < closest.point.distanceSquared(this.p0)){
+                closest = item;
+            }
+        }
+        return closest;
+    }
+    
 
 }

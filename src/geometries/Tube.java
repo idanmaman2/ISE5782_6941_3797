@@ -10,7 +10,7 @@ import primitives.*;
  *
  * @author Idan and Eliyahu
  */
-public class Tube implements Geometry{
+public class Tube extends Geometry{
 
     protected Ray axisRay;
     protected double radius;
@@ -100,4 +100,67 @@ public class Tube implements Geometry{
         }
         return null;
     }
+
+    @Override
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+        Vector dir = ray.getDir();
+        Vector v = axisRay.getDir();
+        double dirV = dir.dotProduct(v);
+
+        if (ray.getP0().equals(axisRay.getP0())) { // In case the ray starts on the p0.
+            if (Util.isZero(dirV))
+                return List.of(new Intersectable.GeoPoint(ray.getPoint(radius),this) );
+
+            if (dir.equals(v.scale(dir.dotProduct(v))))
+                return null;
+
+            return List.of(new Intersectable.GeoPoint(ray.getPoint(
+                Math.sqrt(radius * radius / dir.subtract(v.scale(dir.dotProduct(v)))
+                        .lengthSquared())),this) );
+        }
+
+        Vector deltaP = ray.getP0().subtract(axisRay.getP0());
+        double dpV = deltaP.dotProduct(v);
+
+        double a = 1 - dirV * dirV;
+        double b = 2 * (dir.dotProduct(deltaP) - dirV * dpV);
+        double c = deltaP.lengthSquared() - dpV * dpV - radius * radius;
+
+        if (Util.isZero(a)) {
+            if (Util.isZero(b)) { // If a constant equation.
+                return null;
+            }
+            return List.of(new Intersectable.GeoPoint(ray.getPoint(-c / b),this)); // if it's linear, there's a solution.
+        }
+
+        double discriminant = Util.alignZero(b * b - 4 * a * c);
+
+        if (discriminant < 0) // No real solutions.
+            return null;
+
+        double t1 = Util.alignZero(-(b + Math.sqrt(discriminant)) / (2 * a)); // Positive solution.
+        double t2 = Util.alignZero(-(b - Math.sqrt(discriminant)) / (2 * a)); // Negative solution.
+
+        if (discriminant <= 0) // No real solutions.
+            return null;
+
+        if (t1 > 0 && t2 > 0) {
+            List<GeoPoint> _points = new LinkedList<GeoPoint>();
+            _points.add(new Intersectable.GeoPoint(ray.getPoint(t1),this));
+            _points.add(new Intersectable.GeoPoint(ray.getPoint(t2),this));
+            return _points;
+        }
+        else if (t1 > 0) {
+            List<GeoPoint> _points = new LinkedList<GeoPoint>();
+            _points.add(new Intersectable.GeoPoint(ray.getPoint(t1),this));
+            return  _points;
+        }
+        else if (t2 > 0) {
+            List<GeoPoint> _points = new LinkedList<GeoPoint>();
+            _points.add(new Intersectable.GeoPoint(ray.getPoint(t2),this));
+            return _points;
+        }
+        return null;
+    }
+
 }
