@@ -83,13 +83,13 @@ public class RenderTests2 {
 	 */
 	@Test
 	public void basicRenderXml() {
-		Scene scene = new Scene("XML Test scene");
+		Scene scene = new Scene("XML Test scene 2");
 		// enter XML file name and parse from XML file into scene object
 		// ...
 
 		Camera camera = new Camera(Point.ZERO, new Vector(0, 0, -1), new Vector(0, 1, 0)) //
 				.setVPDistance(100) //
-				.setVPSize(500, 500).setWriter(new ImageWriter("xml render test", 1000, 1000))
+				.setVPSize(500, 500).setWriter(new ImageWriter("xml render test 2", 1000, 1000))
 				.setRayTrace(new RayTracerBasic(scene));
 		camera.renderImage();
 		camera.printGrid(100, new Color(YELLOW));

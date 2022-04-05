@@ -67,6 +67,7 @@ public class Cylinder extends Tube{
          * we find the projection and calcs its size and if it is like the height the point inside the cilinder (we can use dot product cause the axsis in normalized )
          * 
          */
+        
         List<Point> res = new ArrayList<>();
         List<Point> lst = super.findIntsersections(ray);
         if (lst != null)

@@ -12,19 +12,23 @@ public class RayTracerBasic extends RayTracerBase{
         super(sn);
     }
     private Color calcColor(GeoPoint pt, Ray ray){
-       Vector v = ray.getDir();
+      
         Color cr =  sn.al.getIntensity().add(pt.geometry.getEmisson());
         for(LightSource x : sn.lights){
-            Vector n = pt.geometry.getNormal(pt.point);
-            Vector l = x.getL(pt.point);
-            Vector r = l.subtract(n.scale(l.dotProduct(n)).scale(2)).normalize();
+            Vector n = pt.geometry.getNormal(pt.point).normalize();
+            Vector l = x.getL(pt.point).normalize();
+            Vector r = l.subtract(n.scale(l.dotProduct(n) * 2)).normalize();
             Color IL = x.getIntensity(pt.point);
+            Vector v = ray.getDir().normalize();
+            if(v.dotProduct(n) * l.dotProduct(n) > 0){
+              // return cr ;
+            }
             Double3 kd = pt.geometry.getMaterial().getKd();
             Double3 ks = pt.geometry.getMaterial().getKs();
             int shine = pt.geometry.getMaterial().getnShininess();
-            cr = cr.add(IL).
+            cr = cr.
             add(IL.scale( kd.scale(Math.abs(l.dotProduct(n)))))
-            .add(IL.scale(ks.scale(Math.pow(Math.max(0,v.dotProduct(r)* -1),shine))));
+            .add(IL.scale(ks.scale(Math.pow(Math.max(0,v.dotProduct(r)),shine))));
         }
         return cr;
     }
