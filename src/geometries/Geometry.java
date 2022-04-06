@@ -13,7 +13,7 @@ public abstract class  Geometry extends Intersectable {
     
     public abstract Vector getNormal (Point point );
     
-    public Color getEmisson(){
+    public Color getEmisson(GeoPoint x){
         return emisson;
     }
 

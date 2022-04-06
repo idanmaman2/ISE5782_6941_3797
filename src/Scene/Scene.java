@@ -10,8 +10,15 @@ import primitives.*;
 
 public class Scene {
     public String senceName ; 
-    public Color bg ;
+    private Color bg ;
     public List<LightSource> lights ;
+
+
+
+    public Color getBg(int i , int j){
+        return bg ;
+    }
+
 
     public Scene setBg(Color bg) {
         this.bg = bg;

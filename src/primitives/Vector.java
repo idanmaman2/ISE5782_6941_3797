@@ -74,6 +74,15 @@ public class Vector extends Point {
         return this.dotProduct(this);
     }
 
+
+
+
+    public Vector projection(Vector u){
+        return u.scale( u.dotProduct(this) / u.lengthSquared());
+    }
+
+
+
     /**
     * returns square root of length
     *

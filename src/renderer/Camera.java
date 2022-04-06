@@ -2,6 +2,8 @@ package renderer;
 
 import java.util.MissingResourceException;
 
+import org.junit.platform.console.shadow.picocli.CommandLine.Help.Ansi.Text;
+
 import primitives.*;
 
 public class Camera {
@@ -109,7 +111,7 @@ public class Camera {
         int sum = 0 ; 
         for(int i=0 ; i < writer.getNx() ; i++ ){
             for(int j=0 ; j< writer.getNy() ; j++ ){
-                Color color = rayTrace.traceRay(this.constructRay(writer.getNx(), writer.getNy(), j, i));
+                Color color = rayTrace.traceRay(this.constructRay(writer.getNx(), writer.getNy(), j, i),i,j);
                 if(color !=null){
                     writer.writePixel(j, i, color);
                 }
@@ -129,6 +131,7 @@ public class Camera {
             }
         }
     }
+
 
     public void writeToImage() {
         writer.writeToImage();

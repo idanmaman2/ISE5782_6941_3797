@@ -3,6 +3,7 @@ package renderer;
 import java.util.List;
 
 import Scene.Scene;
+import geometries.TSphere;
 import geometries.Intersectable.GeoPoint;
 import lightning.LightSource;
 import primitives.*;
@@ -13,7 +14,7 @@ public class RayTracerBasic extends RayTracerBase{
     }
     private Color calcColor(GeoPoint intersection, Ray ray) {
         return sn.al.getIntensity()
-            .add(intersection.geometry.getEmisson())
+            .add(intersection.geometry.getEmisson(intersection))
             .add(calcLocalEffects(intersection, ray));
     }
 
@@ -28,7 +29,7 @@ public class RayTracerBasic extends RayTracerBase{
         int nShininess = material.getnShininess();
         Double3 kd = material.getKd(), ks = material.getKs();
         //Color color = Color.BLACK;
-        Color color = intersection.geometry.getEmisson();
+        Color color = intersection.geometry.getEmisson(intersection);
         for (LightSource lightSource : sn.lights) {
             Vector l = lightSource.getL(intersection.point);
             double nl = Util.alignZero(n.dotProduct(l));
@@ -51,10 +52,10 @@ public class RayTracerBasic extends RayTracerBase{
     }
 
     @Override 
-    public Color traceRay (Ray ray) {
+    public Color traceRay (Ray ray , int i , int j ) {
        List<GeoPoint> intersecions = sn.geometries.findGeoIntersections(ray);
        if(intersecions == null  ){
-           return sn.bg ;
+           return sn.getBg(i, j ) ;
        }
        GeoPoint closet = ray.findClosestGeoPoint(intersecions);
        return this.calcColor(closet,ray);

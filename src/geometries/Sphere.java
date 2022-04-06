@@ -12,7 +12,7 @@ import primitives.*;
  */
 public class Sphere extends Geometry{
     Point center;
-    double radius;
+    public double radius;
 
     public Sphere(Point center, double radius) {//simple constructor
         this.center = center;

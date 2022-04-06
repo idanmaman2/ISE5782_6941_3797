@@ -19,7 +19,7 @@ public class Polygon extends Geometry {
     /**
      * Associated plane in which the polygon lays
      */
-    protected Plane plane;
+    public Plane plane;
     private int size;
 
     /**

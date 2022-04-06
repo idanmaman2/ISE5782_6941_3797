@@ -20,6 +20,7 @@ public class Plane extends Geometry {
         this.normal = v1.crossProduct(v2).normalize();
         this.q0 = q1 ;
     }
+    
 
     public Plane(Point q0, Vector normal) { //simple constructor
         this.q0 = q0;
