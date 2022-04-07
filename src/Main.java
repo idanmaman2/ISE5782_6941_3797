@@ -7,14 +7,16 @@ import static primitives.Util.*;
  *
  * @author Dan Zilberstein
  */
-public final class Main {
-
+public final class Main { 
     /**
      * Main program to tests initial functionality of the 1st stage
+     * 
      *
      * @param args irrelevant here
      */
     public static void main(String[] args) {
+        
+
 
         try { // test zero vector
             new Vector(0, 0, 0);

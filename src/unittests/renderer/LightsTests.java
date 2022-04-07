@@ -82,7 +82,7 @@ public class LightsTests {
 		scene3.geometries.add(sphere,Tsphere,tplane,Tsphere2);
 		scene3.lights.add(new PointLight(new Point(9500, 5000, 0),new Color(255,0,0)).setKL(0.9).setKQ(0.9));
 		scene3.lights.add(new SpotLight(new Vector(-1,7,-1), new Point(3500, 0, 0),new Color(255,0,0)).setKL(0.001).setKQ(0.0001));
-		ImageWriter imageWriter = new ImageWriter("lightSphereDirectionalTEXTURE2", 15000, 15000);
+		ImageWriter imageWriter = new ImageWriter("lightSphereDirectionalTEXTURE2", 1500, 1500);
 		camera22.setWriter(imageWriter) //
 				.setRayTrace(new RayTracerBasic(scene3)) //
 				.renderImage() //

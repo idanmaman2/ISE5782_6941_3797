@@ -52,10 +52,10 @@ public class RayTracerBasic extends RayTracerBase{
     }
 
     @Override 
-    public Color traceRay (Ray ray , int i , int j ) {
+    public Color traceRay (Ray ray , int i , int j  , int px , int py) {
        List<GeoPoint> intersecions = sn.geometries.findGeoIntersections(ray);
        if(intersecions == null  ){
-           return sn.getBg(i, j ) ;
+           return sn.getBg(i, j ,px ,py ) ;
        }
        GeoPoint closet = ray.findClosestGeoPoint(intersecions);
        return this.calcColor(closet,ray);

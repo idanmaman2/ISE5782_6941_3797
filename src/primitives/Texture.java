@@ -37,8 +37,8 @@ public class Texture {
     }
 
 
-    public Color getColor(int y , int x){
-        int color = image.getRGB(x % nX ,  y% nY ); 
+    public Color getColor(int y , int x , int px , int py){
+        int color = image.getRGB(x * nX / px   ,  y * nY / py ); 
     Color xc = new Color(new java.awt.Color(color));
     return xc ;  
     }

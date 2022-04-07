@@ -12,10 +12,10 @@ public class Scene {
     public String senceName ; 
     private Color bg ;
     public List<LightSource> lights ;
+    int px , py ;
 
 
-
-    public Color getBg(int i , int j){
+    public Color getBg(int i , int jy,int px, int py){
         return bg ;
     }
 
