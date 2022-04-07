@@ -7,7 +7,15 @@ import java.awt.*;
  * @author Idan and Eliyahu
  */
 public class Vector extends Point {
-
+    
+    public Vector Rotate(double angle , Vector k){ // angle in degrees . 
+        k = k.normalize() ; 
+        angle = angle /180 * Math.PI ; // from rad to degrees 
+        double cosangle =  Math.cos(angle) , sinangle = Math.sin(angle) ; 
+        return this.scale(cosangle).
+            add(k.crossProduct(this).scale(sinangle)).
+            add(k.scale(k.dotProduct(this)).scale(1-cosangle));
+    }
     public Vector(Double3 x ) { 
         super(x);
         if (this.xyz.equals(Double3.ZERO))//gets a point
@@ -106,5 +114,6 @@ public class Vector extends Point {
                 (this.xyz.d1 * vc.xyz.d2 - this.xyz.d2 * vc.xyz.d1) ) ; 
 
     }
+  
 
 }

@@ -2,12 +2,12 @@ package renderer;
 
 import java.util.MissingResourceException;
 
+
 import primitives.*;
 
 public class Camera {
     private Point p0 ; 
     private Vector vTo,vRight,vUp ;
-
     private double height,width,length ; 
     private ImageWriter writer ; 
     private RayTracerBase rayTrace ;
@@ -17,6 +17,13 @@ public class Camera {
         return this;
     }
 
+    public Camera setAngle(double angle, Vector k) {
+       
+       vTo = vTo.Rotate(angle, k).normalize();
+       vUp = vUp.Rotate(angle, k).normalize();
+       vRight = vTo.crossProduct(vUp);
+        return this;
+    }
     public Camera setRayTrace(RayTracerBase rayTrace) {
         this.rayTrace = rayTrace;
         return this;

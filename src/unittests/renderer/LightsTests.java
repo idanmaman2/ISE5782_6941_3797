@@ -50,7 +50,7 @@ public class LightsTests {
 		scene1.geometries.add(sphere);
 		scene1.lights.add(new DirectionalLight(spCL, new Vector(1, 1, -0.5)));
 
-		ImageWriter imageWriter = new ImageWriter("lightSphereDirectional", 15000, 15000);
+		ImageWriter imageWriter = new ImageWriter("lightSphereDirectional", 1500, 1500);
 		camera1.setWriter(imageWriter) //
 				.setRayTrace(new RayTracerBasic(scene1)) //
 				.renderImage() //
@@ -65,7 +65,7 @@ public class LightsTests {
 		scene1.geometries.add(sphere);
 		scene1.lights.add(new PointLight(spPL,spCL).setKL(0.001).setKQ(0.0002));
 
-		ImageWriter imageWriter = new ImageWriter("lightSpherePoint", 15000, 15000);
+		ImageWriter imageWriter = new ImageWriter("lightSpherePoint", 1500, 1500);
 		camera1.setWriter(imageWriter) //
 				.setRayTrace(new RayTracerBasic(scene1)) //
 				.renderImage() //
@@ -80,7 +80,7 @@ public class LightsTests {
 		scene1.geometries.add(sphere);
 		scene1.lights.add(new SpotLight( new Vector(1, 1, -0.5), spPL,spCL).setKL(0.001).setKQ(0.0001));
 
-		ImageWriter imageWriter = new ImageWriter("lightSphereSpot", 15000, 15000);
+		ImageWriter imageWriter = new ImageWriter("lightSphereSpot", 1500, 1500);
 		camera1.setWriter(imageWriter) //
 				.setRayTrace(new RayTracerBasic(scene1)) //
 				.renderImage() //
@@ -95,7 +95,7 @@ public class LightsTests {
 		scene2.geometries.add(triangle1, triangle2);
 		scene2.lights.add(new DirectionalLight(trCL, trDL));
 
-		ImageWriter imageWriter = new ImageWriter("lightTrianglesDirectional", 15000, 15000);
+		ImageWriter imageWriter = new ImageWriter("lightTrianglesDirectional", 1500, 1500);
 		camera2.setWriter(imageWriter) //
 				.setRayTrace(new RayTracerBasic(scene2)) //
 				.renderImage() //
@@ -110,7 +110,7 @@ public class LightsTests {
 		scene2.geometries.add(triangle1, triangle2);
 		scene2.lights.add(new PointLight(trPL,trCL).setKL(0.001).setKQ(0.0002));
 
-		ImageWriter imageWriter = new ImageWriter("lightTrianglesPoint", 15000, 15000);
+		ImageWriter imageWriter = new ImageWriter("lightTrianglesPoint", 1500, 1500);
 		camera2.setWriter(imageWriter) //
 				.setRayTrace(new RayTracerBasic(scene2)) //
 				.renderImage() //
@@ -125,7 +125,7 @@ public class LightsTests {
 		scene2.geometries.add(triangle1, triangle2);
 		scene2.lights.add(new SpotLight(trDL,trPL,trCL).setKL(0.001).setKQ(0.0001));
 
-		ImageWriter imageWriter = new ImageWriter("lightTrianglesSpot", 15000, 15000);
+		ImageWriter imageWriter = new ImageWriter("lightTrianglesSpot", 1500, 1500);
 		camera2.setWriter(imageWriter) //
 				.setRayTrace(new RayTracerBasic(scene2)) //
 				.renderImage() //
