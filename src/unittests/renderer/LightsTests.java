@@ -46,10 +46,10 @@ public class LightsTests {
 	private Geometry sphere = new Sphere(new Point(0, 50000, -50), 500d) //
 			.setEmisson(new Color(BLUE).reduce(2)) //
 			.setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300));
-	Texture tx = new Texture("tx5.jpg");
-	Texture tx2 = new Texture("tx10.jpg");
-	Texture tx3 = new Texture("oak.png");
-	Texture bg = new Texture("bg.jpg");
+	Texture tx = new Texture("tx12.jfif");
+	Texture tx2 = new Texture("tx12.jfif");
+	Texture tx3 = new Texture("tx12.jfif");
+	Texture bg = new Texture("tx12.jfif");
 	private Scene scene3 = new TextureScene("Test scene",bg) //
 	.setAl(new AmbientLight(new Color(255,0,0), new Double3(0.15)));
 
@@ -82,7 +82,7 @@ public class LightsTests {
 		scene3.geometries.add(sphere,Tsphere,tplane,Tsphere2);
 		scene3.lights.add(new PointLight(new Point(9500, 5000, 0),new Color(255,0,0)).setKL(0.9).setKQ(0.9));
 		scene3.lights.add(new SpotLight(new Vector(-1,7,-1), new Point(3500, 0, 0),new Color(255,0,0)).setKL(0.001).setKQ(0.0001));
-		ImageWriter imageWriter = new ImageWriter("lightSphereDirectionalTEXTURE2", 1500, 1500);
+		ImageWriter imageWriter = new ImageWriter("lightSphereDirectionalTEXTURE2", 15000, 15000);
 		camera22.setWriter(imageWriter) //
 				.setRayTrace(new RayTracerBasic(scene3)) //
 				.renderImage() //
@@ -92,8 +92,7 @@ public class LightsTests {
 	public void sphereDirectionalTEXTURE() {
 		scene3.geometries.add(Tsphere2);
 		scene3.geometries.add(sphere,Tsphere,tplane,Tsphere2);
-		scene3.lights.add(new PointLight(new Point(9500, 5000, 0),new Color(255,0,0)).setKL(0.9).setKQ(0.9));
-		scene3.lights.add(new SpotLight(new Vector(-1,7,-1), new Point(3500, 0, 0),new Color(255,0,0)).setKL(0.001).setKQ(0.0001));
+		scene3.lights.add(new PointLight(new Point(9500, 5000, 0),new Color(12,0,0)).setKL(0.0009).setKQ(0.0009));
 		ImageWriter imageWriter = new ImageWriter("lightSphereDirectionalTEXTURE3", 1500, 1500);
 		camera22.setWriter(imageWriter) //
 				.setRayTrace(new RayTracerBasic(scene3)) //

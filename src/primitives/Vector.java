@@ -115,5 +115,9 @@ public class Vector extends Point {
                 (this.xyz.d1 * vc.xyz.d2 - this.xyz.d2 * vc.xyz.d1) ) ; 
 
     }
+    public Vector Mirror(Vector u){ 
+        return this.subtract(this.projection(u).scale(2));
+
+    }
 
 }

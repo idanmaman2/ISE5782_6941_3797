@@ -53,7 +53,7 @@ public class Texture {
                 pn = (Plane)pt.geometry;
             }
             Vector normal =new Vector(0,1,0);
-            Vector v =pt.point.subtract(pn.q0);
+            Vector v =pt.point.subtract(pn.q0).Mirror(new Vector(1,0,0));
             Vector po = v.add(v.projection(normal).scale(-1));
             Double3 x2 = po.xyz.subtract(pn.q0.xyz);
             int  x =Math.abs((int)x2.d1); 
@@ -90,6 +90,73 @@ public class Texture {
    return base ;
        
     }
+
+
+    class ImageCord{
+        double  x ; 
+        double  y; 
+        public ImageCord(double  x , double y){
+            this.x = x; 
+            this.y =y ;
+        }
+        public ImageCord subtract(ImageCord n){
+            return new ImageCord(x - n.x , y - n.x);
+
+        }
+        public ImageCord add(ImageCord n){
+            return new ImageCord(x + n.x , y + n.x);
+
+        }
+        public double cross2d(ImageCord n){
+            return x*n.y - y*n.x;
+        }
+
+    }
+
+    ImageCord bilinearMapping (  ImageCord p,  ImageCord a,  ImageCord b , ImageCord c, ImageCord d ){
+      
+        {
+            ImageCord res = new ImageCord(-1.0,-1.0);
+        
+            ImageCord e = b.subtract(a);
+            ImageCord f = d.subtract(a);
+            ImageCord g = d.subtract(b).add(c.subtract(d));
+            ImageCord h = p.subtract(a);
+                
+            double k2 = g.cross2d(f );
+            double k1 = e.cross2d( f ) + h.cross2d( g );
+            double k0 = h.cross2d(e );
+            
+            // if edges are parallel, this is a linear equation
+            if( Math.abs(k2)<0.001 )
+            {
+                res = new ImageCord( (h.x*k1+f.x*k0)/(e.x*k1-g.x*k0), -k0/k1 );
+            }
+            // otherwise, it's a quadratic
+            else
+            {
+                double w = k1*k1 - 4.0*k0*k2;
+                if( w<0.0 ) return new ImageCord(-1.0,-1.0);
+                w = Math.sqrt( w );
+        
+                double ik2 = 0.5/k2;
+                double v = (-k1 - w)*ik2;
+                double u = (h.x - f.x*v)/(e.x + g.x*v);
+                
+                if( u<0.0 || u>1.0 || v<0.0 || v>1.0 )
+                {
+                   v = (-k1 + w)*ik2;
+                   u = (h.x - f.x*v)/(e.x + g.x*v);
+                }
+                res = new ImageCord( u, v );
+            }
+            
+            return res;
+        }
+        
+
+    }
+
     
     
 }
