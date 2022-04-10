@@ -52,10 +52,26 @@ public class Texture {
             if(pt.geometry instanceof TPlane){
                 pn = (Plane)pt.geometry;
             }
+            Vector hor = new Point(nX, 0 ,0).subtract(new Point(0, 0 ,0));
+            Vector ver = new Point(0 , 0 ,nY).subtract(new Point(0 , 0 ,0));
             Vector normal =new Vector(0,1,0);
-            Vector v =pt.point.subtract(pn.q0).Mirror(new Vector(1,0,0));
-            Vector po = v.add(v.projection(normal).scale(-1));
+            hor = hor.subtract(hor.projection(pn.getNormal())).normalize(); 
+            ver = ver.subtract(ver.projection(pn.getNormal())).normalize(); 
+            Vector v =pt.point.subtract(pn.q0);
+            Vector po = v.subtract(v.projection(normal));
             Double3 x2 = po.xyz.subtract(pn.q0.xyz);
+            //if((Math.abs((int)x2.d1)/nX) %2 == 0 ){
+              // v =pt.point.subtract(pn.q0).Mirror(hor);
+                //po = v.subtract(v.projection(normal));
+                //x2 = po.xyz.subtract(pn.q0.xyz);
+            //}
+            if((Math.abs((int)x2.d3)/nY) %2 == 1 ){
+                v =pt.point.subtract(pn.q0).Mirror(ver);
+                v = v.add(new Vector(nX/0.510 ,0,0));
+                po = v.subtract(v.projection(normal));
+                x2 = po.xyz.subtract(pn.q0.xyz);
+               
+            }
             int  x =Math.abs((int)x2.d1); 
             int y =Math.abs((int)x2.d3); 
             int color = image.getRGB(x % nX ,  y% nY ); 
@@ -66,7 +82,7 @@ public class Texture {
         if(pt.geometry instanceof TSphere){
 
     Sphere sp = ((Sphere)pt.geometry);
-    Point.LongLat lt =pt.point.ToLonLat(sp.radius);
+    Point.LongLat lt =pt.point.ToLonLat(sp.radius );
      double longitude = lt.lon ; 
      double latitude = lt.lat; 
     double PI = Math.PI; 

@@ -78,7 +78,7 @@ public class Point {
     public  LongLat ToLonLat( double Radius)
     {
         double x =this.xyz.d1 ; 
-         double y = this.xyz.d2 ;
+         double y = this.xyz.d3 ;
         double g = HalfPi - 2 * Math.atan(1 / Math.exp(y / Radius));
         double latRadians = g + C1 * Math.sin(2 * g) + C2 * Math.sin(4 * g) + C3 * Math.sin(6 * g) + C4 * Math.sin(8 * g);
 
@@ -87,7 +87,7 @@ public class Point {
         double lon = lonRadians / D2R ;
         double lat = latRadians / D2R ;
 
-        return new LongLat((float)lon, (float)lat);
+        return new LongLat(lon,lat);
     }
 
 

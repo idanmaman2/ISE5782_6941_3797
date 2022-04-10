@@ -9,10 +9,17 @@ import primitives.*;
 public class Camera {
     private Point p0 ; 
     private Vector vTo,vRight,vUp ;
-
     private double height,width,length ; 
     private ImageWriter writer ; 
     private RayTracerBase rayTrace ;
+
+    public Camera setAngle(double angle , Vector axsis){
+        this.vUp = vUp.Roatate(angle, axsis).normalize();
+        this.vTo = vTo.Roatate(angle, axsis).normalize();
+        this.vRight = vTo.crossProduct(vUp); // it is normalize cause |x| * |y| * sin(theta ) => theta = 90 sin(90) =1 ,  |x| =1 , |y| = 1 
+        return this; 
+    }
+
 
     public Camera setWriter(ImageWriter writer) {
         this.writer = writer;
