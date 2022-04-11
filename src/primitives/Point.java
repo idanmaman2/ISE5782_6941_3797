@@ -56,4 +56,18 @@ public class Point {
     public double getX() {
         return xyz.d1;
     }
+    public double getY() {
+        return xyz.d2;
+    }
+    public double getZ() {
+        return xyz.d3;
+    }
+    public Point middle(Point pt , double a , double b){
+        return new Point(
+            (this.xyz.d1 * a  + pt.xyz.d1 * b)/(a+b) ,
+            (this.xyz.d2 * a + pt.xyz.d2 * b)/(a+b) ,
+            (this.xyz.d3 * a + pt.xyz.d3 * b)/(a+b) 
+        );
+
+    }
 }

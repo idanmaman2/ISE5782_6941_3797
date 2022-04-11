@@ -19,8 +19,8 @@ public class Camera {
 
     public Camera setAngle(double angle, Vector k) {
        
-       vTo = vTo.Rotate(angle, k).normalize();
-       vUp = vUp.Rotate(angle, k).normalize();
+       vTo = vTo.Roatate(angle, k).normalize();
+       vUp = vUp.Roatate(angle, k).normalize();
        vRight = vTo.crossProduct(vUp);
         return this;
     }
