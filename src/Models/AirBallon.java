@@ -3,6 +3,7 @@ package Models;
 import java.util.List;
 
 import geometries.Cylinder;
+import geometries.Elepsoaide;
 import geometries.Geometries;
 import geometries.Geometry;
 import geometries.Polygon;
@@ -21,7 +22,7 @@ public class AirBallon extends Geometries  {
     public AirBallon(Point center  , double ballonSize){
         this.center = center ; 
         this.ballonSize = ballonSize ; 
-        Geometry ballon = new Sphere(center, ballonSize).setEmisson(red).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300)); 
+        Geometry ballon = new Elepsoaide(center, ballonSize,ballonSize * 1.5 ,ballonSize).setEmisson(red).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300)); 
         Point downCenter = center.add(new Vector(0,-ballonSize * 3 ,0));
         for (int i = 0; i < 360; i += 20) {
             Point stringPoint = center.add(new Vector(ballonSize * 0.95,0,0).Roatate(i, new Vector(0,1,0)));
