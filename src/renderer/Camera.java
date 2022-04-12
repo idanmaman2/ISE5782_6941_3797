@@ -105,6 +105,9 @@ public class Camera {
         if (yi != 0){
             Pij = Pij.add(this.vUp.scale(yi));
         } 
+        if(Pij.equals(p0)){
+            return new Ray(this.p0,Pij.subtract(new Point(0,0,0)));
+        }
        return new Ray(this.p0 , Pij.subtract(this.p0));
     }
 
@@ -118,11 +121,11 @@ public class Camera {
         int sum = 0 ; 
         for(int i=0 ; i < writer.getNx() ; i++ ){
             for(int j=0 ; j< writer.getNy() ; j++ ){
+
                 Color color = rayTrace.traceRay(this.constructRay(writer.getNx(), writer.getNy(), j, i),i,j,writer.getNx() ,writer.getNy());
                 if(color !=null){
                     writer.writePixel(j, i, color);
                 }
-                
             }
         } 
         return this;

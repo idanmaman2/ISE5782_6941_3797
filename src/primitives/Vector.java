@@ -78,6 +78,9 @@ public class Vector extends Point {
 
 
     public Vector projection(Vector u){
+        if ( u.dotProduct(this) == 0){
+            return null;
+        } 
         return u.scale( u.dotProduct(this) / u.lengthSquared());
     }
 

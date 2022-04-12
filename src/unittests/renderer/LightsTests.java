@@ -2,6 +2,8 @@ package unittests.renderer;
 
 import org.junit.jupiter.api.Test;
 
+import Models.TAirBallon;
+import Physics.Physics;
 import lightning.*;
 import geometries.*;
 import primitives.*;
@@ -10,6 +12,8 @@ import Scene.Scene;
 import Scene.TextureScene;
 
 import static java.awt.Color.*;
+
+
 
 /**
  * Test rendering a basic image
@@ -22,7 +26,7 @@ public class LightsTests {
 			.setAl(new AmbientLight(new Color(255,0,0), new Double3(0.15)));
 	private Camera camera1 = new Camera(new Point(0, 0, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
 			.setVPSize(550, 550); //;
-			private Camera camera22 = new Camera(new Point(-1000, -10000, 1000), new Vector(0, 0, -2), new Vector(0, -1, 0)) //
+			private Camera camera22 = new Camera(new Point(-1000, -100, 1000), new Vector(0, 0, -2), new Vector(0, 1, 0)) //
 			.setVPSize(550, 550) //
 			.setVPDistance(100);
 	private Camera camera2 = new Camera(new Point(0, 0, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
@@ -45,22 +49,20 @@ public class LightsTests {
 	private Geometry sphere = new Sphere(new Point(0, 50000, -50), 500d) //
 			.setEmisson(new Color(BLUE).reduce(2)) //
 			.setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300));
-	Texture tx = new Texture("tx6.jpg");
-	Texture tx2 = new Texture("tx12.jpg");
-	Texture tx3 = new Texture("tx12.jpg");
-	Texture bg = new Texture("tx12.jpg");
+	Texture tx = new Texture("tx1.jpeg");
+	Texture tx2 = new Texture("tx1.jpeg");
+	Texture tx3 = new Texture("tx3.jpeg");
+	Texture bg = new Texture("tx1.jpeg");
 	private Scene scene3 = new TextureScene("Test scene",bg) //
 	.setAl(new AmbientLight(new Color(255,0,0), new Double3(0.15)));
 
-	private Geometry Tsphere = new TSphere(new Point(2000000, -180000000, -200000), 1500d,tx) //
+	private Geometry Tsphere = new TSphere(new Point(20000, -180000, -200), 1500d,tx) //
 	.setEmisson(new Color(BLUE).reduce(2)) //
 	.setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(30));
-	private Geometry Tsphere2 = new TSphere(new Point(-1500, 42000, -42000), 5000d,tx3) //
-	.setEmisson(new Color(BLUE).reduce(2)) //
-	.setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(30));
+	private Geometries Tsphere2 = new TAirBallon(new Point(-1500, 12000, -12000), 5000d,tx3) ;
 	
-Geometry tplane= new TPlane(new Point(5500, 0, 0) , new Vector(1,-7,1),tx2).setEmisson(new Color(255,255,0));
-	
+Geometry tplane= new TPlane(new Point(5500, 0, 0) , new Vector(1,0.1,0),tx2).setEmisson(new Color(255,255,0)).setMaterial(new Material().setkD(new Double3(0.05)).setkS(new Double3(0.05)).setnShininess(3));
+Geometry tplane2= new TPlane(new Point(-5500, 0, 0) , new Vector(1,0.1,0),tx2).setEmisson(new Color(255,255,0)).setMaterial(new Material().setkD(new Double3(0.05)).setkS(new Double3(0.05)).setnShininess(3));
 
 	/**
 	 * Produce a picture of a sphere lighted by a directional light
@@ -79,15 +81,20 @@ Geometry tplane= new TPlane(new Point(5500, 0, 0) , new Vector(1,-7,1),tx2).setE
 
 	@Test
 	public void sphereDirectionalTEXTURE2() {
-		scene3.geometries.add(Tsphere2);
-		scene3.geometries.add(sphere,Tsphere,tplane,Tsphere2);
-		scene3.lights.add(new PointLight(new Point(9500, 5000, 0),new Color(255,0,0)).setKL(0.9).setKQ(0.9));
-		scene3.lights.add(new SpotLight(new Vector(-1,7,-1), new Point(3500, 0, 0),new Color(255,0,0)).setKL(0.001).setKQ(0.0001));
-		ImageWriter imageWriter = new ImageWriter("lightSphereDirectionalTEXTURE2", 1000, 1000);
-		camera22.setWriter(imageWriter) //
-				.setRayTrace(new RayTracerBasic(scene3)) //
-				.renderImage() //
-				.writeToImage(); //
+		Point x0 = new Point(0,0,-5000);
+		for(int i =0; i<180 ;i ++){
+			x0 = new Physics().moveWithAccaliration(x0, new Double3(0.03, 01, 0.5), new Double3(3, 1, 5), i);
+			Geometries Tsphere2 = new TAirBallon(x0, 5000d,tx3) ;
+			scene3.geometries.add(tplane,Tsphere2,tplane2);
+			scene3.lights.add(new PointLight(new Point(950, 500, 0),new Color(255,0,0)).setKL(0.9).setKQ(0.9));
+			scene3.lights.add(new SpotLight(new Vector(-1,7,-1), new Point(3500, 0, 0),new Color(255,0,0)).setKL(0.001).setKQ(0.0001));
+			ImageWriter imageWriter = new ImageWriter("lightSphereDirectionalTEXTURE2"+i, 1000, 1000);
+			camera22.setWriter(imageWriter) //
+					.setRayTrace(new RayTracerBasic(scene3)) //
+					.renderImage() //
+					.writeToImage(); //
+		}
+
 	}
 	@Test
 	public void sphereDirectionalTEXTURE() {
