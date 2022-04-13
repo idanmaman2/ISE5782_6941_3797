@@ -49,20 +49,22 @@ public class Sphere extends Geometry{
         }
         
 
-        if( d >= this.radius ){
+        if(Util.alignZero(d - this.radius) >= 0 ){
             return null; 
         }
         double th = Math.sqrt(this.radius * this.radius - d * d); 
         double t1 = tm + th ;  
         double t2 = tm - th ; 
-        if(t1 < 0 && t2 < 0 ){
+        if(Util.alignZero(t2) <= 0 || Util.alignZero(t1) <= 0 ){
             return null ; 
         }
         LinkedList<Point> arr = new LinkedList<>(); 
-        if(t1 > 0  ){
+        Point pt1 =  rayC.getPoint(t1);
+        Point pt2 = rayC.getPoint(t2);
+        if(Util.alignZero(t1) > 0 ) ){
             arr.add(rayC.getPoint(t1));
         }
-        if(t2 > 0 ){
+        if(Util.alignZero(t2) > 0 ){
             arr.add(rayC.getPoint(t2));
         }
         return arr;
@@ -70,7 +72,10 @@ public class Sphere extends Geometry{
 
 
     @Override 
-    public List<GeoPoint> findGeoIntersectionsHelper(Ray rayC){
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray rayC,double max){
+        if(center == rayC.getP0()){
+            return null;
+        }
         Vector u = this.center.subtract(rayC.getP0()); 
         double tm = rayC.getDir().dotProduct(u);
         double d  = Math.sqrt(u.lengthSquared() - (tm*tm) ); 
@@ -80,14 +85,16 @@ public class Sphere extends Geometry{
         double th = Math.sqrt(this.radius * this.radius - d * d); 
         double t1 = tm + th ;  
         double t2 = tm - th ; 
-        if(t1 < 0 && t2 < 0 ){
+        if(t1 <= 0 || t2 <= 0 ){
             return null ; 
         }
+        Point pt1 =  rayC.getPoint(t1);
+        Point pt2 = rayC.getPoint(t2);
         LinkedList<GeoPoint> arr = new LinkedList<>(); 
-        if(t1 > 0  ){
+        if(t1 > 0 && Util.alignZero(pt1.distanceSquared(rayC.getP0()) - max * max) <= 0 ){
             arr.add(new Intersectable.GeoPoint(rayC.getPoint(t1),this));
         }
-        if(t2 > 0 ){
+        if(t2 > 0 && Util.alignZero(pt1.distanceSquared(rayC.getP0()) - max * max) <= 0 ){
             arr.add(new Intersectable.GeoPoint(rayC.getPoint(t2),this) );
         }
         return arr;

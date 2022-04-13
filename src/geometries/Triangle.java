@@ -63,7 +63,7 @@ try{
 
 
     @Override 
-    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double max){
         /**
          * Triangle Area = abs(b-a) * abs(c-a) * sin(theta) / 2 
          * Triangle Area = abs((b-a) x (c-a)) / 2 

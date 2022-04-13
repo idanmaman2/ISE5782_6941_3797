@@ -102,7 +102,7 @@ public class Tube extends Geometry{
     }
 
     @Override
-    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double max) {
         Vector dir = ray.getDir();
         Vector v = axisRay.getDir();
         double dirV = dir.dotProduct(v);

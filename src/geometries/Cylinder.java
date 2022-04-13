@@ -62,14 +62,14 @@ public class Cylinder extends Tube{
     }
     
     @Override
-    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double max) {
         /**
          * we find the projection and calcs its size and if it is like the height the point inside the cilinder (we can use dot product cause the axsis in normalized )
          * 
          */
         
         List<GeoPoint> res = new ArrayList<>();
-        List<GeoPoint> lst = super.findGeoIntersectionsHelper(ray);
+        List<GeoPoint> lst = super.findGeoIntersectionsHelper(ray,max);
         if (lst != null)
             for (GeoPoint geoPoint : lst) {
                 double distance = Util.alignZero(geoPoint.point.subtract(axisRay.getP0()).dotProduct(axisRay.getDir()));

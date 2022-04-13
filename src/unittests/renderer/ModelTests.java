@@ -61,9 +61,10 @@ public class ModelTests {
         Geometry ele = new Elepsoaide(new Point(20, -20, 20), 50d,30d,30d).setEmisson(new Color(BLUE).reduce(2)) //
         .setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300));
         scene1.geometries.add(ele);
-        scene1.lights.add(new DirectionalLight(spCL, new Vector(1, 1, -0.5)));
+        scene1.lights.add(new DirectionalLight(spCL, new Vector(0, 0, 1)));
+        scene1.lights.add(new PointLight(new Point(20, -20, 80), spCL));
         ImageWriter imageWriter = new ImageWriter("Elepsoaide" , 1500, 1500);
-        camera1.setAngle(0, new Vector(0,0,1)).setWriter(imageWriter) //
+        camera1.setWriter(imageWriter) //
                     .setRayTrace(new RayTracerBasic(scene1)) //
                     .renderImage() //
                     .writeToImage(); //

@@ -22,10 +22,10 @@ public class Geometries extends Intersectable {
 
 
     @Override 
-    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double max){
         List<GeoPoint> it = new LinkedList<GeoPoint>();
         for(Intersectable element : this.items){
-            List<GeoPoint> x =element.findGeoIntersectionsHelper(ray);
+            List<GeoPoint> x =element.findGeoIntersectionsHelper(ray, max);
             if(x!= null ){
                 it.addAll(x);
             }
