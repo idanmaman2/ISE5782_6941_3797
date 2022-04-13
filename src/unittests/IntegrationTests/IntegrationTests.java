@@ -11,6 +11,7 @@ import geometries.Intersectable;
 import geometries.Plane;
 import geometries.Sphere;
 import geometries.Triangle;
+import geometries.Intersectable.GeoPoint;
 import primitives.Point;
 import primitives.Vector;
 import renderer.Camera;
@@ -28,7 +29,7 @@ public class IntegrationTests {
         int sum = 0 ; 
         for(int i=0 ; i < ny ; i++ ){
             for(int j=0 ; j< nx ; j ++ ){
-                List<Point> x = shape.findIntsersections(cmr.constructRay(this.nx, this.ny, j, i));
+                List<GeoPoint> x = shape.findGeoIntersections(cmr.constructRay(this.nx, this.ny, j, i));
                 sum += x == null ? 0 : x.size(); 
             }
         } 

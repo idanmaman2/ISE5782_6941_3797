@@ -90,10 +90,7 @@ public class Polygon extends Geometry {
         return plane.getNormal();
     }
     
-    @Override 
-    public List<Point> findIntsersections(Ray ray){
-        return null ; 
-    } 
+
     @Override 
     public List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double max){
         

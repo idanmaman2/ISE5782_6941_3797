@@ -10,7 +10,7 @@ public abstract class Intersectable {
      * @param ray
      * @return
      */
-    public abstract List<Point> findIntsersections(Ray ray);
+
 
     
     public final List<GeoPoint> findGeoIntersections(Ray ray) {

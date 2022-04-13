@@ -8,6 +8,7 @@ import Scene.Scene;
 import static primitives.Util.*;
 
 public class RayTracerBasic extends RayTracerBase {
+    private static final double DELTA = 0.1;
     private static final int MAX_CALC_COLOR_LEVEL = 10;
     private static final double MIN_CALC_COLOR_K = 0.001;
     private static final Double3 INITIAL_K = new Double3(1.0);
@@ -34,9 +35,8 @@ public class RayTracerBasic extends RayTracerBase {
             Vector l = lightSource.getL(intersection.point);
             double nl = alignZero(n.dotProduct(l));
             if (nl * nv > 0) { // sign(nl) == sing(nv)
-                Double3 ktr = transparency(intersection, lightSource, l, n);
-                if (!(ktr.product(k).lowerThan(MIN_CALC_COLOR_K))) {
-                    Color lightIntensity = lightSource.getIntensity(intersection.point).scale(ktr);
+                if (unshaded(lightSource, l, n, intersection)) {
+                    Color lightIntensity = lightSource.getIntensity(intersection.point);
                     color = color.add(calcDiffusive(kd, l, n, lightIntensity),
                             calcSpecular(ks, l, n, v, nShininess, lightIntensity));
                 }
@@ -56,15 +56,12 @@ public class RayTracerBasic extends RayTracerBase {
 
     private boolean unshaded(LightSource light, Vector l, Vector n, GeoPoint geoPoint) {
         Vector lightDirection = l.scale(-1); // from point to light source
-
-    Vector epsVector = n.scale(EPS); Point point = geoPoint.point.add(epsVector);
-    Point point2 = geoPoint.point.add(epsVector);
-
-        Ray lightRay = new Ray(point2, lightDirection, n);
+        Vector delta = n.scale(n.dotProduct(lightDirection) > 0 ? DELTA : - DELTA);
+        Point point = geoPoint.point.add(delta);
+        Ray lightRay = new Ray(point, lightDirection);
         List<GeoPoint> intersections = sn.geometries
-                .findGeoIntersections(lightRay, light.distanceSquared(geoPoint.point));
-
-        return intersections == null || geoPoint.geometry.getMaterial().kT != Double3.ZERO;
+                .findGeoIntersections(lightRay,Math.sqrt(light.distanceSquared(geoPoint.point)));
+        return intersections == null || intersections.isEmpty() || geoPoint.geometry.getMaterial().kT != Double3.ZERO;
     }
 
     public Color traceRay(Ray ray) {

@@ -36,19 +36,6 @@ public class Geometries extends Intersectable {
 
 
 
-    @Override 
-    public List<Point> findIntsersections(Ray ray){
-        List<Point> it = new LinkedList<Point>();
-        for(Intersectable element : this.items){
-            List<Point> x =element.findIntsersections(ray);
-            if(x!= null ){
-                it.addAll(x);
-            }
-           
-        }
-        return it.size() == 0 ? null :  it ;
-    }
-
 
 
 

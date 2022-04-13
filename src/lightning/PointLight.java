@@ -73,7 +73,7 @@ public Vector getL(Point p){
     return p.subtract(position).normalize();
 }
 public double distanceSquared(Point p){
-    return position.distance(p);
+    return position.distanceSquared(p);
 }
 
 }
