@@ -16,15 +16,18 @@ import primitives.Point;
 import primitives.Vector;
 import renderer.Camera;
 
-  /*
-  IntegrationTests
- * @author Idan ane Eliot 
-  */ 
-      
+/**
+ *IntegrationTests
+ *
+ * @author Idan and Eliyahu
+ */
+
 public class IntegrationTests {
       
-    final int nx = 3 , ny = 3 ; 
-
+    final int nx = 3 , ny = 3 ;
+    /**
+     *Sums up all the rays
+     */
     private int sumRays(Intersectable shape,Camera cmr){
         int sum = 0 ; 
         for(int i=0 ; i < ny ; i++ ){
@@ -37,6 +40,10 @@ public class IntegrationTests {
     }
 
     @Test
+    /**
+     *Sphere Test
+     * all possible possibilities
+     */
     public void  testSphere(){
         Camera cmr = new Camera(new Point(0,0,0), new Vector(0,0,-1), new Vector(0,1,0)).setVPSize(3, 3).setVPDistance(1); 
         Sphere sp = new Sphere(new Point(0, 0, -3), 1);
@@ -58,6 +65,10 @@ public class IntegrationTests {
     }
 
     @Test
+    /**
+     *Triangle Test
+     * all possible possibilities
+     */
     public void  testTriangle(){
         Camera cmr = new Camera(new Point(0,0,0), new Vector(0,0,-1), new Vector(0,1,0)).setVPSize(3, 3).setVPDistance(1); 
         Triangle sp = new Triangle(new Point(0,1,-2),new Point(1,-1,-2),new Point(-1,-1,-2));
@@ -70,6 +81,10 @@ public class IntegrationTests {
     }
 
     @Test
+    /**
+     *Plane Test
+     * all possible possibilities that can happen
+     */
     public void  testPlane(){
         Camera cmr = new Camera(new Point(0,0,0), new Vector(0,0,-1), new Vector(0,1,0)).setVPSize(3, 3).setVPDistance(1); 
         Plane sp = new Plane(new Point(0,1,-5),new Point(0,0,-5),new Point(1,0,-5));

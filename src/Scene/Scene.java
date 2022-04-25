@@ -7,7 +7,11 @@ import java.util.List;
 import geometries.*;
 import lightning.AmbientLight;
 import primitives.*;
-
+/**
+ *Scene
+ *
+ * @author Idan and Eliyahu
+ */
 public class Scene {
     public String senceName ; 
     public Color bg ;
@@ -31,7 +35,9 @@ public class Scene {
         return this;
     }
 
-
+    /**
+     * Set Geometries
+     */
     public void setGeometries(Geometries geometries) {
         this.geometries = geometries;
     }

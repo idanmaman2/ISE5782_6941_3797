@@ -54,11 +54,8 @@ public class RenderTests {
 	 */
 	@Test
 	public void basicRenderXml() {
-		xmlReader xml = new  xmlReader("basicRenderTestTwoColors");
-		Scene scene = new Scene("XML Test scene").setAl(xml.getAmbient()).setBg(xml.getBG());
-		// enter XML file name and parse from XML file into scene object
-		// ...
-		scene.geometries.add(xml.getGeometries());
+
+		Scene scene = xmlReader.getScene("basicRenderTestTwoColors");
 		Camera camera = new Camera(Point.ZERO, new Vector(0, 0, -1), new Vector(0, 1, 0)) //
 				.setVPDistance(100) //
 				.setVPSize(500, 500)

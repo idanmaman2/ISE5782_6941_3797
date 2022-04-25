@@ -14,6 +14,14 @@ import Scene.*;
  * @author Idan and Eliyahu
  */
 public class xmlReader {
+    public static Scene getScene(String path){
+        xmlReader xml = new  xmlReader(path);
+        Scene scene = new Scene("XML Test scene").setAl(xml.getAmbient()).setBg(xml.getBG());
+        // enter XML file name and parse from XML file into scene object
+        // ...
+        scene.geometries.add(xml.getGeometries());
+        return scene;
+    }
     String fileName ; 
     Element root ; 
 
@@ -70,7 +78,7 @@ public class xmlReader {
     /**
      *the reader
      */
-    public xmlReader(String name){
+    private  xmlReader(String name){
         this.fileName  = name ;
         root =getRoot();
     }
