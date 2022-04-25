@@ -1,4 +1,4 @@
-# Java graphics engine by Idan Maman and Eilont - IDHM-Engine ©
+# Java graphics engine by Idan Maman and Elliot - IDHM-Engine ©
 
 # None Texture Images: 
 
