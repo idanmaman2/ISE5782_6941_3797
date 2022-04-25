@@ -8,7 +8,11 @@ import lightning.AmbientLight;
 import primitives.*;
 import renderer.*;
 import Scene.*;
-
+/**
+ *xmlReader
+ *
+ * @author Idan and Eliyahu
+ */
 public class xmlReader {
     String fileName ; 
     Element root ; 
@@ -16,12 +20,16 @@ public class xmlReader {
     public Color getBG (){
         return new Color(xmlAtDouble3("background-color",root));
     }
-    
+    /**
+     *simple ambient light
+     */
     public AmbientLight getAmbient(){
         Node sonAB = root.getElementsByTagName("ambient-light").item(0);
         return new AmbientLight(new Color(xmlAtDouble3("color", sonAB)),xmlAtDouble3("dx",sonAB) );
     }
-
+    /**
+     *get the geometries used
+     */
     public Geometries getGeometries(){
 
         Geometries g = new Geometries();
@@ -40,7 +48,9 @@ public class xmlReader {
         } 
         return g ;
     }
-   
+    /**
+     *get the geometries used and built with
+     */
     public Geometries getGeometries(Node geo){
         Geometries g = new Geometries();
         for(int i =0  ; i <  geo.getChildNodes().getLength() ; i++ ){
@@ -57,12 +67,16 @@ public class xmlReader {
         } 
         return g ;
     }
-
+    /**
+     *the reader
+     */
     public xmlReader(String name){
         this.fileName  = name ;
         root =getRoot();
     }
-
+    /**
+     *get the root, according to choice
+     */
 	Element getRoot(){
 	
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -88,13 +102,17 @@ public class xmlReader {
 		return null ;
 	
 	}
-
+    /**
+     *constructor with Element xmlAtDouble3
+     */
 	Double3 xmlAtDouble3(String name,Element root){
 		String color  = root.getAttribute(name);
 		String  [] colorarr= color.split(" ");
 		return  new Double3(Double.parseDouble(colorarr[0]),Double.parseDouble(colorarr[1]),Double.parseDouble(colorarr[2]));
 	}
-    
+    /**
+     *constructor with Node xmlAtDouble3
+     */
 	Double3 xmlAtDouble3(String name,Node root){
 		String color  = root.getAttributes().getNamedItem(name).getTextContent();
 		String  [] colorarr= color.split(" ");

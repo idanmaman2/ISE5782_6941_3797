@@ -8,6 +8,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.imageio.*;
+/**
+ *ImageWriter
+ *
+ * @author Idan and Eliyahu
+ */
 
 /**
  * Image writer class combines accumulation of pixel color matrix and finally
