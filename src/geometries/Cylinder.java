@@ -64,7 +64,7 @@ public class Cylinder extends Tube{
     @Override
     public List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double max) {
         /**
-         * we find the projection and calcs its size and if it is like the height the point inside the cilinder (we can use dot product cause the axsis in normalized )
+         * we find the projection and calcs its size and if it is like the height the point inside the cylinder (we can use dot product cause the axsis in normalized )
          * 
          */
         
@@ -81,5 +81,4 @@ public class Cylinder extends Tube{
             return null;
         return res;
     }
-
 }

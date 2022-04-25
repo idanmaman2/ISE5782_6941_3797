@@ -25,6 +25,9 @@ public class ModelTests {
 
     private Point spPL = new Point(-50, -50, 25); 
     AirBallon airballon = new AirBallon(new Point(20, -20, 20), 30d);
+    /**
+     * Produce a picture of an AirBallon
+     */
 	@Test
 	public void SimpleAirBallonPhoto() {
 		scene1.geometries.add(airballon);
@@ -35,6 +38,9 @@ public class ModelTests {
 				.renderImage() //
 				.writeToImage(); //
 	}
+    /**
+     * Produce a Video of an AirBallon simple animation
+     */
     @Test
 	public void SimpleAirBallonVideo() {
         Point p = new Point(100, -100, -100) ;
@@ -56,6 +62,9 @@ public class ModelTests {
         }
       
 	}
+    /**
+     * Produce a Video of an Elepsoaide simple animation
+     */
     @Test
 	public void SimpleElepsoaide() {
         Geometry ele = new Elepsoaide(new Point(20, -20, 20), 50d,30d,30d).setEmisson(new Color(BLUE).reduce(2)) //

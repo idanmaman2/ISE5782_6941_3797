@@ -49,11 +49,6 @@ public class RenderTests {
 	}
 
 
-
-
-
-
-
 	/**
 	 * Test for XML based scene - for bonus
 	 */
@@ -74,3 +69,5 @@ public class RenderTests {
 		camera.writeToImage();
 	}
 }
+
+
