@@ -12,6 +12,8 @@ public class Scene {
     public String senceName ; 
     public Color bg ;
     public List<LightSource> lights ;
+    public AmbientLight al ;
+    public Geometries geometries;
 
     public Scene setBg(Color bg) {
         this.bg = bg;
@@ -33,8 +35,7 @@ public class Scene {
     public void setGeometries(Geometries geometries) {
         this.geometries = geometries;
     }
-    public AmbientLight al ;
-    public Geometries geometries;
+
     public Scene (String senceName){
         this.lights = new LinkedList<LightSource>();
         this.senceName = senceName; 

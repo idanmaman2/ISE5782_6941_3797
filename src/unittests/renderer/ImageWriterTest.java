@@ -28,7 +28,7 @@ class ImageWriterTest {
         .setVPSize(16, 10)
         .setVPDistance(10);
 ImageWriter imageWriter = new ImageWriter("Test32", 800, 500);
-Color background = new Color(255,255,0);
+Color background = new Color(255,0,0);
 Color grid = Color.BLACK;
 double squreLength = imageWriter.getNx()/16;
 for (int i = 0; i < imageWriter.getNy(); i++) {
