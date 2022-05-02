@@ -19,15 +19,15 @@ public class AirBallon extends Geometries  {
     Point center ; 
     double ballonSize ; 
     Color red = new Color(255,0,0);
-    public AirBallon(Point center  , double ballonSize){
+    public AirBallon(Point center  , double ballonSize,Color cBallon  , Color cRope , Color cBacket,Color cTanks ){
         this.center = center ; 
         this.ballonSize = ballonSize ; 
-        Geometry ballon = new Elepsoaide(center, ballonSize,ballonSize * 1.5 ,ballonSize).setEmisson(red).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300)); 
+        Geometry ballon = new Elepsoaide(center, ballonSize,ballonSize * 1.5 ,ballonSize).setEmisson(cBallon).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.8)).setnShininess(1300)); 
         Point downCenter = center.add(new Vector(0,-ballonSize * 3 ,0));
         for (int i = 0; i < 360; i += 20) {
             Point stringPoint = center.add(new Vector(ballonSize * 0.95,0,0).Roatate(i, new Vector(0,1,0)));
             Ray stringRay = new Ray(stringPoint , downCenter.subtract(stringPoint) );
-            this.add(new Cylinder(stringRay, ballonSize / 100 , 3 * ballonSize * 3/4  ).setEmisson(red).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300)));
+            this.add(new Cylinder(stringRay, ballonSize / 100 , 3 * ballonSize * 3/4  ).setEmisson(cRope).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300)));
         }
         this.add(ballon);
         // z is for front  x is for side y is for up 
@@ -45,15 +45,15 @@ public class AirBallon extends Geometries  {
         Point botfrontLeft = topfrontLeft.add(down); 
         Point botfrontRight =topfrontRight.add(down) ; 
         Geometry [] backet = {
-            new Polygon(topbackLeft,topfrontLeft,botfrontLeft,botbackLeft).setEmisson(red).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300)),
-            new Polygon(topbackRight,topfrontRight,botfrontRight,botbackRight).setEmisson(red).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300)),
-            new Polygon(botfrontRight,botbackLeft,botfrontLeft,botbackRight).setEmisson(red).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300)),
-            new Polygon(botbackLeft,botbackRight,topbackRight,topbackLeft).setEmisson(red).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300)),
-            new Polygon(botfrontLeft,botfrontRight,topfrontRight,topfrontLeft).setEmisson(red).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300)) ,
-            new Cylinder(new Ray(topbackLeft.middle(downCenter, 13, 1), topbackRight.subtract(topbackLeft)),ballonSize/15 , topbackLeft.distance(topbackRight)).setEmisson(red).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300)),
-            new Cylinder(new Ray(topfrontLeft.middle(downCenter, 13, 1), topfrontRight.subtract(topfrontLeft)),ballonSize/15 , topfrontLeft.distance(topfrontRight)).setEmisson(red).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300)),
-            new Cylinder(new Ray(topbackLeft.middle(downCenter, 13, 1), topfrontLeft.subtract(topbackLeft)),ballonSize/15, topfrontLeft.distance(topbackLeft)).setEmisson(red).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300)),   
-            new  Cylinder(new Ray(topfrontRight.middle(downCenter, 13, 1), topbackRight.subtract(topfrontRight)),ballonSize/15 , topfrontRight.distance(topbackRight)).setEmisson(red).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300))
+            new Polygon(topbackLeft,topfrontLeft,botfrontLeft,botbackLeft).setEmisson(cBacket).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300)),
+            new Polygon(topbackRight,topfrontRight,botfrontRight,botbackRight).setEmisson(cBacket).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300)),
+            new Polygon(botfrontRight,botbackLeft,botfrontLeft,botbackRight).setEmisson(cBacket).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300)),
+            new Polygon(botbackLeft,botbackRight,topbackRight,topbackLeft).setEmisson(cBacket).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300)),
+            new Polygon(botfrontLeft,botfrontRight,topfrontRight,topfrontLeft).setEmisson(cBacket).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300)) ,
+            new Cylinder(new Ray(topbackLeft.middle(downCenter, 13, 1), topbackRight.subtract(topbackLeft)),ballonSize/15 , topbackLeft.distance(topbackRight)).setEmisson(cTanks).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300)),
+            new Cylinder(new Ray(topfrontLeft.middle(downCenter, 13, 1), topfrontRight.subtract(topfrontLeft)),ballonSize/15 , topfrontLeft.distance(topfrontRight)).setEmisson(cTanks).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300)),
+            new Cylinder(new Ray(topbackLeft.middle(downCenter, 13, 1), topfrontLeft.subtract(topbackLeft)),ballonSize/15, topfrontLeft.distance(topbackLeft)).setEmisson(cTanks).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300)),   
+            new  Cylinder(new Ray(topfrontRight.middle(downCenter, 13, 1), topbackRight.subtract(topfrontRight)),ballonSize/15 , topfrontRight.distance(topbackRight)).setEmisson(cTanks).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300))
         } ;  
         
         
