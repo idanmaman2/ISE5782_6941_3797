@@ -9,6 +9,8 @@ import renderer.*;
 import Scene.Scene;
 import static java.awt.Color.*;
 
+import java.util.List;
+
 /**
  * Test rendering a basic image
  * 
@@ -71,7 +73,30 @@ public class LightsTests {
 				.renderImage() //
 				.writeToImage(); //
 	}
+	@Test
+	public void TonsOfLights() {
+		scene1.geometries.add(sphere);
+		List<LightSource> x = List.of(new PointLight(spPL,spCL).setKL(0.001).setKQ(0.0002),
+		new PointLight(spPL.add(new Vector(0,0,86)),new Color(255,0,255)).setKL(0.001).setKQ(0.0002), 
+		new PointLight(spPL.add(new Vector(0,86,0)),new Color(255,255,0)).setKL(0.001).setKQ(0.0002),
+		new PointLight(spPL.add(new Vector(86,0,0)),new Color(255,255,255)).setKL(0.001).setKQ(0.0002),
+		new SpotLight( new Vector(1, 1, -0.5), spPL.add(new Vector(86,0,100)),new Color(255,655,255)).setKL(0.001).setKQ(0.0001), 
+		new SpotLight( new Vector(1, 1, -0.5), spPL.add(new Vector(86,100,0)),new Color(0,655,255)).setKL(0.001).setKQ(0.0001), 
+		new SpotLight( new Vector(1, 1, -0.5), spPL.add(new Vector(86,100,100)),new Color(1255,655,255)).setKL(0.001).setKQ(0.0001), 
+		new SpotLight( new Vector(1, 1, -0.5), spPL.add(new Vector(86,120,10)),new Color(10000,655,255)).setKL(0.001).setKQ(0.0001) 
+		
+		
+		
+		);
+		scene1.lights.addAll(x);
+	
 
+		ImageWriter imageWriter = new ImageWriter("TonsOfLights", 1500, 1500);
+		camera1.setWriter(imageWriter) //
+				.setRayTrace(new RayTracerBasic(scene1)) //
+				.renderImage() //
+				.writeToImage(); //
+	}
 	/**
 	 * Produce a picture of a sphere lighted by a spot light
 	 */

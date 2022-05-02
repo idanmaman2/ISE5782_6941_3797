@@ -70,7 +70,7 @@ public class xmlReader {
                 g.add(new Sphere( new Point(xmlAtDouble3("center",x)) , Double.parseDouble(x.getAttributes().getNamedItem("radius").getTextContent())));
             }
             if(x.getNodeName() == "geometries"){
-                g.add();
+                g.add(getGeometries(x));
             }
         } 
         return g ;

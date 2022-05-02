@@ -8,10 +8,10 @@ import java.awt.*;
  */
 public class Vector extends Point {
     
-    public Vector Roatate(double angle , Vector axsis ){
+    public Vector Roatate(double angle , Vector axis ){
         angle = angle / 180 * Math.PI ; 
         double cosa = Math.cos(angle ) , sina = Math.sin(angle); 
-        double  x = axsis.xyz.d1 , y = axsis.xyz.d2 , z=axsis.xyz.d3 ,x2 = x*x ,y2 =y*y, z2 = z*z; 
+        double  x = axis.xyz.d1 , y = axis.xyz.d2 , z=axis.xyz.d3 ,x2 = x*x ,y2 =y*y, z2 = z*z; 
         double tx = this.xyz.d1 , ty = this.xyz.d2 ,tz =this.xyz.d3 ; 
         return new Vector(
            (x2*(1-cosa)+ cosa )*tx +  (x*y*(1-cosa)-sina)*ty + (x*z*(1-cosa)+y*sina)*tz , 
