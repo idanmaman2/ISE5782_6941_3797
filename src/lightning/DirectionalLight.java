@@ -9,7 +9,9 @@ import primitives.*;
  */
 public class DirectionalLight extends Light implements LightSource {
     private Vector direction;
-
+    /**
+     * Directional light, direction of the light
+     */
    public  DirectionalLight(Color Intensity,Vector Direction){
        this.direction = Direction ; 
        this.intensity = Intensity;

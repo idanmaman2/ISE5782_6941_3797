@@ -19,7 +19,9 @@ public class Geometries extends Intersectable {
         items.addAll(List.of(geometries));
     }
 
-
+    /**
+     * finds all the intersections
+     */
 
     @Override 
     public List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double max){

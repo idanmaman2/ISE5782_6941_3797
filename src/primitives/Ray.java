@@ -38,7 +38,6 @@ public class Ray {
     *
     *checks if the two equal
     *
-    * @author Idan and Eliyahu
     */
     public boolean equals(Object obj) { 
         return (obj instanceof Ray) && (((Ray)obj).p0.equals(this.p0) && ((Ray)obj).dir.equals(this.dir));
@@ -48,7 +47,6 @@ public class Ray {
     /**
     *converts ray obj to String 
     *
-    * @author Idan and Eliyahu
     */
     public String toString() {
         return "Ray{" +
@@ -73,7 +71,11 @@ public class Ray {
         }
         return closest;
     }
-
+    /**
+     *findClosestGeoPoint
+     *
+     * @author Idan and Eliyahu
+     */
     public Intersectable.GeoPoint findClosestGeoPoint (List<Intersectable.GeoPoint> lst){
         Intersectable.GeoPoint closest = lst.get(0); ;
         for(Intersectable.GeoPoint item :lst){

@@ -19,6 +19,9 @@ public class Scene {
     public AmbientLight al ;
     public Geometries geometries;
 
+    /**
+     * Set all details in scene
+     */
     public Scene setBg(Color bg) {
         this.bg = bg;
         return this;

@@ -1,9 +1,16 @@
 package Physics;
 
 import primitives.*;
-
+/**
+ *Physics
+ *
+ * @author Idan and Eliyahu
+ */
 public class Physics {
-    
+
+    /**
+     *moveWithAccaliration - will move with speed change
+     */
     public Point moveWithAccaliration(Point xyz0 , Double3 a , Double3  v0 , double t ){
         double t2 = t*t ; 
         return new Point(

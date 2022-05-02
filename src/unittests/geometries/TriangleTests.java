@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Testing Polygons
  * 
- * @author Idan ane Eliot 
+ * @author Idan ane Elliot
  *
  */
 public class TriangleTests {

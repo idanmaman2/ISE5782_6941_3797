@@ -50,7 +50,9 @@ public class Plane extends Geometry {
     }
 
 
-
+    /**
+     * finds all the intersections plane
+     */
     @Override 
     public List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double max){
 

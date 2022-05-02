@@ -5,7 +5,11 @@ import java.util.List;
 
 import geometries.*;
 import primitives.*;
-
+/**
+ *hellicopter, nice graphical design done by amazing artists
+ *
+ * @author Idan and Eliyahu
+ */
 public class hellicopter extends Geometries {
 
     private Color emission = new Color(0, 0, 100);
@@ -17,8 +21,15 @@ public class hellicopter extends Geometries {
         this.add(new Elepsoaide(center, size * 10 , size*4, size*5)
         .setEmisson(emission)
         .setMaterial(material));
+<<<<<<< HEAD
     // Cylinder mainRoterHandle;
     this.add(new Cylinder(new Ray(center.add(new Vector(0, size * dimry, 0)), new Vector(0, 1, 0)),
+=======
+    /** Cylinder mainRoterHandle;
+    *
+     */
+    this.add(new Cylinder(new Ray(center.add(new Vector(0, size * 5, 0)), new Vector(0, 1, 0)),
+>>>>>>> 70b262e3b7e63f35896c4a136f38135339ea5f17
                         size / 2,
                         size)
         .setEmisson(emission)
@@ -27,12 +38,25 @@ public class hellicopter extends Geometries {
 
     Vector normal = new Vector(0, size * 5 + size, 0).crossProduct(new Vector(size * 5, size * 5, 0)).normalize() ;
 
+<<<<<<< HEAD
     // Polygon mainRotorWingX;
     this.add(createRectangleYRotate(center.add(new Vector(0, size * dimry + size, 0)), size * 20, size,angleFront,new Vector(0, 1, 0))
         .setEmisson(emission)
         .setMaterial(material));
     // Polygon mainRotorWingY;
     this.add(createRectangleYRotate(center.add(new Vector(0, size * dimry + size, 0)), size, size * 20,angleFront,new Vector(0, 1, 0))
+=======
+    /** Polygon mainRotorWingX;
+    *
+     */
+    this.add(createRectangleYRotate(center.add(new Vector(0, size * 5 + size, 0)), size * 20, size,angleFront,new Vector(0, 1, 0))
+        .setEmisson(emission)
+        .setMaterial(material));
+        /** Polygon mainRotorWingY;
+         *
+         */
+    this.add(createRectangleYRotate(center.add(new Vector(0, size * 5 + size, 0)), size, size * 20,angleFront,new Vector(0, 1, 0))
+>>>>>>> 70b262e3b7e63f35896c4a136f38135339ea5f17
         .setEmisson(emission)
         .setMaterial(material));
     // Triangle tail;
@@ -74,6 +98,12 @@ center.add(new Vector(-size * dimrx*0.8  , 0, size *- dimrz)))
 
 
     }
+
+    /**
+     *
+     * @param center
+     * @param size
+     */
     public hellicopter(Point center, double size) {
         this.center = center ; 
         this.size = size ;
@@ -120,6 +150,13 @@ center.add(new Vector(-size * dimrx*0.8  , 0, size *- dimrz)))
             .setMaterial(material));
     }
 
+    /**
+     *
+     * @param canter
+     * @param width
+     * @param height
+     * @return
+     */
     Polygon createRectangleY(Point canter, double width, double height) {
         return new Polygon(new Point[] {
             canter.add(new Vector(width/2, 0, height/2)),

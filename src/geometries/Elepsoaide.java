@@ -7,7 +7,7 @@ import java.util.List;
 import primitives.*;
 
 /**
- *Spgere
+ *Elepsoaide
  *
  * @author Idan and Eliyahu
  */
@@ -24,7 +24,10 @@ public class Elepsoaide extends Geometry{
         this.radius2 = radius2 ; 
         this.radius3 = radius3 ;
     }
-    
+
+    /**
+     * the get normal was calculated using the Gradiant of the vector
+     */
     @Override
     public Vector getNormal(Point point) {
         return new Vector(
@@ -35,12 +38,9 @@ public class Elepsoaide extends Geometry{
         //return point.subtract(center).normalize();
     }
 
-
-   
-
-
-
-
+    /**
+     * finds all the intersections with the Elepsoaide.
+     */
     @Override 
     public List<GeoPoint> findGeoIntersectionsHelper(Ray rayC,double max){
         Point centerZero = new Point(0,0,0);
