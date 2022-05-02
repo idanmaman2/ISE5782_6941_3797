@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Testing Spheres
  * 
- * @author Idan ane Eliot 
+ * @author Idan ane Eliyahu
  *
  */
 public class SphereTests {

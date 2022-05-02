@@ -8,11 +8,13 @@ import org.junit.jupiter.api.Test;
 import primitives.Point;
 import primitives.Vector;
 
-  /*
-  test point ops
- * @author Idan ane Eliot 
-  */ 
-      
+/**
+ * PointTests
+ *
+ * @author Idan ane Eliyahu
+ *
+ */
+
 public class PointTests {
         
     @Test

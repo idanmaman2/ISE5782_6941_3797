@@ -6,12 +6,17 @@ import static org.junit.Assert.assertTrue;
 import org.junit.jupiter.api.Test;
 import static primitives.Util.*;
 import primitives.*;
-  /*
-  tests vector ops 
- * @author Idan ane Eliot 
-  */ 
+/**
+ * Vector Tests
+ *`
+ * @author Idan ane Eliyahu
+ *
+ */
 public class VectorTests {
 
+    /**
+     * Dot after the product
+     */
     @Test 
     public void testdotProduct(){
     // ============ Equivalence Partitions Tests ==============
@@ -29,7 +34,9 @@ public class VectorTests {
     assertTrue("dotProduct() result is not right", isZero(vn1.dotProduct(vn2)));
 
     }
-
+    /**
+     * Normilize the vector
+     */
     @Test 
     public void testNormalize(){//TODO
         Vector v = new Vector(0, 3, 4);
@@ -52,6 +59,9 @@ public class VectorTests {
        assertEquals("scale() wrong result pos scalar", v2.length(),1 , 0.00001 );
     }
 
+    /**
+     * Length Squared
+     */
     @Test 
     public void testLengthSqured(){
     // ============ Equivalence Partitions Tests ==============
@@ -73,7 +83,9 @@ public class VectorTests {
      assertThrows("scale() for parallel vectors does not throw an exception",
      IllegalArgumentException.class, () -> v1.scale(0));
     }
-
+    /**
+     * Cross the product after the dot
+     */
     @Test
     public void testCrossProduct() {
         Vector v1 = new Vector(1, 2, 3);
