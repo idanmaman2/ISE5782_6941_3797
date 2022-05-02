@@ -14,7 +14,11 @@ import primitives.Material;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
-
+/**
+ *Air Balloon, nice graphical design done by amazing artists
+ *
+ * @author Idan and Eliyahu
+ */
 public class AirBallon extends Geometries  {
     Point center ; 
     double ballonSize ; 
@@ -30,7 +34,10 @@ public class AirBallon extends Geometries  {
             this.add(new Cylinder(stringRay, ballonSize / 100 , 3 * ballonSize * 3/4  ).setEmisson(red).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300)));
         }
         this.add(ballon);
-        // z is for front  x is for side y is for up 
+        /**
+        * z is for front  x is for side y is for up
+        *
+        */
         Point st1 = center.add(new Vector(ballonSize ,0,0)) ; 
         Point st2  = center.add(new Vector(-ballonSize ,0,0)) ; 
         Point st3 = center.add(new Vector(0,0,ballonSize  ))  ; 
@@ -54,11 +61,7 @@ public class AirBallon extends Geometries  {
             new Cylinder(new Ray(topfrontLeft.middle(downCenter, 13, 1), topfrontRight.subtract(topfrontLeft)),ballonSize/15 , topfrontLeft.distance(topfrontRight)).setEmisson(red).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300)),
             new Cylinder(new Ray(topbackLeft.middle(downCenter, 13, 1), topfrontLeft.subtract(topbackLeft)),ballonSize/15, topfrontLeft.distance(topbackLeft)).setEmisson(red).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300)),   
             new  Cylinder(new Ray(topfrontRight.middle(downCenter, 13, 1), topbackRight.subtract(topfrontRight)),ballonSize/15 , topfrontRight.distance(topbackRight)).setEmisson(red).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300))
-        } ;  
-        
-        
-
-
+        } ;
         this.add(backet);
     }
     
