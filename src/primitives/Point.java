@@ -4,7 +4,8 @@ package primitives;
  *
  * @author Idan and Eliyahu
  */
-public class Point {
+public class Point implements Comparable {
+
     public static final Point ZERO =new Point(Double3.ZERO);
     public final Double3 xyz;
     public Point(double d1 , double d2 , double d3 ) {//simple constructor
@@ -78,5 +79,9 @@ public class Point {
             lon = x2 ; 
         }
 
+    }
+    @Override
+    public int compareTo(Object o) {
+        return (o instanceof Point ? ((Double)getZ()).compareTo(((Point) o).getZ()) : 0 );
     }
 }

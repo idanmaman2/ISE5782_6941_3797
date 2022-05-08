@@ -16,11 +16,11 @@ public class Polygon extends Geometry {
     /**
      * List of polygon's vertices
      */
-    public List<Point> vertices;
+    protected List<Point> vertices;
     /**
      * Associated plane in which the polygon lays
      */
-    public Plane plane;
+    protected Plane plane;
     private int size;
 
     /**
@@ -90,12 +90,9 @@ public class Polygon extends Geometry {
         return plane.getNormal();
     }
     
+
     @Override 
-    public List<Point> findIntsersections(Ray ray){
-        return null ; 
-    } 
-    @Override 
-    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double max){
         
     int len = vertices.size();
     Point p0 = ray.getP0();
@@ -119,7 +116,7 @@ public class Polygon extends Geometry {
       if (!checkSign(sign,dotProd) || isZero(dotProd))
         return null;
     }
-    List<GeoPoint> geoPoints = plane.findGeoIntersectionsHelper(ray);
+    List<GeoPoint> geoPoints = plane.findGeoIntersectionsHelper(ray,max);
     List<GeoPoint> newGeoPoints = new ArrayList<>();
     if (geoPoints == null)
       return null;

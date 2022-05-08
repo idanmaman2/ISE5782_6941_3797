@@ -10,7 +10,7 @@ import primitives.*;
 
 public class Scene {
     public String senceName ; 
-    private Color bg ;
+    public Color bg ;
     public List<LightSource> lights ;
     int px , py ;
 

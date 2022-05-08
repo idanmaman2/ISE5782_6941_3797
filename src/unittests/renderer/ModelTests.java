@@ -111,30 +111,20 @@ public class ModelTests {
 	public void SimpleElepsoaide() {
         Camera camera1 = new Camera(new Point(50, -50, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
 			.setVPSize(150, 150) //
-			.setVPDistance(1000);
-          
-        Geometry ele = new Elepsoaide(new Point(60, -20, 20), 50d,30d,30d).setEmisson(new Color(BLUE).reduce(2)) //
+			.setVPDistance(1000).setAngle(30,new Vector(0,0,1));
+        for( int i =0 ; i < 360 ; i++)  {
+    Scene scene1 = new Scene("Test scene");
+        Geometry ele = new Elepsoaide(new Point(60, -20, 20), 25d,50d,25d).rotate(new Vector(0,1,0), i).setEmisson(new Color(BLUE).reduce(2)) //
         .setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300));
         scene1.geometries.add(ele);
         scene1.lights.add(new DirectionalLight(spCL, new Vector(1, 1, -0.5)));
-        ImageWriter imageWriter = new ImageWriter("Elepsoaide" , 1500, 1500);
+        ImageWriter imageWriter = new ImageWriter("Elepsoaide"+i, 1500, 1500);
         camera1.setAngle(0, new Vector(0,0,1)).setWriter(imageWriter) //
                     .setRayTrace(new RayTracerBasic(scene1)) //
                     .renderImage() //
                     .writeToImage(); //
         }
-        @Test
-        public void SimpleCurvedConosInf() {
-            Geometry ele = new CurvedConosInf(new Point(60, -20, 20), 50d).setEmisson(new Color(BLUE).reduce(2)) //
-            .setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300));
-            scene1.geometries.add(ele);
-            scene1.lights.add(new DirectionalLight(spCL, new Vector(1, 1, -0.5)));
-            ImageWriter imageWriter = new ImageWriter("curvedconosinf" , 1500, 1500);
-            camera1.setAngle(0, new Vector(0,0,1)).setWriter(imageWriter) //
-                        .setRayTrace(new RayTracerBasic(scene1)) //
-                        .renderImage() //
-                        .writeToImage(); //
-            }
+    }
         @Test
         public void SimpleSesnaPhoto() {
 

@@ -2,7 +2,6 @@ package renderer;
 
 import java.util.MissingResourceException;
 
-import org.junit.platform.console.shadow.picocli.CommandLine.Help.Ansi.Text;
 
 import primitives.*;
 
@@ -13,19 +12,18 @@ public class Camera {
     private ImageWriter writer ; 
     private RayTracerBase rayTrace ;
 
-    public Camera setAngle(double angle , Vector axsis){
-        this.vUp = vUp.Roatate(angle, axsis).normalize();
-        this.vTo = vTo.Roatate(angle, axsis).normalize();
-        this.vRight = vTo.crossProduct(vUp); // it is normalize cause |x| * |y| * sin(theta ) => theta = 90 sin(90) =1 ,  |x| =1 , |y| = 1 
-        return this; 
-    }
-
-
     public Camera setWriter(ImageWriter writer) {
         this.writer = writer;
         return this;
     }
 
+    public Camera setAngle(double angle, Vector k) {
+       
+       vTo = vTo.Roatate(angle, k).normalize();
+       vUp = vUp.Roatate(angle, k).normalize();
+       vRight = vTo.crossProduct(vUp);
+        return this;
+    }
     public Camera setRayTrace(RayTracerBase rayTrace) {
         this.rayTrace = rayTrace;
         return this;
@@ -105,9 +103,6 @@ public class Camera {
         if (yi != 0){
             Pij = Pij.add(this.vUp.scale(yi));
         } 
-        if(Pij.equals(p0)){
-            return new Ray(this.p0,Pij.subtract(new Point(0,0,0)));
-        }
        return new Ray(this.p0 , Pij.subtract(this.p0));
     }
 
@@ -121,11 +116,11 @@ public class Camera {
         int sum = 0 ; 
         for(int i=0 ; i < writer.getNx() ; i++ ){
             for(int j=0 ; j< writer.getNy() ; j++ ){
-
-                Color color = rayTrace.traceRay(this.constructRay(writer.getNx(), writer.getNy(), j, i),i,j,writer.getNx() ,writer.getNy());
+                Color color = rayTrace.traceRay(this.constructRay(writer.getNx(), writer.getNy(), j, i),i,j,writer.getNx(),writer.getNy());
                 if(color !=null){
                     writer.writePixel(j, i, color);
                 }
+                
             }
         } 
         return this;
@@ -142,7 +137,6 @@ public class Camera {
         }
     }
 
-
     public void writeToImage() {
         writer.writeToImage();
     }
@@ -155,5 +149,3 @@ public class Camera {
 
     
 }
-
-

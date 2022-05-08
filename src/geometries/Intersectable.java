@@ -10,14 +10,29 @@ public abstract class Intersectable {
      * @param ray
      * @return
      */
-    public abstract List<Point> findIntsersections(Ray ray);
 
-    public  List<GeoPoint> findGeoIntersections (Ray ray){
-        return findGeoIntersectionsHelper(ray);
+
+    public final List<Point> findIntsersections(Ray ray) {
+        List<GeoPoint> inter = findGeoIntersections(ray, Double.POSITIVE_INFINITY);
+        return inter == null ? null :  inter.stream().map((x)->x.point).toList();
     }
-    protected abstract List<GeoPoint> findGeoIntersectionsHelper (Ray ray);
+    /**
+     * finds all the intersections
+     */
+    public final List<GeoPoint> findGeoIntersections(Ray ray) {
+        return findGeoIntersections(ray, Double.POSITIVE_INFINITY);
+    }
 
-    public static class GeoPoint {
+    public final List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
+        return findGeoIntersectionsHelper(ray, maxDistance);
+    }
+    
+    protected abstract List<GeoPoint>findGeoIntersectionsHelper(Ray ray, double maxDistance);
+
+
+  
+
+    public static class GeoPoint implements Comparable {
         public final Geometry geometry;
         public final Point point;
         public GeoPoint(Point point , Geometry geometry){
@@ -30,6 +45,13 @@ public abstract class Intersectable {
             return x instanceof GeoPoint 
             && ((GeoPoint)x).geometry.equals(geometry) &&
             ((GeoPoint)x).point.equals(point);
+        }
+        public Double getZ(){
+            return point.getZ() ; 
+        }
+        @Override
+        public int compareTo(Object o) {
+            return (o instanceof GeoPoint ? (point).compareTo(((GeoPoint) o).point) : 0 );
         }
 
     }

@@ -20,7 +20,6 @@ public class Plane extends Geometry {
         this.normal = v1.crossProduct(v2).normalize();
         this.q0 = q1 ;
     }
-    
 
     public Plane(Point q0, Vector normal) { //simple constructor
         this.q0 = q0;
@@ -50,30 +49,10 @@ public class Plane extends Geometry {
         && q0.subtract(((Plane) obj).q0).dotProduct(normal) == 0  ;
     }
 
-    @Override 
-    public List<Point> findIntsersections(Ray ray){
 
-        double nv = this.getNormal().dotProduct(ray.getDir()); 
-        if(Util.isZero(nv)){
-            return  null ; 
-        } 
-        else{
-            if(q0.equals(ray.getP0())){
-                return null;
-            }
-            double nqp =  this.getNormal().dotProduct(this.q0.subtract(ray.getP0()));
-            double t = nqp / nv  ; 
-            if(Util.alignZero(t) > 0 ){
-               return List.of(ray.getPoint(t));   
-            }
-            else{
-                return null ; 
-            }
-        }
-    }
 
     @Override 
-    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double max){
 
         double nv = this.getNormal().dotProduct(ray.getDir()); 
         if(Util.isZero(nv)){
@@ -94,4 +73,3 @@ public class Plane extends Geometry {
 
 
     }
-

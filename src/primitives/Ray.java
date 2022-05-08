@@ -28,6 +28,10 @@ public class Ray {
         this.p0 = p0;
         this.dir = dir.normalize();
     }
+    public Ray(Point p0, Vector dir1 , Vector dir2) { 
+        this.p0 = p0;
+        this.dir = dir1.crossProduct(dir2).normalize();
+    }
 
     @Override
     /**
@@ -53,6 +57,9 @@ public class Ray {
                 '}';
     }
     public Point getPoint(double t){
+        if(Util.isZero(t)){
+            return null ; 
+         }
         return this.p0.add(this.dir.scale(t));
         }
 
@@ -76,6 +83,7 @@ public class Ray {
         }
         return closest;
     }
+
     
 
 }
