@@ -5,6 +5,7 @@ import org.junit.platform.console.shadow.picocli.CommandLine.HelpCommand;
 
 import Models.AirBallon;
 import Models.Sensa;
+import Models.StickMen;
 import Models.TAirBallon;
 import Models.hellicopter;
 import Physics.Physics;
@@ -84,6 +85,26 @@ public class ModelTests {
 				.renderImage() //
 				.writeToImage(); //
 	}
+
+
+    @Test
+	public void SimpleStickMenPhoto() {
+        StickMen men = new StickMen(new Point(0,0, 0), 7);
+		scene1.geometries.add(men);
+        scene1.lights.add(new PointLight(new Point(20, -30, 20),new Color(555,555,0)).setKL(0.001).setKQ(0.0002));
+        scene1.lights.add(new DirectionalLight(spCL, new Vector(1, -4, -0.5)));
+		ImageWriter imageWriter = new ImageWriter("StickMen", 1500, 1500);
+        Camera camera = new Camera(new Point(1000,1000,1000), new Vector(-1,-1,-1), new Vector(-1,1,0))
+			.setVPSize(150, 150) //
+			.setVPDistance(1000);
+		camera.setWriter(imageWriter) //
+				.setRayTrace(new RayTracerBasic(scene1)) //
+				.renderImage() //
+				.writeToImage(); //
+	}
+
+
+
     @Test
 	public void SimpleHeliVideo() {
       
@@ -111,15 +132,15 @@ public class ModelTests {
 	public void SimpleElepsoaide() {
         Camera camera1 = new Camera(new Point(50, -50, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
 			.setVPSize(150, 150) //
-			.setVPDistance(1000).setAngle(30,new Vector(0,0,1));
+			.setVPDistance(1000);
         for( int i =0 ; i < 360 ; i++)  {
     Scene scene1 = new Scene("Test scene");
-        Geometry ele = new Elepsoaide(new Point(60, -20, 20), 25d,50d,25d).rotate(new Vector(0,1,0), i).setEmisson(new Color(BLUE).reduce(2)) //
+        Geometry ele = new Elepsoaide(new Point(60, -20, 20), 25d,50d,25d).rotate(new Vector(0,0,1), i).setEmisson(new Color(BLUE).reduce(2)) //
         .setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300));
         scene1.geometries.add(ele);
         scene1.lights.add(new DirectionalLight(spCL, new Vector(1, 1, -0.5)));
         ImageWriter imageWriter = new ImageWriter("Elepsoaide"+i, 1500, 1500);
-        camera1.setAngle(0, new Vector(0,0,1)).setWriter(imageWriter) //
+        camera1.setWriter(imageWriter) //
                     .setRayTrace(new RayTracerBasic(scene1)) //
                     .renderImage() //
                     .writeToImage(); //

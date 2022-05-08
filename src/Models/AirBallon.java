@@ -50,12 +50,12 @@ public class AirBallon extends Geometries  {
             new Polygon(botfrontRight,botbackLeft,botfrontLeft,botbackRight).setEmisson(red).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300)),
             new Polygon(botbackLeft,botbackRight,topbackRight,topbackLeft).setEmisson(red).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300)),
             new Polygon(botfrontLeft,botfrontRight,topfrontRight,topfrontLeft).setEmisson(red).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300)) ,
+
         } ;  
         
         
 
 
-        this.add(backet);
     }
     
 }

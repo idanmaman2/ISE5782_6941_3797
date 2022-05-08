@@ -21,7 +21,8 @@ public class ImageWriter {
 	private int nX;
 	private int nY;
 
-	private static final String FOLDER_PATH = "/Users/idang/Documents/Repos_clone/ISE5782_6941_3797" + "/images";
+
+	private static final String FOLDER_PATH = "/Users/idang/Desktop/ISE5782_6941_3797/images";
 
 	private BufferedImage image;
 	private String imageName;

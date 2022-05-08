@@ -18,6 +18,9 @@ public class Elepsoaide extends Geometry{
     public double radius1 ; 
 
     public Elepsoaide(Point center, double radius1 , double radius2 ,double radius3 ) {//simple constructor
+        if(radius1 == 0 || radius2 == 0 || radius3 == 0){
+            throw new  IllegalArgumentException("cant enter the radius zero ");
+        }
         this.center = center ;
         this.radius1 = radius1 ; 
         this.center = center;
@@ -27,11 +30,12 @@ public class Elepsoaide extends Geometry{
     
 
     public Elepsoaide rotate(Vector axsis , double angle  ){
+        final  double DELTA = 0.001;
         Vector x = new Vector(radius1,0,0).Roatate(angle, axsis);
         Vector y = new Vector(0,radius2,0).Roatate(angle, axsis); 
         Vector z = new Vector(0,0,radius3).Roatate(angle, axsis);
         Vector total = x.add(z.add(y));
-        return new Elepsoaide(center, total.getX() , total.getY(), total.getZ()) ;
+        return new Elepsoaide(center, total.getX()+DELTA, total.getY()+DELTA, total.getZ()+DELTA) ;
     }
 
 
