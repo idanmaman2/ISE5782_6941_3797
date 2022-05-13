@@ -70,10 +70,12 @@ public class Sphere extends Geometry{
         return arr.isEmpty() ? null : arr;
     }
 
-
     public Point getCenter() {
-        return center;
+        return this.center;
     }
+
+
+
 
 
 

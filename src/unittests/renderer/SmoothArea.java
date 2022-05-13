@@ -51,18 +51,6 @@ private Geometry sphere2 = new Sphere(new Point(0, 0, -5), 10d) //
 				.renderImage() //
 				.writeToImage(); //
 	}
-    @Test
-	public void AfterChanges() {
-        MinGeometries mg = new MinGeometries();
-        mg.add(sphere,sphere2);
-		scene1.geometries.add(mg);
-		scene1.lights.add(new SpotLight( new Vector(1, 1, -0.5), spPL,spCL).setKL(0.001).setKQ(0.0001));
-
-		ImageWriter imageWriter = new ImageWriter("HopefullySmooth", 1500, 1500);
-		camera1.setWriter(imageWriter) //
-				.setRayTrace(new RayTracerBasic(scene1)) //
-				.renderImage() //
-				.writeToImage(); //
-	}
+   
 
 }

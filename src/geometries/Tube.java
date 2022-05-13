@@ -39,7 +39,8 @@ public class Tube extends Geometry{
     public boolean equals(Object obj) {//checks if equals
         return (obj instanceof Tube) && this.axisRay.equals(((Tube) obj).axisRay) &&  this.radius == ((Tube) obj).radius;
     }
-    
+ 
+
     @Override
     public List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double max) {
         Vector dir = ray.getDir();

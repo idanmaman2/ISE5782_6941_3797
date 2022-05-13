@@ -7,41 +7,27 @@ import java.util.List;
 import primitives.*;
 
 /**
- *Spgere
+ *Elepsoaide
  *
  * @author Idan and Eliyahu
  */
 public class Elepsoaide extends Geometry{
     Point center;
-    public double radius2;
-    public double radius3 ; 
-    public double radius1 ; 
+    double radius2;
+    double radius3 ; 
+    double radius1 ; 
 
     public Elepsoaide(Point center, double radius1 , double radius2 ,double radius3 ) {//simple constructor
-        if(radius1 == 0 || radius2 == 0 || radius3 == 0){
-            throw new  IllegalArgumentException("cant enter the radius zero ");
-        }
         this.center = center ;
         this.radius1 = radius1 ; 
         this.center = center;
         this.radius2 = radius2 ; 
         this.radius3 = radius3 ;
     }
-    
 
-    public Elepsoaide rotate(Vector axsis , double angle  ){
-        final  double DELTA = 0.001;
-        Vector x = new Vector(radius1,0,0).Roatate(angle, axsis);
-        Vector y = new Vector(0,radius2,0).Roatate(angle, axsis); 
-        Vector z = new Vector(0,0,radius3).Roatate(angle, axsis);
-        Vector total = x.add(z.add(y));
-        return new Elepsoaide(center, total.getX()+DELTA, total.getY()+DELTA, total.getZ()+DELTA) ;
-    }
-
-
-
-
-
+    /**
+     * the get normal was calculated using the Gradiant of the vector
+     */
     @Override
     public Vector getNormal(Point point) {
         return new Vector(
@@ -52,9 +38,9 @@ public class Elepsoaide extends Geometry{
         //return point.subtract(center).normalize();
     }
 
-
-
-
+    /**
+     * finds all the intersections with the Elepsoaide.
+     */
     @Override 
     public List<GeoPoint> findGeoIntersectionsHelper(Ray rayC,double max){
         Point centerZero = new Point(0,0,0);

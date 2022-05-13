@@ -17,7 +17,15 @@ public class TTriangle extends Triangle implements Textureable {
         super(x1,x2,x3);
         this.tx = tx ; 
 
-    }
+
+     }
+     public  TTriangle(Triangle t1,Texture tx )
+     {
+         
+         super(t1.vertices.get(0),t1.vertices.get(1),t1.vertices.get(2));
+         this.tx = tx ; 
+ 
+     } 
     @Override
 public Color getEmisson(GeoPoint x){
     return tx.getColor(x,super.getEmisson(x)); 
@@ -28,6 +36,6 @@ public Texture.ImageCords TextureEmession(Point pt,int nX,int nY){
     return new Texture.ImageCords(0,0) ;
 }
 public Texture.ImageCords getDims(){
-    return null ;
+    return new Texture.ImageCords(super.vertices.get(0).distance(super.vertices.get(1)),super.vertices.get(0).distance(super.vertices.get(2)))  ;
 }
 }

@@ -11,7 +11,7 @@ import primitives.*;
  * @author Idan and Eliyahu
  */
 public class Geometries extends Intersectable {
-    protected  List<Intersectable> items ; 
+    private List<Intersectable> items ; 
     public Geometries(Intersectable... geometries){
         items =new LinkedList<Intersectable>(List.of(geometries));
     }
@@ -19,7 +19,9 @@ public class Geometries extends Intersectable {
         items.addAll(List.of(geometries));
     }
 
-
+    /**
+     * finds all the intersections
+     */
 
     @Override 
     public List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double max){

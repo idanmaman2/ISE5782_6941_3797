@@ -32,7 +32,7 @@ public abstract class Intersectable {
 
   
 
-    public static class GeoPoint implements Comparable {
+    public static class GeoPoint {
         public final Geometry geometry;
         public final Point point;
         public GeoPoint(Point point , Geometry geometry){
@@ -45,13 +45,6 @@ public abstract class Intersectable {
             return x instanceof GeoPoint 
             && ((GeoPoint)x).geometry.equals(geometry) &&
             ((GeoPoint)x).point.equals(point);
-        }
-        public Double getZ(){
-            return point.getZ() ; 
-        }
-        @Override
-        public int compareTo(Object o) {
-            return (o instanceof GeoPoint ? (point).compareTo(((GeoPoint) o).point) : 0 );
         }
 
     }

@@ -47,12 +47,12 @@ public class Texture {
     }
 
     public Color getColorReapeat(ImageCords cord){
-        int color = image.getRGB(cord.x %nX   ,  cord.y % nY ); 
+        int color = image.getRGB((int)cord.x %nX   ,  (int)cord.y % nY ); 
     Color xc = new Color(new java.awt.Color(color));
     return xc ;  
     }
-    public Color  getColorFill(ImageCords cord,  int px , int py){
-        int color = image.getRGB((cord.x * nX / px ) %nX ,  (cord.y * nY / py)%nY ); 
+    public Color  getColorFill(ImageCords cord,  double px , double py){
+        int color = image.getRGB((int)((cord.x * nX / px ) %nX ), (int)( (cord.y * nY / py)%nY )); 
     Color xc = new Color(new java.awt.Color(color));
     return xc ;  
     }
@@ -70,9 +70,9 @@ public class Texture {
     }
 
    static public class ImageCords{
-       int x; 
-       int y ;
-       public ImageCords(int x , int y){
+       double x; 
+       double y ;
+       public ImageCords(double x , double y){
            this.x  =Math.abs(x) ;
             this.y =Math.abs(y) ;
        }
