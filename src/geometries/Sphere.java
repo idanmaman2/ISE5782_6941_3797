@@ -71,7 +71,7 @@ public class Sphere extends Geometry{
     }
 
     public Point getCenter() {
-        return this.center;
+        return center;
     }
 
 
