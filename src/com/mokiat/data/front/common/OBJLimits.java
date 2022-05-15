@@ -23,7 +23,7 @@ import com.mokiat.data.front.error.WFSizeException;
  * specify parsing limits for OBJ resources.
  * <p>
  * Properly configuring an instance of this class and 
- * passing it to parsers allows one to prevent 
+ * passing it to ObjParsers allows one to prevent 
  * {@link OutOfMemoryError} errors. 
  * 
  * @author Momchil Atanasov

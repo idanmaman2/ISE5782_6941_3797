@@ -35,12 +35,12 @@ import com.mokiat.data.front.scanner.MTLScanner;
  * @author Momchil Atanasov
  *
  */
-class MTLParseRunner implements IMTLScannerHandler {
+class MTLParserunner implements IMTLScannerHandler {
 	
 	private MTLLibrary library;
 	private MTLMaterial currentMaterial;
 	
-	public MTLParseRunner() {
+	public MTLParserunner() {
 		super();
 	}
 	

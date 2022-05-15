@@ -118,6 +118,16 @@ public class Color {
 		return new Color(rgb.scale(k));
 	}
 
+
+    // method to retrn random emission color
+    public static Color getRandomEmission() {
+        return new Color(
+            (int)(Math.random() * 255),
+            (int)(Math.random() * 255),
+            (int)(Math.random() * 255)
+        );
+    }
+
 	/**
 	 * Scale the color by (1 / reduction factor)
 	 * 

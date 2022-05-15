@@ -10,18 +10,18 @@ import com.mokiat.data.front.parser.*;
 import primitives.Vector;
 
 
-public class parser {
-    final IOBJParser parser ;
+public class ObjParser {
+    final IOBJParser ObjParser2 ;
     final OBJModel model ;
     final List<OBJVertex> vert  ; 
-    public parser(String objName) throws FileNotFoundException, IOException{
+    public ObjParser(String objName) throws FileNotFoundException, IOException{
         try (InputStream in = new FileInputStream(objName)) {
-            parser = new OBJParser();
-            model  = parser.parse(in); 
+            ObjParser2 = new OBJParser();
+            model  = ObjParser2.parse(in); 
             vert = model.getVertices() ;
         }
     }
-    public parserModel getFaces (){
+    public ObjParserModel getObjParserModel (){
         List<List<Vector>> lstPackage  = new LinkedList<>(); 
         for (OBJObject object : model.getObjects()) {
             for (OBJMesh mesh : object.getMeshes()) {
@@ -38,7 +38,7 @@ public class parser {
                 }
             }
         }
-        return new parserModel(lstPackage) ;
+        return new ObjParserModel(lstPackage) ;
     }
 
     

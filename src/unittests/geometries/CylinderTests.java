@@ -5,14 +5,6 @@ package unittests.geometries;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
-import java.util.List;
-
-import com.mokiat.data.front.error.WFException;
-import com.mokiat.data.front.parser.*;
 
 import org.junit.jupiter.api.Test;
 

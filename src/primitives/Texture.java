@@ -22,7 +22,7 @@ public class Texture {
     private int nX = 617 ;
 	private int nY = 617 ;
 
-	private static final String FOLDER_PATH = "/Users/idang/Documents/ISE5782_6941_3797" + "/imagesT";
+	private static final String FOLDER_PATH = "/Users/idang/Desktop/ISE5782_6941_3797" + "/imagesT";
 	private BufferedImage image;
 	private Logger logger = Logger.getLogger("ImageWriter");
 
@@ -34,7 +34,7 @@ public class Texture {
             nX = image.getWidth() ; 
             nY = image.getHeight() ;
         } catch (IOException e) {
-            throw new IllegalAccessError("hjsadas");
+            throw new IllegalAccessError("No file with that name");
         }
 
     }

@@ -37,14 +37,14 @@ import com.mokiat.data.front.scanner.OBJScanner;
  * @author Momchil Atanasov
  *
  */
-class OBJParseRunner implements IOBJScannerHandler {
+class OBJObjParserunner implements IOBJScannerHandler {
 	
 	private OBJModel model;
 	private OBJObject currentObject;
 	private OBJMesh currentMesh;
 	private OBJFace currentFace;
 	
-	public OBJParseRunner() {
+	public OBJObjParserunner() {
 		super();
 	}
 	

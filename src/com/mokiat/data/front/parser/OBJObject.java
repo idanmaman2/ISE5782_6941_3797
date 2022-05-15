@@ -76,7 +76,7 @@ public class OBJObject {
      * <p>
      * If <code>null</code> is returned, then this object
      * does not have a name. This is generally an invalid
-     * object, and parsers should never return objects
+     * object, and ObjParsers should never return objects
      * without names. Users should try to follow the same
      * rule.
      * @return object name

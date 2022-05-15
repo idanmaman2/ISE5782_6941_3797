@@ -23,12 +23,12 @@ public class StickMen extends Geometries {
         Cylinder rightHand = new Cylinder(new Ray (center.add(new Vector(-3*raiudsCylinder -radiusSphere ,size * 18 ,0)),new Vector(0,-1,0)) , raiudsCylinder, size * 15 );
         add(mainBody,face,shoulderLeft,shoulderRight,leftHand,rightHand);
         
-        mainBody.setEmisson(getRandomEmission());
-        face.setEmisson(getRandomEmission());
-        shoulderLeft.setEmisson(getRandomEmission());
-        shoulderRight.setEmisson(getRandomEmission());
-        leftHand.setEmisson(getRandomEmission());
-        rightHand.setEmisson(getRandomEmission());
+        mainBody.setEmisson(Color.getRandomEmission());
+        face.setEmisson(Color.getRandomEmission());
+        shoulderLeft.setEmisson(Color.getRandomEmission());
+        shoulderRight.setEmisson(Color.getRandomEmission());
+        leftHand.setEmisson(Color.getRandomEmission());
+        rightHand.setEmisson(Color.getRandomEmission());
 
 
 
@@ -44,26 +44,19 @@ public class StickMen extends Geometries {
 
 
 
-        centerAxis.setEmisson(getRandomEmission());
-        rightHip.setEmisson(getRandomEmission());
-        leftHip.setEmisson(getRandomEmission());
-        rightLegAxis.setEmisson(getRandomEmission());
-        leftLegAxis.setEmisson(getRandomEmission());
-        rightLeg.setEmisson(getRandomEmission());
-        leftLeg.setEmisson(getRandomEmission());
+        centerAxis.setEmisson(Color.getRandomEmission());
+        rightHip.setEmisson(Color.getRandomEmission());
+        leftHip.setEmisson(Color.getRandomEmission());
+        rightLegAxis.setEmisson(Color.getRandomEmission());
+        leftLegAxis.setEmisson(Color.getRandomEmission());
+        rightLeg.setEmisson(Color.getRandomEmission());
+        leftLeg.setEmisson(Color.getRandomEmission());
     }
 
 
 
 
 
-    // method to retrn random emission color
-    Color getRandomEmission() {
-        return new Color(
-            (int)(Math.random() * 255),
-            (int)(Math.random() * 255),
-            (int)(Math.random() * 255)
-        );
-    }
+
 
 }

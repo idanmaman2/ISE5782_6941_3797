@@ -13,6 +13,5 @@ public abstract class RayTracerBase  {
     RayTracerBase(Scene sn){
         this.sn = sn ;
     }
-    public abstract Color traceRay (Ray ray) ;
-
+    abstract  Color traceRay(Ray ray,int i ,int jy,int px , int py ) ;
 }

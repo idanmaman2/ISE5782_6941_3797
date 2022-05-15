@@ -24,7 +24,7 @@ import com.mokiat.data.front.common.OBJLimits;
 import com.mokiat.data.front.error.WFException;
 
 /**
- * The {@link IOBJParser} interface provides methods
+ * The {@link IOBJObjParser} interface provides methods
  * through which users can parse OBJ wavefront 
  * resources.
  * 

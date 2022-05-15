@@ -26,7 +26,7 @@ import com.mokiat.data.front.common.OBJLimits;
 import com.mokiat.data.front.error.WFException;
 
 /**
- * Default implementation of the {@link IOBJParser}
+ * Default implementation of the {@link IOBJObjParser}
  * interface.
  * 
  * @author Momchil Atanasov
@@ -37,7 +37,7 @@ public class OBJParser implements IOBJParser {
 	private OBJLimits limits;
 	
 	/**
-	 * Creates a new instance of {@link OBJParser}.
+	 * Creates a new instance of {@link OBJObjParser}.
 	 */
 	public OBJParser() {
 		super();
@@ -61,7 +61,7 @@ public class OBJParser implements IOBJParser {
 
 	@Override
 	public OBJModel parse(BufferedReader reader) throws WFException, IOException {
-		final OBJParseRunner runner = new OBJParseRunner();
+		final OBJObjParserunner runner = new OBJObjParserunner();
 		return runner.run(reader, getLimits());
 	}
 

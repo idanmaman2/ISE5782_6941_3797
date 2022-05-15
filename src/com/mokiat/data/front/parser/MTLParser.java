@@ -26,7 +26,7 @@ import com.mokiat.data.front.common.MTLLimits;
 import com.mokiat.data.front.error.WFException;
 
 /**
- * Default implementation of the {@link IMTLParser}
+ * Default implementation of the {@link IMTLObjParser}
  * interface.
  * 
  * @author Momchil Atanasov
@@ -37,7 +37,7 @@ public class MTLParser implements IMTLParser {
 	private MTLLimits limits;
 	
 	/**
-	 * Creates a new {@link MTLParser} instance.
+	 * Creates a new {@link MTLObjParser} instance.
 	 */
 	public MTLParser() {
 		super();
@@ -61,7 +61,7 @@ public class MTLParser implements IMTLParser {
 
 	@Override
 	public MTLLibrary parse(BufferedReader reader) throws WFException, IOException {
-		final MTLParseRunner runner = new MTLParseRunner();
+		final MTLParserunner runner = new MTLParserunner();
 		return runner.run(reader, getLimits());
 	}
 

@@ -17,9 +17,10 @@ public class RayTracerBasic extends RayTracerBase {
     private static final double MIN_CALC_COLOR_K = 0.001;
     private static final Double3 INITIAL_K = new Double3(1.0);
     private static final double EPS = 0.1;
-
+    int i =0, jy=0 , px=0 ,  py=0;
     public RayTracerBasic (Scene scene) {
         super(scene);
+ 
     }
 
     /**
@@ -81,9 +82,13 @@ public class RayTracerBasic extends RayTracerBase {
     /**
      *Trace the ray
      */
-    public Color traceRay(Ray ray) {
+    public Color traceRay(Ray ray,int i ,int jy,int px , int py ) {
+        this.i= i ; 
+        this.jy=jy;
+        this.px=px ;
+        this.py=py ;
         GeoPoint closestPoint = findClosestIntersection(ray);
-        return closestPoint == null ? sn.bg : calcColor(closestPoint, ray);
+        return closestPoint == null ? sn.getBg(i, jy, px, py) : calcColor(closestPoint, ray);
     }
     /**
      *what color ray, calcColor
@@ -112,7 +117,7 @@ public class RayTracerBasic extends RayTracerBase {
      */
     private Color calcGlobalEffect(Ray ray, int level, Double3 kx, Double3 kkx) {
         GeoPoint gp = findClosestIntersection(ray);
-        return (gp == null ? sn.bg : calcColor(gp, ray, level-1, kkx)).scale(kx);
+        return (gp == null ? sn.getBg(i, jy, px, py) : calcColor(gp, ray, level-1, kkx)).scale(kx);
     }
     /**
      *Again, Calculate the Colors on the Ray
@@ -160,4 +165,5 @@ public class RayTracerBasic extends RayTracerBase {
         }
         return ktr;
     }
+    
 }

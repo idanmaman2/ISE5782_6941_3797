@@ -24,7 +24,7 @@ import com.mokiat.data.front.common.MTLLimits;
 import com.mokiat.data.front.error.WFException;
 
 /**
- * The {@link IMTLParser} interface provides methods
+ * The {@link IMTLparser} interface provides methods
  * through which users can parse MTL wavefront
  * resources.
  * 
