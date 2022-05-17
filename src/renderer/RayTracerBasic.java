@@ -33,9 +33,7 @@ public class RayTracerBasic extends RayTracerBase {
         double nv = alignZero(n.dotProduct(v));
         if (nv == 0)
             return Color.BLACK;
-        /**
-         *Material type according to geometrys
-         */
+
         Material material = intersection.geometry.getMaterial();
         int nShininess = material.getnShininess();
         Double3 kd = material.getKd(), ks = material.getKs();
@@ -44,14 +42,15 @@ public class RayTracerBasic extends RayTracerBase {
             Vector l = lightSource.getL(intersection.point);
             double nl = alignZero(n.dotProduct(l));
             if (nl * nv > 0) { // sign(nl) == sing(nv)
-                if (unshaded(lightSource, l, n, intersection)) {
-                    Color lightIntensity = lightSource.getIntensity(intersection.point);
+                Double3 ktr = transparency(intersection, lightSource, l, n);
+                if (!(ktr.product(k).lowerThan(MIN_CALC_COLOR_K))) {
+                    Color lightIntensity = lightSource.getIntensity(intersection.point).scale(ktr);
                     color = color.add(calcDiffusive(kd, l, n, lightIntensity),
                             calcSpecular(ks, l, n, v, nShininess, lightIntensity));
                 }
             } 
         }
-        return color; //return a simple color
+        return color;
     }
     /**
      *Calculate the specular
@@ -134,13 +133,13 @@ public class RayTracerBasic extends RayTracerBase {
      */
     private Ray constructReflectedRay(Point p, Vector v, Vector n) {
         Vector r = v.subtract(n.scale(2 * v.dotProduct(n)));
-        return new Ray(p, r);
+        return new Ray(p, r,n);
     }
     /**
      *build to construct Reflected Ray
      */
     private Ray constructRefractedRay(Point p, Vector v, Vector n) {
-        return new Ray(p, v);
+        return new Ray(p, v,n);
     }
     /**
      *transparency, how transparent and if it is what texture
@@ -149,14 +148,11 @@ public class RayTracerBasic extends RayTracerBase {
         Vector lightDirection = l.scale(-1); // from point to light source
         Ray lightRay = new Ray(geoPoint.point, lightDirection, n);
         double lightDistance = ls.distanceSquared(geoPoint.point);
-        var intersections = sn.geometries.findGeoIntersections(lightRay);
+        var intersections = sn.geometries.findGeoIntersections(lightRay,lightDistance);
         if (intersections == null) return new Double3(1.0);
         Double3 ktr = new Double3(1.0);
         for (GeoPoint gp : intersections) {
-            if (alignZero(gp.point.distanceSquared(geoPoint.point) - lightDistance) <= 0) {
                 ktr = ktr.product(gp.geometry.getMaterial().kT);
-                if (ktr.lowerThan(MIN_CALC_COLOR_K)) return new Double3(0.0);
-            }
         }
         return ktr;
     }
