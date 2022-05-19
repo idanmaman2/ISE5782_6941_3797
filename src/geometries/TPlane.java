@@ -31,7 +31,11 @@ public Color getEmisson(GeoPoint x){
 
 public Texture.ImageCords TextureEmession(Point pt,int nX,int nY){
  try{
+     
             Vector normal =new Vector(0,1,0);
+            if(getNormal().dotProduct(normal) == 0 ){
+                normal = new Vector(0,0,1);
+            }
             Vector v =pt.subtract(q0);
             Vector pro =v.projection(normal);
             if( pro == null || v.equals(pro)) {

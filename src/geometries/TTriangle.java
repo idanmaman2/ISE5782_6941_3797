@@ -36,6 +36,6 @@ public Texture.ImageCords TextureEmession(Point pt,int nX,int nY){
     return new Texture.ImageCords(0,0) ;
 }
 public Texture.ImageCords getDims(){
-    return new Texture.ImageCords(super.vertices.get(0).distance(super.vertices.get(1)),super.vertices.get(0).distance(super.vertices.get(2)))  ;
+    return new Texture.ImageCords(getS(),getS())  ;
 }
 }

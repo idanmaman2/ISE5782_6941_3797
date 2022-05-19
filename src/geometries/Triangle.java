@@ -67,6 +67,14 @@ try{
     } 
 
     } 
+    public double getS(){
+        Point A = this.vertices.get(0); 
+        Point B = this.vertices.get(1); 
+        Point C = this.vertices.get(2);   
+        Vector CA = C.subtract(A);
+        Vector BA = B.subtract(A);
+        return CA.crossProduct(BA).lengthSquared();
+    }
 
     
 }

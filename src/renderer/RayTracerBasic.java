@@ -40,7 +40,7 @@ public class RayTracerBasic extends RayTracerBase {
         Material material = intersection.geometry.getMaterial();
         int nShininess = material.getnShininess();
         Double3 kd = material.getKd(), ks = material.getKs();
-        Color color = intersection.geometry.getEmisson(null);
+        Color color = intersection.geometry.getEmisson(intersection);
         for (LightSource lightSource : sn.lights) {
             Vector l = lightSource.getL(intersection.point);
             double nl = alignZero(n.dotProduct(l));

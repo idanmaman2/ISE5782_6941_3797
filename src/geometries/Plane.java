@@ -61,8 +61,8 @@ public class Plane extends Geometry {
             return  null ; 
         } 
         else{
-            double nqp =  this.getNormal().dotProduct(this.q0.subtract(ray.getP0()));
-            double t = nqp / nv  ; 
+            double nqp =  Util.alignZero(this.getNormal().dotProduct(this.q0.subtract(ray.getP0())));
+            double t =nqp / nv  ; 
             if(Util.alignZero(t) > 0 ){
                return List.of(new Intersectable.GeoPoint( ray.getPoint(t), this));   
             }
