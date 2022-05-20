@@ -60,7 +60,10 @@ public class TextureTests {
 		.setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300)));
 		scene2.lights.add(new SpotLight(trDL,trPL,trCL).setKL(0.001).setKQ(0.0001));
 
-		ImageWriter imageWriter = new ImageWriter("WoodTexture", 1000, 1000);
+		scene2.geometries.add(new TSphere(new Point(50,0,-300), 30, tx2));
+		scene2.geometries.add(new TSphere(new Point(10,20,-300), 60, tx2));
+		scene2.geometries.add(new TSphere(new Point(80,-20,-300), 30, tx2));
+		ImageWriter imageWriter = new ImageWriter("WoodTexture", 1500, 1500);
 		camera2.setWriter(imageWriter) //
 				.setRayTrace(new RayTracerBasic(scene2)) //
 				.renderImage() //
