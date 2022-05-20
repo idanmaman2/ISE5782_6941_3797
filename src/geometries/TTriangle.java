@@ -11,6 +11,8 @@ import primitives.*;
  */
 public class TTriangle extends Triangle implements Textureable {
     Texture tx ;
+    double scaleFactor = 100 ; 
+    TPlane TexturePlane = new TPlane(this.plane,tx);
    public  TTriangle(Point x1, Point x2, Point x3,Texture tx)
     {
         
@@ -33,9 +35,14 @@ public Color getEmisson(GeoPoint x){
     
   
 public Texture.ImageCords TextureEmession(Point pt,int nX,int nY){
-    return new Texture.ImageCords(0,0) ;
+    return TexturePlane.TextureEmession(pt, nX, nY);
 }
 public Texture.ImageCords getDims(){
-    return new Texture.ImageCords(getS(),getS())  ;
+    Point A = this.vertices.get(0); 
+    Point B = this.vertices.get(1); 
+    Point C = this.vertices.get(2);   
+    Vector CA = C.subtract(A);
+    Vector BA = B.subtract(A);
+    return new Texture.ImageCords(CA.length(),BA.length())  ;
 }
 }

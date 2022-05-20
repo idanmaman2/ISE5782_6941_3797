@@ -32,7 +32,15 @@ public class Ray {
         this.p0 = p0;
         this.dir = dir1.crossProduct(dir2).normalize();
     }
+    public List<Ray> createSpiralBeam(int interval ){
+        for(int t =0 ; t<360 ; t+=interval){
 
+        }
+
+        return null ; 
+
+
+    }
     @Override
     /**
     *

@@ -2,6 +2,7 @@ package unittests.renderer;
 
 import org.junit.jupiter.api.Test;
 
+import OBJParser.ObjParser;
 import lightning.AmbientLight;
 import lightning.SpotLight;
 import geometries.*;
@@ -9,6 +10,9 @@ import primitives.*;
 import renderer.*;
 import Scene.Scene;
 import static java.awt.Color.*;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * Test rendering a basic image
@@ -25,9 +29,9 @@ public class TextureTests {
 	private Camera camera2 = new Camera(new Point(0, 0, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
 			.setVPSize(200, 200) //
 			.setVPDistance(1000);
-
+			Texture tx3 = new Texture("tx2.jpeg");
 	private Point[] p = { // The Triangles' vertices:
-			new Point(-110, -110, -150), // the shared left-bottom
+			new Point(-500, -110, -150), // the shared left-bottom
 			new Point(80, 100, -150), // the shared right-top
 			new Point(110, -110, -150), // the right-bottom
 			new Point(-75, 85, 0) }; // the left-top
@@ -37,23 +41,26 @@ public class TextureTests {
 	private Color spCL = new Color(800, 500, 0); // Sphere test Color of Light
 	private Vector trDL = new Vector(-2, -2, -2); // Triangles test Direction of Light
 	private Material material = new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300);
-	private Geometry triangle1 = new Triangle(p[0], p[1], p[2]).setMaterial(material);
+	private Geometry triangle1 = new TTriangle(p[0], p[1], p[2],tx3).setMaterial(material);
 	private Geometry triangle2 = new Triangle(p[0], p[1], p[3]).setMaterial(material);
 	private Geometry sphere = new Sphere(new Point(0, 0, -50), 50d) //
 			.setEmisson(new Color(BLUE).reduce(2)) //
 			.setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300));
 
     @Test
-	public void basicTexturedPlane() {
-		Texture tx = new Texture("wood.jpg");
+	public void basicTexturedPlane() throws FileNotFoundException, IOException {
+	
+		Texture tx = new Texture("wood.jpeg");
 		Texture tx2 = new Texture("tx3.jpeg");
-		scene2.geometries.add(new TPlane(new Point(800,-100,-2500),new Vector(0,1,0),tx).setEmisson(new Color(BLUE).reduce(2)) //
+		ObjParser modelObjParser = new ObjParser("/Users/idang/Downloads/model-3.obj") ;
+		scene2.geometries.add(modelObjParser.getObjParserModel().scale(90).rotate(-30,new Vector(0,1,0)).changeStartingPoint(new Point(0,-150,0)).getTexturedTriangles(new Double3(0.9),new Double3(0.5), new Double3(0.5), new Double3(0.3),tx3, 300));
+		scene2.geometries.add(new TPlane(new Point(800,-100,-2500),new Vector(0,1,0),tx).SetAngle(30).setEmisson(new Color(BLUE).reduce(2)) //
 		.setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300)));
 		scene2.geometries.add(new TPlane(new Point(800,-100,-25000),new Vector(0,0,1),tx2).setEmisson(new Color(BLUE).reduce(2)) //
 		.setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300)));
 		scene2.lights.add(new SpotLight(trDL,trPL,trCL).setKL(0.001).setKQ(0.0001));
 
-		ImageWriter imageWriter = new ImageWriter("WoodTexture", 1500, 1500);
+		ImageWriter imageWriter = new ImageWriter("WoodTexture", 1000, 1000);
 		camera2.setWriter(imageWriter) //
 				.setRayTrace(new RayTracerBasic(scene2)) //
 				.renderImage() //

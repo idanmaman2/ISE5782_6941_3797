@@ -52,7 +52,7 @@ public class Texture {
     return xc ;  
     }
     public Color  getColorFill(ImageCords cord,  double px , double py){
-        int color = image.getRGB((int)((cord.x / (nX*nY) *  px ) %nX ), (int)( (cord.y / (nX*nY) * py)%nY )); 
+        int color = image.getRGB((int)((cord.x *(nX) / px ) %nX ), (int)( (cord.y * (nY) / py)%nY )); 
     Color xc = new Color(new java.awt.Color(color));
     return xc ;  
     }

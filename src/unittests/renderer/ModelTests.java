@@ -218,7 +218,7 @@ public void TestObjParser() throws WFException, IOException {
     scene1.lights.add(new PointLight(new Point(20, -30, 20),new Color(555,555,0)).setKL(0.001).setKQ(0.0002));
     scene1.lights.add(new DirectionalLight(spCL, new Vector(1, -4, -0.5)));
     scene1.lights.add(new DirectionalLight(spCL, new Vector(1, 1, -0.5)));
-    ImageWriter imageWriter = new ImageWriter("AK-47", 1000, 1000);
+    ImageWriter imageWriter = new ImageWriter("AK-47", 100, 100);
     ObjParser modelObjParser = new ObjParser("/Users/idang/Downloads/model-3.obj") ;
     scene1.geometries.add(modelObjParser.getObjParserModel().scale(160).rotate(-30,new Vector(0,1,0)).changeStartingPoint(new Point(0,-350,0)).getRandomColoredTriangles(new Double3(0.5), new Double3(0.5), new Double3(0.3),new Double3(0.9), 300));
     scene1.geometries.add(new Plane(new Point(110,-110,0),new Vector(0,1,0)).setEmisson(new Color(GRAY)) //
