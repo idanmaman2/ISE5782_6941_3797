@@ -1,6 +1,9 @@
 package renderer;
 
 import primitives.Color;
+import primitives.Texture.ImageCords;
+
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -74,6 +77,26 @@ public class ImageWriter {
 			File file = new File(FOLDER_PATH + '/' + imageName + ".png");
 			ImageIO.write(image, "png", file);
 		} catch (IOException e) {
+			logger.log(Level.SEVERE, "I/O error", e);
+			throw new IllegalStateException("I/O error - may be missing directory " + FOLDER_PATH, e);
+		}
+	}
+	public void writeToImage(String text , ImageCords cords ) {
+		try {
+			File file = new File(FOLDER_PATH + '/' + imageName + ".png");
+			//get the Graphics object
+			Graphics g = image.getGraphics();
+			//set font
+			g.setFont(g.getFont().deriveFont(25f));
+			g.drawString(text, cords.getX(),cords.getY());
+			g.dispose();
+			//write the image
+			
+			ImageIO.write(image, "png", file);
+
+		}
+		
+		catch (IOException e) {
 			logger.log(Level.SEVERE, "I/O error", e);
 			throw new IllegalStateException("I/O error - may be missing directory " + FOLDER_PATH, e);
 		}

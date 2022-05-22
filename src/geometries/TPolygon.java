@@ -11,10 +11,12 @@ import primitives.*;
  */
 public class TPolygon extends Polygon implements Textureable {
     Texture tx ;
+    TPlane TexturePlane;
    public  TPolygon(Texture tx , Point... vertices )
     {
         super(vertices);
         this.tx = tx ; 
+        TexturePlane = new TPlane(this.plane,tx);
     }
     @Override
 public Color getEmisson(GeoPoint x){
@@ -43,7 +45,7 @@ return new Texture.ImageCords(x,y);
 
 }
 catch(Exception e){
-    return new Texture.ImageCords(0, 0);
+    return TexturePlane.TextureEmession(pt, nX, nY);
 }
 }
 

@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 
 import OBJParser.ObjParser;
 import lightning.AmbientLight;
+import lightning.LightSource;
+import lightning.PointLight;
 import lightning.SpotLight;
 import geometries.*;
 import primitives.*;
@@ -13,6 +15,7 @@ import static java.awt.Color.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Test rendering a basic image
@@ -26,7 +29,7 @@ public class TextureTests {
 	private Camera camera1 = new Camera(new Point(0, 0, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
 			.setVPSize(150, 150) //
 			.setVPDistance(1000);
-	private Camera camera2 = new Camera(new Point(0, 0, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
+	private Camera camera2 = new Camera(new Point(0, 0, 10000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
 			.setVPSize(200, 200) //
 			.setVPDistance(1000);
 			Texture tx3 = new Texture("tx2.jpeg");
@@ -35,14 +38,14 @@ public class TextureTests {
 			new Point(80, 100, -150), // the shared right-top
 			new Point(110, -110, -150), // the right-bottom
 			new Point(-75, 85, 0) }; // the left-top
-	private Point trPL = new Point(50, 30, -100); // Triangles test Position of Light
+	private Point trPL = new Point(50, 30, -100); // Triangles test Position of Li[](../../../images/WoodTexture.png)ght
 	private Point spPL = new Point(-50, -50, 25); // Sphere test Position of Light
 	private Color trCL = new Color(800, 500, 250); // Triangles test Color of Light
 	private Color spCL = new Color(800, 500, 0); // Sphere test Color of Light
 	private Vector trDL = new Vector(-2, -2, -2); // Triangles test Direction of Light
 	private Material material = new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300);
 	private Geometry triangle1 = new TTriangle(p[0], p[1], p[2],tx3).setMaterial(material);
-	private Geometry triangle2 = new Triangle(p[0], p[1], p[3]).setMaterial(material);
+	private Geometry triangle2 = new TTriangle(p[0], p[1], p[3],tx3).setMaterial(material);
 	private Geometry sphere = new Sphere(new Point(0, 0, -50), 50d) //
 			.setEmisson(new Color(BLUE).reduce(2)) //
 			.setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300));
@@ -52,18 +55,32 @@ public class TextureTests {
 	
 		Texture tx = new Texture("wood.jpeg");
 		Texture tx2 = new Texture("tx3.jpeg");
-		ObjParser modelObjParser = new ObjParser("/Users/idang/Downloads/model-3.obj") ;
-		scene2.geometries.add(modelObjParser.getObjParserModel().scale(90).rotate(-30,new Vector(0,1,0)).changeStartingPoint(new Point(0,-150,0)).getTexturedTriangles(new Double3(0.9),new Double3(0.5), new Double3(0.5), new Double3(0.3),tx3, 300));
 		scene2.geometries.add(new TPlane(new Point(800,-100,-2500),new Vector(0,1,0),tx).SetAngle(30).setEmisson(new Color(BLUE).reduce(2)) //
-		.setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300)));
-		scene2.geometries.add(new TPlane(new Point(800,-100,-25000),new Vector(0,0,1),tx2).setEmisson(new Color(BLUE).reduce(2)) //
-		.setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300)));
-		scene2.lights.add(new SpotLight(trDL,trPL,trCL).setKL(0.001).setKQ(0.0001));
+		.setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300).setKR(new Double3(0.07)).setKT(new Double3(0.0015))));
+		scene2.geometries.add(new TPlane(new Point(800,-100,-25000),new Vector(0,0,1),tx2).setEmisson(new Color(BLUE).reduce(2)));
+		scene2.geometries.add(new TSphere(new Point(500,200,5000), 100, tx2).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300).setKR(new Double3(0.015)).setKT(new Double3(0.25))));
+		scene2.geometries.add(new TSphere(new Point(-100,200,5000), 300, tx2).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300).setKR(new Double3(0.015)).setKT(new Double3(0.25))));
+		scene2.geometries.add(new TSphere(new Point(300,200,5000), 100, tx2).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300).setKR(new Double3(0.015)).setKT(new Double3(0.25))));
+		List<LightSource> x = List.of(new PointLight(spPL,spCL).setKL(0.001).setKQ(0.0002),
+		new PointLight(spPL.add(new Vector(300,200,5050)),new Color(255,0,255)).setKL(0.001).setKQ(0.0002), 
+		new PointLight(spPL.add(new Vector(300,200,5050)),new Color(255,255,0)).setKL(0.001).setKQ(0.0002),
+		new PointLight(spPL.add(new Vector(300,200,5050)),new Color(255,255,255)).setKL(0.001).setKQ(0.0002),
+		new SpotLight( new Vector(1, 1, -0.5), spPL.add(new Vector(86,0,100)),new Color(255,655,255)).setKL(0.001).setKQ(0.0001), 
+		new SpotLight( new Vector(1, 1, -0.5), spPL.add(new Vector(86,100,0)),new Color(0,655,255)).setKL(0.001).setKQ(0.0001), 
+		new SpotLight( new Vector(1, 1, -0.5), spPL.add(new Vector(86,100,100)),new Color(1255,655,255)).setKL(0.001).setKQ(0.0001), 
+		new SpotLight( new Vector(1, 1, -0.5), spPL.add(new Vector(86,120,10)),new Color(10000,655,255)).setKL(0.001).setKQ(0.0001)); 
+		{
+			Point pt = new Point(-100,-100,8000);
+			for(int t=0 ;t<500 ; t++){
+				Point ptTmp = pt.add(new Vector(50*Math.cos(Math.toRadians(t)),t/2,50*Math.sin(Math.toRadians(t))));
+				scene2.geometries.add(new TSphere(ptTmp, 4, tx2).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300).setKR(new Double3(0.015)).setKT(new Double3(0.25))));
+			}
+		} 
+		
+		
 
-		scene2.geometries.add(new TSphere(new Point(50,0,-300), 30, tx2));
-		scene2.geometries.add(new TSphere(new Point(10,20,-300), 60, tx2));
-		scene2.geometries.add(new TSphere(new Point(80,-20,-300), 30, tx2));
-		ImageWriter imageWriter = new ImageWriter("WoodTexture", 1500, 1500);
+		ImageWriter imageWriter = new ImageWriter("WoodTexture", 1500, 1500);	
+		scene1.lights.addAll(x);
 		camera2.setWriter(imageWriter) //
 				.setRayTrace(new RayTracerBasic(scene2)) //
 				.renderImage() //

@@ -7,7 +7,7 @@ package primitives;
  */
 public abstract class Util {
 	// It is binary, equivalent to ~1/1,000,000,000,000 in decimal (12 digits)
-	private static final int ACCURACY = -30;
+	private static final int ACCURACY = -25;
 
 	/**
 	 * Empty private constructor to hide the public one
@@ -68,5 +68,19 @@ public abstract class Util {
 	public static double random(double min, double max) {
 		return Math.random() * (max - min) + min;
 	}
+	public static Point randomInEllpiseArea(double radius1,double radius2,  Point  center , Vector vUP , Vector vRight) {
+		// parmetric equation of ellipse : (r1 * cos(a) , r2 *sin(a) ) -> 0<= a < 2pi 
+		Point res =center ; 
+		double x = radius1 * Math.random() * Math.cos(2 * Math.PI * Math.random());
+		if(!Util.isZero(x) ){
+			res = res.add(vRight.scale(x)); 
+		}
+		double y = radius2 * Math.random() * Math.sin(2 * Math.PI * Math.random());
+		if(!Util.isZero(y)){
+			res = res.add(vUP.scale(y));
+		}
+		return res;
+	}
+
 
 }

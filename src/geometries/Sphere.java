@@ -54,12 +54,18 @@ public class Sphere extends Geometry{
         }
         Point pt1 = null ;
         Point pt2 = null ; 
-        if(!Util.isZero(t1)){
+        try { 
+          if(t1 > 0  ){
            pt1 = rayC.getPoint(t1);
         }
-        if(!Util.isZero(t2)){
-            pt2 = rayC.getPoint(t2);
+        } 
+        catch(Exception e){
         }
+        try {
+            if(t2 > 0 ){
+                pt2 = rayC.getPoint(t2);
+            }
+        }catch(Exception e){}
         LinkedList<GeoPoint> arr = new LinkedList<>(); 
         if(pt1 != null  && t1 > 0 && Util.alignZero(pt1.distanceSquared(rayC.getP0()) - max * max) <= 0 ){
             arr.add(new Intersectable.GeoPoint(rayC.getPoint(t1),this));

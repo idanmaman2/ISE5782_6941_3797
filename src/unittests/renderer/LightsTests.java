@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import lightning.*;
 import geometries.*;
 import primitives.*;
+import primitives.Texture.ImageCords;
 import renderer.*;
 import Scene.Scene;
 import static java.awt.Color.*;
@@ -102,14 +103,18 @@ public class LightsTests {
 	 */
 	@Test
 	public void sphereSpot() {
-		scene1.geometries.add(sphere);
-		scene1.lights.add(new SpotLight( new Vector(1, 1, -0.5), spPL,spCL).setKL(0.001).setKQ(0.0001));
+		for(int i=1 ;i<61;i++){
+			scene1.geometries.add(sphere);
+			scene1.lights.add(new SpotLight( new Vector(1, 1, -0.5), spPL,spCL).setKL(0.001).setKQ(0.0001));
+			ImageWriter imageWriter = new ImageWriter("lightSphereSpotTest"+i, 1000, 1000);
+			camera1.setFocalLength(100*i ).setFocalSize( 0.001);
+			camera1.setWriter(imageWriter) //
+					.setRayTrace(new RayTracerBasic(scene1)) //
+					.depthRenderImage() .writeToImage(String.format("Focal Length : %d , apt size : 0.001 ", 100*i), new ImageCords(50, 50)); 
 
-		ImageWriter imageWriter = new ImageWriter("lightSphereSpot", 1500, 1500);
-		camera1.setWriter(imageWriter) //
-				.setRayTrace(new RayTracerBasic(scene1)) //
-				.renderImage() //
-				.writeToImage(); //
+		}
+
+	
 	}
 
 	/**

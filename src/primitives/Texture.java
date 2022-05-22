@@ -76,6 +76,12 @@ public class Texture {
            this.x  =Util.alignZero(Math.abs(x)) ;
             this.y =Util.alignZero(Math.abs(y)) ; ;
        }
+       public int getX(){
+           return (int)x ; 
+       }
+       public int getY(){
+           return (int)y; 
+       }
    }
     
     

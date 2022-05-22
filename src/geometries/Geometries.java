@@ -11,7 +11,7 @@ import primitives.*;
  * @author Idan and Eliyahu
  */
 public class Geometries extends Intersectable {
-    private List<Intersectable> items ; 
+    protected List<Intersectable> items ; 
     public Geometries(Intersectable... geometries){
         items =new LinkedList<Intersectable>(List.of(geometries));
     }
