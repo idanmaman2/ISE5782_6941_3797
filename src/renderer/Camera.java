@@ -139,9 +139,6 @@ public class Camera {
 
 
 
-
-
-
     /**
      *Build to construct the Ray
      */
@@ -161,7 +158,11 @@ public class Camera {
        return new Ray(this.p0 , Pij.subtract(this.p0));
     }
 
-
+    /**
+     *construct and define the rays that are sent to the camera
+     * goes the the "lens", and all others gets thrown away
+     * according to the x and y variables of the construct
+     */
 
     public List<Ray> constructRays(int nX, int nY, int j, int i){
         List<Ray> crt = new LinkedList<>() ; 
@@ -206,10 +207,6 @@ public class Camera {
         return crt;
      }
 
-
-
-
-
     /**
      *Camera Renderer Image
      */
@@ -238,16 +235,11 @@ public class Camera {
         return this;
     }
 
-
-
-
+    /**
+     *depthRenderImage return for camera
+     * find and configures an image that should have depth of field, according to camera what should be in focus and what should be blured
+     */
     public Camera depthRenderImage() {
-
-
-
-
-
-
         if(this.rayTrace == null || 
         this.writer == null || 
         this.height == 0 || this.width == 0 || this.length == 0 || 
@@ -255,39 +247,40 @@ public class Camera {
             throw new MissingResourceException("enter all the values","Camera","i am not your slave");
         }
         int sum = 0 ; 
+        DepthCalc(this.writer);
+        return this;
+    }
+
+    /**
+     * depth calculator; in other words finds the rays that need to be in focus
+     * @param writer
+     * @return
+     */
+    public Camera DepthCalc (ImageWriter writer)
+    {
         for(int i=0 ; i < writer.getNx() ; i++ ){
             for(int j=0 ; j< writer.getNy() ; j++ ){
                 List<Ray> rays = constructRays(writer.getNx(), writer.getNy(), j, i);
                 List <Ray> raysNew =new  LinkedList<>();
                 for(Ray ray :rays){
                     Point P = p0.add(ray.getDir().scale(focalLength));
-                    Vector  randomFactor = new Vector(Util.random(-0.5, 0.5),Util.random(-0.5, 0.5),Util.random(-0.5, 0.5)).scale(focalSize);  
+                    Vector  randomFactor = new Vector(Util.random(-0.5, 0.5),Util.random(-0.5, 0.5),Util.random(-0.5, 0.5)).scale(focalSize);
                     Point rO = ray.getP0().add(randomFactor);
                     ray  = new Ray(rO, P.subtract(rO));
                     raysNew.add(ray);
                 }
-                final int i1 = i ; 
-                final int j1 = j ; 
+                final int i1 = i ;
+                final int j1 = j ;
                 Color  color = raysNew.stream().map((element)->rayTrace.traceRay(element,i1,j1,writer.getNx(),writer.getNy())).reduce(Color.BLACK , (x,y)->x.add(y)).scale(1.0d/rays.size());
                 //Color color = rayTrace.traceRay(ray,i,j,writer.getNx(),writer.getNy());
                 if(color !=null){
                     writer.writePixel(j, i, color);
                 }
-                
+
             }
-        } 
-        return this;
+        }
+        return null;
     }
-
-
-
-
-
-
-
-
-
-
     /**
      *Grid for the light, to know where it was hit
      */
@@ -312,10 +305,6 @@ public class Camera {
     }
 
     //TO DO -> CHNAGE DIR AND ANGLE OF CAMERA METHODS 
-
-  
-
-    
 
     
 }
