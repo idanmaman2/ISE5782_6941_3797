@@ -215,11 +215,6 @@ public class Camera {
      */
     public Camera renderImage() {
 
-
-
-
-
-
         if(this.rayTrace == null || 
         this.writer == null || 
         this.height == 0 || this.width == 0 || this.length == 0 || 
