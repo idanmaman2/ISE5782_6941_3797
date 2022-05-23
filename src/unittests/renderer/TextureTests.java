@@ -23,7 +23,11 @@ import java.util.List;
 /**
  * Test rendering a basic image
  * 
- * @author Dan
+ * @author Idan and Elliot
+ */
+
+/**
+ * basis of different textures of solid, light changes by the texture
  */
 public class TextureTests {
 	private Scene scene1 = new Scene("Test scene");
@@ -53,6 +57,11 @@ public class TextureTests {
 			.setEmisson(new Color(BLUE).reduce(2)) //
 			.setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300));
 
+
+	/**
+	 * basic plane texture
+	 * wood, tx3 and others
+	 */
     @Test
 	public void basicTexturedPlane() throws FileNotFoundException, IOException {
 	
