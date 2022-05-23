@@ -41,6 +41,11 @@ public ImageCords imaingnaion(Point pt  ){
     // straight scale 
     // dedo all what we did 
     // return the image cords 
+    
+
+
+
+
     return null ; 
 
 
