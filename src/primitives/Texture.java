@@ -68,10 +68,25 @@ public class Texture {
        
 
     }
+    public static class ImageVector extends ImageCords{
 
+        public ImageVector(double x , double y){
+            super(x,y);
+        }
+        public double lengthSquared(){
+            return x*x + y*y ; 
+        }
+        public double length(){
+            return Math.sqrt(lengthSquared());
+        }
+        public double dotProduct(ImageVector vCord){
+            return vCord.x * x + vCord.y*y ; 
+
+        }
+    }
    static public class ImageCords{
-       double x; 
-       double y ;
+      protected  double x; 
+       protected double y ;
        public ImageCords(double x , double y){
            this.x  =Util.alignZero(Math.abs(x)) ;
             this.y =Util.alignZero(Math.abs(y)) ; ;
@@ -82,8 +97,12 @@ public class Texture {
        public int getY(){
            return (int)y; 
        }
+       public ImageVector substract(ImageCords cord ){
+        return new ImageVector(cord.x - this.x, cord.y-this.y);
+       }
    }
-    
+
+ 
     
 }
 
