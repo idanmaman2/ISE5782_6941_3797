@@ -14,7 +14,7 @@ import primitives.Vector;
 public class ObjParserModel {
     final private Point start ; 
     final private List<List<Vector>> lst  ;
-    final double EPS = 0.000000001;
+    final double EPS = 0.0000001;
     final Vector VEPS = new Vector(EPS,EPS,EPS); 
     ObjParserModel(List<List<Vector>> lst){
         this.lst = lst ; 

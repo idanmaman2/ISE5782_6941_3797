@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import OBJParser.ObjParser;
 import lightning.AmbientLight;
+import lightning.DirectionalLight;
 import lightning.LightSource;
 import lightning.PointLight;
 import lightning.SpotLight;
@@ -126,4 +127,36 @@ public class TextureTests {
 
 	}
 	
+
+	@Test 
+	public void OBJModelTestNoTexture() throws FileNotFoundException, IOException{
+
+		
+		Scene scene1 = new Scene("Test scene");
+		Camera camera1 = new Camera(new Point(50, -50, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
+				.setVPSize(150, 150) //
+				.setVPDistance(350);
+		scene1.lights.add(new PointLight(new Point(20, -30, 20),new Color(555,555,0)).setKL(0.001).setKQ(0.0002));
+		
+
+		ImageWriter imageWriter = new ImageWriter("TeaPot1", 1000, 1000);
+		ObjParser modelObjParser = new ObjParser("/Users/idang/Downloads/capsule.obj") ;
+		scene1.geometries.add(modelObjParser.getObjParserModel().scale(70).rotate(-30,new Vector(1,1,1)).changeStartingPoint(new Point(25,-100,0)).getRandomColoredTriangles(new Double3(0.5), new Double3(0.5), new Double3(0.3),new Double3(0.9), 300));
+
+		camera1.setWriter(imageWriter) //
+		.setRayTrace(new RayTracerBasic(scene1)) //
+		.renderImage() //
+		.writeToImage(); 
+	
+	
+
+
+
+
+	}
+
+	@Test 
+	public void OBJModelTextureTest(){}
+
+
 }

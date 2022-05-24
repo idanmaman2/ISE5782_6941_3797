@@ -167,7 +167,7 @@ public class Camera {
     public List<Ray> constructRays(int nX, int nY, int j, int i){
         List<Ray> crt = new LinkedList<>() ; 
 
-        final int interval  =2 ; 
+        final int interval  =1 ; 
         Point Pc  = this.p0 .add(this.vTo.scale(this.length));
         double  Rx = this.width / (double)nX ;
         double Ry = this.height / (double)nY ; 
