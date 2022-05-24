@@ -97,11 +97,11 @@ public class TextureTests {
 		scene2.lights.addAll(x);
 		
 		
-		camera2.setFocalLength(5500).setFocalSize(5);
+		camera2.setFocalLength(5500).setFocalSize(25);
 		camera2.setWriter(imageWriter) //
 				.setRayTrace(new RayTracerBasic(scene2)) //
-				.renderImage() //
-				.writeToImage("apt length :5100 , apt size: 5  ", new ImageCords(50,50)) ; //
+				.depthRenderImage() //
+				.writeToImage("apt length :5100 , apt size: 25  ", new ImageCords(50,50)) ; //
 
 
 	}
@@ -114,7 +114,7 @@ public class TextureTests {
 		
 		
 
-		ImageWriter imageWriter = new ImageWriter("WoodTexture", 1000, 1000);	
+		ImageWriter imageWriter = new ImageWriter("WoodTexture2323", 1000, 1000);	
 
 		
 		
