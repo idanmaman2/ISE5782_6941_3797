@@ -13,6 +13,7 @@ import primitives.Vector;
 public class ObjParser {
     final IOBJParser ObjParser2 ;
     final OBJModel model ;
+    final double EPS = 0.000000001;
     final List<OBJVertex> vert  ; 
     public ObjParser(String objName) throws FileNotFoundException, IOException{
         try (InputStream in = new FileInputStream(objName)) {
@@ -26,15 +27,20 @@ public class ObjParser {
         for (OBJObject object : model.getObjects()) {
             for (OBJMesh mesh : object.getMeshes()) {
                 for (OBJFace face : mesh.getFaces()) {
+                    try { 
                     List<OBJDataReference>   x = face.getReferences();
                     List<OBJVertex>  verts  = x.stream().map(( ele )-> vert.get(ele.vertexIndex)).toList();
                     OBJVertex v1 = verts.get(0);
-                    Vector  p1 = new Vector(v1.x , v1.y,v1.z);
+                    Vector  p1 = new Vector(v1.x +EPS, v1.y+EPS,v1.z+EPS);
                     OBJVertex v2 = verts.get(1);
-                    Vector p2 = new Vector (v2.x , v2.y,v2.z);
+                    Vector p2 = new Vector (v2.x+EPS , v2.y+EPS,v2.z+EPS);
                     OBJVertex v3 = verts.get(2);
-                    Vector p3 = new Vector(v3.x , v3.y,v3.z);
+                    Vector p3 = new Vector(v3.x+EPS , v3.y+EPS,v3.z+EPS);
                     lstPackage.add(List.of(p1,p2,p3));
+                    } 
+                    catch (Exception e ){
+                        //i dont realy care 
+                    }
                 }
             }
         }
