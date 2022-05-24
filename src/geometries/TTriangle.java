@@ -51,6 +51,7 @@ public ImageCords imaingnaion(Point pt , List<ImageCords> cordsOfVT ){
     // straight scale 
     // dedo all what we did 
     // return the image cords 
+<<<<<<< HEAD
     Point A = this.vertices.get(0); 
     Point B = this.vertices.get(1); 
     Point C = this.vertices.get(2);   
@@ -87,6 +88,10 @@ public ImageCords imaingnaion(Point pt , List<ImageCords> cordsOfVT ){
    if(angle23 > Math.PI){
        angle23 = Math.PI-angle23 ; 
    }
+=======
+    
+
+>>>>>>> 873d93963a478d7b54e83916bc69f55b2770cf21
 
 
 
