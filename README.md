@@ -18,4 +18,3 @@ Obj models :
 
 https://user-images.githubusercontent.com/90776557/170448620-515ab36d-46df-4f61-bb18-3ecabec985f1.mov
 
-![AK-47](https://user-images.githubusercontent.com/90776557/170448649-b6622022-04fb-42ef-be84-594a0c11c779.png)
