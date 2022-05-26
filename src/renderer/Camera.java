@@ -4,7 +4,7 @@ import java.net.Inet4Address;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.MissingResourceException;
-
+import java.util.stream.IntStream;
 
 import primitives.*;
 import primitives.Texture.ImageCords;
@@ -214,12 +214,6 @@ public class Camera {
      *Camera Renderer Image
      */
     public Camera renderImage() {
-
-
-
-
-
-
         if(this.rayTrace == null || 
         this.writer == null || 
         this.height == 0 || this.width == 0 || this.length == 0 || 
@@ -227,8 +221,8 @@ public class Camera {
             throw new MissingResourceException("enter all the values","Camera","i am not your slave");
         }
         int sum = 0 ; 
-        for(int i=0 ; i < writer.getNx() ; i++ ){
-            for(int j=0 ; j< writer.getNy() ; j++ ){
+        IntStream.range(0, writer.getNx()).parallel().forEach(i -> {
+            IntStream.range(0, writer.getNy()).parallel().forEach(j-> {
                 List<Ray> rays  = constructRays(writer.getNx(), writer.getNy(), j, i);
                 final int i1 = i ; 
                 final int j1 = j ; 
@@ -238,8 +232,8 @@ public class Camera {
                     writer.writePixel(j, i, color);
                 }
                 
-            }
-        } 
+            });
+        } );
         return this;
     }
 

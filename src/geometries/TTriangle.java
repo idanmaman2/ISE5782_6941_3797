@@ -39,9 +39,15 @@ public class TTriangle extends Triangle implements Textureable {
       public  TTriangle(Triangle t1,List<ImageCords> cords ,Texture tx )
       {
           this(t1.vertices.get(0),t1.vertices.get(1),t1.vertices.get(2),cords,tx);
+          this.tx = tx ; 
+          TexturePlane = new TPlane(this.plane,tx);
+          speCords = cords ;
       } 
     @Override
 public Color getEmisson(GeoPoint x){
+    if(speCords != null){
+        return tx.getColorReapeat(imaingnaion(x.point, speCords, tx.nX , tx.nY));
+    }
     return tx.getColor(x,super.getEmisson(x)); 
 }
     

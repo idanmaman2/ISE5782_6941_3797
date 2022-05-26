@@ -31,7 +31,7 @@ public class ObjParser {
         for (OBJObject object : model.getObjects()) {
             for (OBJMesh mesh : object.getMeshes()) {
                 for (OBJFace face : mesh.getFaces()) {
-                    List<Vector> lstPackageHelp  = new ArrayList<Vector>(3); 
+                    List<Vector> lstPackageHelp  = new LinkedList<>(); 
                     List<Texture.ImageCords> lstTetHelp=  new ArrayList<Texture.ImageCords>(3);
                     for (OBJDataReference reference : face.getReferences()) {                 
                         final OBJVertex vertex = model.getVertex(reference);

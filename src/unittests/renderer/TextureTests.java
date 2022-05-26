@@ -34,7 +34,7 @@ public class TextureTests {
 	private Scene scene1 = new Scene("Test scene");
 	private Scene scene2 = new Scene("Test scene") //
 			.setAl(new AmbientLight(new Color(WHITE), new Double3(0.15)));
-	private Camera camera1 = new Camera(new Point(0, 0, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
+	private Camera camera1 = new Camera(new Point(0, 0, 2000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
 			.setVPSize(150, 150) //
 			.setVPDistance(1000);
 	private Camera camera2 = new Camera(new Point(0, 0, 10000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
@@ -42,17 +42,17 @@ public class TextureTests {
 			.setVPDistance(1000);
 			Texture tx3 = new Texture("tx2.jpeg");
 	private Point[] p = { // The Triangles' vertices:
-			new Point(-500, -110, -150), // the shared left-bottom
-			new Point(80, 100, -150), // the shared right-top
-			new Point(110, -110, -150), // the right-bottom
-			new Point(-75, 85, 0) }; // the left-top
+			new Point(0, 0, 0), // the shared left-bottom
+			new Point(0, 100, 0), // the shared right-top
+			new Point(100, 0, 0), // the right-bottom
+			new Point(100, 100, 0) }; // the left-top
 	private Point trPL = new Point(50, 30, -100); // Triangles test Position of Li[](../../../images/WoodTexture.png)ght
 	private Point spPL = new Point(-50, -50, 25); // Sphere test Position of Light
 	private Color trCL = new Color(800, 500, 250); // Triangles test Color of Light
 	private Color spCL = new Color(800, 500, 0); // Sphere test Color of Light
 	private Vector trDL = new Vector(-2, -2, -2); // Triangles test Direction of Light
 	private Material material = new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300);
-	private Geometry triangle1 = new TTriangle(p[0], p[1], p[2],tx3).setMaterial(material);
+	private Geometry triangle1 = new TTriangle(p[0], p[1], p[2],List.of(new ImageCords(0, 0),new ImageCords(0,1),new ImageCords(1,0)),tx3).setMaterial(material);
 	private Geometry triangle2 = new TTriangle(p[0], p[1], p[3],tx3).setMaterial(material);
 	private Geometry sphere = new Sphere(new Point(0, 0, -50), 50d) //
 			.setEmisson(new Color(BLUE).reduce(2)) //
@@ -139,9 +139,9 @@ public class TextureTests {
 		scene1.lights.add(new PointLight(new Point(20, -30, 20),new Color(555,555,0)).setKL(0.001).setKQ(0.0002));
 		
 
-		ImageWriter imageWriter = new ImageWriter("TeaPot1", 1000, 1000);
-		ObjParser modelObjParser = new ObjParser("C:\\Users\\Idang\\Downloads\\cube.obj") ;
-		scene1.geometries.add(modelObjParser.getObjParserModel().scale(70).rotate(-30,new Vector(1,1,1)).changeStartingPoint(new Point(25,-100,0)).getRandomColoredTriangles(new Double3(0.5), new Double3(0.5), new Double3(0.3),new Double3(0.9), 300));
+		ImageWriter imageWriter = new ImageWriter("TeaPot112", 100, 100);
+		ObjParser modelObjParser = new ObjParser("/Users/idang/Downloads/dol") ;
+		scene1.geometries.add(modelObjParser.getObjParserModel().scale(10).rotate(30, new Vector(1,1,1)).getRandomColoredTriangles(new Double3(0.5), new Double3(0.5), new Double3(0.3),new Double3(0.9), 300));
 
 		camera1.setWriter(imageWriter) //
 		.setRayTrace(new RayTracerBasic(scene1)) //
@@ -156,6 +156,27 @@ public class TextureTests {
 	}
 
 	@Test 
+	public void TriangleSpecTexture() throws FileNotFoundException, IOException{
+		Scene scene1 = new Scene("Test scene");
+		Camera camera1 = new Camera(new Point(50, -50, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
+				.setVPSize(150, 150) //
+				.setVPDistance(350);
+		scene1.lights.add(new PointLight(new Point(20, -30, 20),new Color(555,555,0)).setKL(0.001).setKQ(0.0002));
+		
+
+		ImageWriter imageWriter = new ImageWriter("CUBE", 1000, 1000);
+		ObjParser modelObjParser = new ObjParser("/Users/idang/Downloads/cube.obj") ;
+		scene1.geometries.add(modelObjParser.getObjParserModel().scale(50).rotate(i, new Vector(1,1,1)).getRandomColoredTriangles(new Double3(0.5), new Double3(0.5), new Double3(0.3),new Double3(0.9), 300));
+
+		camera1.setWriter(imageWriter) //
+		.setRayTrace(new RayTracerBasic(scene1)) //
+		.renderImage() //
+		.writeToImage(); 
+	
+	}
+
+
+	@Test 
 	public void OBJModelTextureTest() throws FileNotFoundException, IOException{
 			
 		Scene scene1 = new Scene("Test scene");
@@ -165,10 +186,9 @@ public class TextureTests {
 		scene1.lights.add(new PointLight(new Point(20, -30, 20),new Color(555,555,0)).setKL(0.001).setKQ(0.0002));
 		
 
-		ImageWriter imageWriter = new ImageWriter("TextureObjModelPleaseWorkkkkk", 100, 100);
-		ObjParser modelObjParser = new ObjParser("C:\\Users\\Idang\\Downloads\\capsule.obj") ;
-		Texture tx = new Texture("Please.jpg") ; 
-		scene1.geometries.add(modelObjParser.getObjParserModel().scale(70).rotate(-30,new Vector(1,1,1)).changeStartingPoint(new Point(25,-100,0)).getTexturedTriangles(new Double3(0.5), new Double3(0.5), new Double3(0.3),new Double3(0.9), tx,300));
+		ImageWriter imageWriter = new ImageWriter("TextureTRIANGLE", 1000, 1000);
+		
+		scene1.geometries.add(triangle1);
 
 		camera1.setWriter(imageWriter) //
 		.setRayTrace(new RayTracerBasic(scene1)) //

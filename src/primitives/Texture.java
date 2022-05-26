@@ -19,8 +19,8 @@ import geometries.Triangle;
 import geometries.Textureable;
 import geometries.Intersectable.GeoPoint;
 public class Texture {
-    private int nX = 617 ;
-	private int nY = 617 ;
+    public int nX = 617 ;
+	public int nY = 617 ;
 
 	private static final String FOLDER_PATH = "/Users/idang/Desktop/ISE5782_6941_3797" + "/imagesT";
 	private BufferedImage image;
