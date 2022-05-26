@@ -45,59 +45,30 @@ public Color getEmisson(GeoPoint x){
     return tx.getColor(x,super.getEmisson(x)); 
 }
     
-public ImageCords imaingnaion(Point pt , List<ImageCords> cordsOfVT ){
+public ImageCords imaingnaion(Point pt , List<ImageCords> cordsOfVT ,int nX , int nY){
     // get the point to start in zero 
     // get the points to be in the first quarter 
     // straight scale 
     // dedo all what we did 
     // return the image cords 
-    Point A = this.vertices.get(0); 
-    Point B = this.vertices.get(1); 
-    Point C = this.vertices.get(2);   
-    Vector CA = C.subtract(A);
-    Vector BA = B.subtract(A);
-    Vector BC =C.subtract(B); 
-    double angle11  =Math.acos(CA.dotProduct(BA)/(CA.length() * BA.length())) ;
-     double angle12  = Math.acos(BA.dotProduct(BC)/(BA.length() * BC.length())) ;
-     double angle13 = Math.acos(CA.dotProduct(BC)/(CA.length() * BC.length())) ;
-     if(angle11 > Math.PI){
-         angle11 = Math.PI-angle11 ; 
-     }
-     if(angle12 > Math.PI){
-        angle12 = Math.PI-angle12 ; 
-    }
-    if(angle13 > Math.PI){
-        angle13 = Math.PI-angle13 ; 
-    }
-    ImageCords cord1 = cordsOfVT.get(0);
-    ImageCords cord2 =cordsOfVT.get(1);
-    ImageCords cord3 = cordsOfVT.get(2); 
-    ImageVector  vCord12  = cord1.substract(cord2);
-    ImageVector vCord13 = cord1.substract(cord3);
-    ImageVector vCord32 = cord2.substract(cord3);
-    double angle21 =  Math.acos(vCord12.dotProduct(vCord13)/(vCord12.length() * vCord13.length())) ;
-    double angle22 = Math.acos(vCord12.dotProduct(vCord32)/(vCord12.length() * vCord32.length())) ;
-    double angle23 = Math.acos(vCord13.dotProduct(vCord32)/(vCord32.length() * vCord13.length())) ;
-    if(angle21 > Math.PI){
-        angle21 = Math.PI-angle21 ; 
-    }
-    if(angle22 > Math.PI){
-       angle23 = Math.PI-angle22 ; 
-   }
-   if(angle23 > Math.PI){
-       angle23 = Math.PI-angle23 ; 
-   }
-
-
-
-    return null ; 
-
-
+    
+    List<Point> ptLst = cordsOfVT.stream().map((ele)-> new Point(ele.getX() * nX , ele.getY() *nY,0)).toList();
+    TrilinearPoint thisTri = new TrilinearPoint( pt , this);
+    Point ptInter =  thisTri.changeTriangle(new Triangle(ptLst.get(0),ptLst.get(1),ptLst.get(2))).toPoint();
+    return new ImageCords(ptInter.getX(), ptInter.getY()) ; 
 
 }
-  
+ @Override 
 public Texture.ImageCords TextureEmession(Point pt,int nX,int nY){
+    if(speCords == null ){
     return TexturePlane.TextureEmession(pt, nX, nY);
+    }
+   try{
+    return  imaingnaion(pt,speCords,nX,nY);
+   } 
+   catch(Exception e){
+       return new ImageCords(0,0);
+   }
 }
 public Texture.ImageCords getDims(){
     Point A = this.vertices.get(0); 

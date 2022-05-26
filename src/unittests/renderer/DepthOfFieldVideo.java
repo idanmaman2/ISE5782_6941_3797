@@ -95,7 +95,7 @@ public class DepthOfFieldVideo {
 		
 		
 
-		ImageWriter imageWriter = new ImageWriter("DepthOFieldPart"+i, 1000, 1000);	
+		ImageWriter imageWriter = new ImageWriter("DepthOFieldPart"+i, 5000, 5000);	
 		scene2.lights.addAll(x);
 		
 		

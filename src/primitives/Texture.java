@@ -58,13 +58,9 @@ public class Texture {
     }
 
     public Color getColor(GeoPoint pt,Color base){
-        ImageCords dims =((Textureable)pt.geometry).getDims() ;
-      if(dims == null){
+
         return getColorReapeat(((Textureable)pt.geometry).TextureEmession(pt.point,nX,nY));
-      }
-      else{
-        return getColorFill(((Textureable)pt.geometry).TextureEmession(pt.point,nX,nY),dims.x,dims.y);
-      } 
+
        
 
     }
@@ -91,11 +87,11 @@ public class Texture {
            this.x  =Util.alignZero(Math.abs(x)) ;
             this.y =Util.alignZero(Math.abs(y)) ; ;
        }
-       public int getX(){
-           return (int)x ; 
+       public double getX(){
+           return x ; 
        }
-       public int getY(){
-           return (int)y; 
+       public double getY(){
+           return y; 
        }
        public ImageVector substract(ImageCords cord ){
         return new ImageVector(cord.x - this.x, cord.y-this.y);

@@ -86,4 +86,9 @@ public class Point implements Comparable<Point> {
     public int compareTo(Point o) {
         return ((Double)getZ()).compareTo(((Point) o).getZ()) ;
     }
+
+    public double distanceFromLine(Ray x ){
+        Point q = x.getP0().add(x.getDir());
+        return this.subtract(x.getP0()).crossProduct(this.subtract(q)).length() / ((double)q.subtract(x.getP0()).length());
+    }
 }

@@ -88,7 +88,7 @@ public class ImageWriter {
 			Graphics g = image.getGraphics();
 			//set font
 			g.setFont(g.getFont().deriveFont(25f));
-			g.drawString(text, cords.getX(),cords.getY());
+			g.drawString(text, (int)cords.getX(),(int)cords.getY());
 			g.dispose();
 			//write the image
 			

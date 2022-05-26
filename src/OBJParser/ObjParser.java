@@ -4,9 +4,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import com.mokiat.data.front.parser.*;
+
+import primitives.Texture;
 import primitives.Vector;
 
 
@@ -24,22 +27,28 @@ public class ObjParser {
     }
     public ObjParserModel getObjParserModel (){
         List<List<Vector>> lstPackage  = new LinkedList<>(); 
+        List<List<Texture.ImageCords>> lstTet= new LinkedList<>();
         for (OBJObject object : model.getObjects()) {
             for (OBJMesh mesh : object.getMeshes()) {
                 for (OBJFace face : mesh.getFaces()) {
-                    List<OBJDataReference>   x = face.getReferences();
-                    List<OBJVertex>  verts  = x.stream().map(( ele )-> vert.get(ele.vertexIndex)).toList();
-                    OBJVertex v1 = verts.get(0);
-                    Vector  p1 = new Vector(v1.x+EPS , v1.y+EPS,v1.z+EPS);
-                    OBJVertex v2 = verts.get(1);
-                    Vector p2 = new Vector (v2.x+EPS , v2.y+EPS,v2.z+EPS);
-                    OBJVertex v3 = verts.get(2);
-                    Vector p3 = new Vector(v3.x+EPS , v3.y+EPS,v3.z+EPS);
-                    lstPackage.add(List.of(p1,p2,p3));
+                    List<Vector> lstPackageHelp  = new ArrayList<Vector>(3); 
+                    List<Texture.ImageCords> lstTetHelp=  new ArrayList<Texture.ImageCords>(3);
+                    for (OBJDataReference reference : face.getReferences()) {                 
+                        final OBJVertex vertex = model.getVertex(reference);
+                        lstPackageHelp.add(new Vector(vertex.x + EPS ,vertex.y + EPS ,vertex.z + EPS));
+                        if (reference.hasTexCoordIndex()) {
+                            final OBJTexCoord texCoord = model.getTexCoord(reference);
+                            lstTetHelp.add(new Texture.ImageCords(texCoord.u, texCoord.v));
+                        }
+                    }
+                    lstPackage.add(lstPackageHelp);
+                    lstTet.add(lstTetHelp);
+
                 }
             }
         }
-        return new ObjParserModel(lstPackage) ;
+
+        return new ObjParserModel(lstPackage,lstTet) ;
     }
 
     
