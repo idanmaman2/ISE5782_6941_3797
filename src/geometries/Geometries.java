@@ -12,11 +12,16 @@ import primitives.*;
  */
 public class Geometries extends Intersectable {
     protected List<Intersectable> items ; 
+
     public Geometries(Intersectable... geometries){
         items =new LinkedList<Intersectable>(List.of(geometries));
     }
     public void add(Intersectable... geometries){
         items.addAll(List.of(geometries));
+    }
+
+    public List<Intersectable> getItems(){
+        return this.items ; 
     }
 
     /**

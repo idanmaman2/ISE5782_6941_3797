@@ -3,6 +3,9 @@ package geometries;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+
+import Acc.Voxel;
+import Acc.Voxelable;
 import primitives.*;
 
 /**
@@ -10,7 +13,7 @@ import primitives.*;
  *
  * @author Idan and Eliyahu
  */
-public class Sphere extends Geometry{
+public class Sphere extends Voxelable{
     Point center;
     double radius;
 
@@ -80,11 +83,8 @@ public class Sphere extends Geometry{
         return center;
     }
 
-
-
-
-
-
-
-
+    public  MaxMin  getMaxMin(){
+        return new MaxMin(getCenter().getX()-radius , getCenter().getY()-radius,getCenter().getZ()-radius ,getCenter().getX()+radius, getCenter().getY()+radius, getCenter().getZ()+radius);
+    }
+   
 }

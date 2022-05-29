@@ -166,7 +166,7 @@ public class TextureTests {
 
 		ImageWriter imageWriter = new ImageWriter("CUBE", 1000, 1000);
 		ObjParser modelObjParser = new ObjParser("/Users/idang/Downloads/cube.obj") ;
-		scene1.geometries.add(modelObjParser.getObjParserModel().scale(50).rotate(i, new Vector(1,1,1)).getRandomColoredTriangles(new Double3(0.5), new Double3(0.5), new Double3(0.3),new Double3(0.9), 300));
+		scene1.geometries.add(modelObjParser.getObjParserModel().scale(50).rotate(25, new Vector(1,1,1)).getRandomColoredTriangles(new Double3(0.5), new Double3(0.5), new Double3(0.3),new Double3(0.9), 300));
 
 		camera1.setWriter(imageWriter) //
 		.setRayTrace(new RayTracerBasic(scene1)) //

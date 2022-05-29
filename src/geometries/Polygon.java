@@ -3,6 +3,8 @@ package geometries;
 import java.util.ArrayList;
 import java.util.List;
 
+import Acc.Voxel;
+import Acc.Voxelable;
 import primitives.*;
 import static primitives.Util.*;
 
@@ -12,7 +14,7 @@ import static primitives.Util.*;
  *
  * @author Dan
  */
-public class Polygon extends Geometry {
+public class Polygon extends Voxelable {
     /**
      * List of polygon's vertices
      */
@@ -125,4 +127,28 @@ public class Polygon extends Geometry {
     }
     return newGeoPoints;
     } 
+    public  MaxMin  getMaxMin(){
+      double minX, minY, minZ, maxX, maxY, maxZ;
+
+      minX = maxX = vertices.get(0).getX();
+      minY = maxY = vertices.get(0).getY();
+      minZ = maxZ = vertices.get(0).getZ();
+  
+      //find the furthest coordinates of the pyramid's vertices
+      for(int i=1; i<vertices.size(); i++)
+      {
+        if(vertices.get(i).getX() > maxX) { maxX = vertices.get(i).getX();}
+        if(vertices.get(i).getY() > maxY) { maxY = vertices.get(i).getY();}
+        if(vertices.get(i).getZ() > maxZ) { maxZ = vertices.get(i).getZ();}
+        if(vertices.get(i).getX() < minX) { minX = vertices.get(i).getX();}
+        if(vertices.get(i).getY() < minY) { minY = vertices.get(i).getY();}
+        if(vertices.get(i).getZ() < minZ) { minZ = vertices.get(i).getZ();}
+      }
+      return new MaxMin(minX , minY , minZ , maxX , maxY ,maxZ);
+    }
+
+
+
+   
+
 }
