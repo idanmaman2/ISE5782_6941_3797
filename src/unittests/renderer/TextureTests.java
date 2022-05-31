@@ -189,7 +189,7 @@ public class TextureTests {
 		ImageWriter imageWriter = new ImageWriter("TextureTRIANGLE", 1000, 1000);
 		
 		scene1.geometries.add(triangle1);
-
+		
 		camera1.setWriter(imageWriter) //
 		.setRayTrace(new RayTracerBasic(scene1)) //
 		.renderImage() //

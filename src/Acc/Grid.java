@@ -114,9 +114,12 @@ public class Grid {
                  new Plane(max, new Vector(0,1,0)) , // top - 
                  new Plane(stratingPoint , new Vector(0,1,0)), // bot  * 
                 new Plane(stratingPoint , new Vector(0,0,1)) , // right *
-               new Plane(max , new Vector(0,0,1)) };
+               new Plane(max , new Vector(0,0,1)) // left - 
+            };
     }
         
+
+
     }
             
     //TESTED
@@ -256,11 +259,11 @@ public class Grid {
         }
         if(collision(ray)){
             for(Plane plane : planes ){
-                List<GeoPoint> pointsTemp = plane.findGeoIntersections(ray);
+                List<Point> pointsTemp = plane.findIntsersections(ray);
                 if(pointsTemp == null){
                   continue ; 
                 }
-                Point inter  = pointsTemp.get(0).point;
+                Point inter  = pointsTemp.get(0);
                 if(closet == null || closet.distanceSquared(strat) > inter.distanceSquared(strat)){
                     closet = inter ; 
                 }
@@ -272,11 +275,10 @@ public class Grid {
         if(closet == null ){
             return null ; 
         }
-        Vector startinOfGridMinusInter = closet.subtract(min); 
-        Vector farestMinysInter = farest.subtract(min);
         return List.of(
-            new Double3(Math.floor(startinOfGridMinusInter.getX() / length) , Math.floor(startinOfGridMinusInter.getY() / length), Math.floor(startinOfGridMinusInter.getZ() / length)), 
-            new Double3(Math.floor(farestMinysInter.getX() / length) , Math.floor(farestMinysInter.getY() / length), Math.floor(farestMinysInter.getZ() / length)),
+            new Double3(Math.floor((closet.getX() - min.getX()) / length) , Math.floor((closet.getY() - min.getY()) / length), Math.floor((closet.getZ() - min.getZ()) / length)), 
+            new Double3(Math.floor((farest.getX() - min.getX()) / length) , Math.floor((farest.getY() - min.getY()) / length), Math.floor((farest.getZ() - min.getZ())
+            / length)),
              closet.xyz , farest.xyz
             ); 
 

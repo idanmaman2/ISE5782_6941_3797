@@ -12,6 +12,8 @@ import primitives.Texture.ImageCords;
 import renderer.*;
 import Scene.Scene;
 import static java.awt.Color.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -44,7 +46,7 @@ public class AccTest {
 
 	
 	@Test
-	public void GridTest() throws FileNotFoundException, IOException {
+	public void VisualGridTest() throws FileNotFoundException, IOException {
 		
 			Scene scene1 = new Scene("Test scene");
 			Camera camera1 = new Camera(new Point(50, -50, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
@@ -101,6 +103,112 @@ public class AccTest {
 			//100.00004768371583
 		}
       
+	@Test
+	public void GridCollisionTest(){
+
+		Scene scene1 = new Scene("Test scene 1 ");
+		Camera camera1 = new Camera(new Point(50, -50, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
+				.setVPSize(150, 150) //
+				.setVPDistance(350);
+		scene1.lights.add(new PointLight(new Point(20, -30, 20),new Color(555,555,0)).setKL(0.001).setKQ(0.0002));
+		ImageWriter imageWriter = new ImageWriter("CollisionTest", 1000, 1000);
+		scene1.add(triangle1);
+		RayTracerBasic trc = new RayTracerBasic(scene1,false).setSize(10); 
+		System.out.println("try 1: ");
+		System.out.println(trc.getGrid().getMin());
+		System.out.println(trc.getGrid().getMax());
+		System.out.println(trc.getGrid().getLength());
+		System.out.println(trc.getGrid().getSize());
+		Point stratingPoint = trc.getGrid().getMin();
+		Point max = trc.getGrid().getMax();
+		scene1.lights.add(new PointLight(new Point(20, -30, 20),new Color(555,555,0)).setKL(0.001).setKQ(0.0002));
+		Geometry [] planes  = new Geometry [] {   
+			new Plane(stratingPoint , new Vector(1,0,0)).setMaterial(material).setEmisson(new Color(BLUE)), //front*
+			new Plane(max , new Vector(1,0,0)).setMaterial(material).setEmisson(new Color(GREEN)) , //back -
+			new Plane(max, new Vector(0,1,0)).setMaterial(material).setEmisson(new Color(GRAY)) , // top - 
+			 new Plane(stratingPoint , new Vector(0,1,0)).setMaterial(material).setEmisson(new Color(PINK)), // bot  * 
+			new Plane(stratingPoint , new Vector(0,0,1)).setMaterial(material).setEmisson(new Color(YELLOW)) , // right *
+		   new Plane(max , new Vector(0,0,1)).setMaterial(material).setEmisson(new Color(BLACK)) //left 
+		};
+		scene1.add(planes); 
+		Point Max = new Point(100.0,100.0,50.0);
+		Point Min = new Point(-100.0,-100.0,-150.0);
+		Vector dir = Max.subtract(Min);
+		Ray ray = new Ray(Min.add(dir.scale(-1)),dir);
+		//Point{xyz=(-100.0,-100.0,-150.0)}
+		//Point{xyz=(100.0,100.0,50.0)}
+		//20.0
+		//10
+		scene1.add(new Tube(ray, 3).setMaterial(material).setEmisson(new Color(ORANGE)));
+		System.out.println(trc.getGrid().collision(ray));
+		assertTrue(trc.getGrid().collision(ray));
+		System.out.println(trc.getGrid().findFirstAndLastVoxel(ray));
+		assertEquals(trc.getGrid().findFirstAndLastVoxel(ray), List.of(new Double3(0,0,0) ,new Double3(10,10,10) ,Min.xyz,Max.xyz),"Voxels didnt found");
+		camera1.setWriter(imageWriter) //
+		.setRayTrace(trc) //
+		.renderImage() //
+		.writeToImage(); 
+
+		scene1 = new Scene("Test scene 2 ");
+		scene1.lights.add(new PointLight(new Point(20, -30, 20),new Color(555,555,0)).setKL(0.001).setKQ(0.0002));
+		 imageWriter = new ImageWriter("CollisionTest 2 ", 1000, 1000);
+		scene1.add(triangle1);
+		trc = new RayTracerBasic(scene1,false).setSize(10); 
+		System.out.println("try 1: ");
+		System.out.println(trc.getGrid().getMin());
+		System.out.println(trc.getGrid().getMax());
+		System.out.println(trc.getGrid().getLength());
+		System.out.println(trc.getGrid().getSize());
+		stratingPoint = trc.getGrid().getMin();
+		max = trc.getGrid().getMax();
+		scene1.lights.add(new PointLight(new Point(20, -30, 20),new Color(555,555,0)).setKL(0.001).setKQ(0.0002));
+		 planes  = new Geometry [] {   
+			new Plane(stratingPoint , new Vector(1,0,0)).setMaterial(material).setEmisson(new Color(BLUE)), //front*
+			new Plane(max , new Vector(1,0,0)).setMaterial(material).setEmisson(new Color(GREEN)) , //back -
+			new Plane(max, new Vector(0,1,0)).setMaterial(material).setEmisson(new Color(GRAY)) , // top - 
+			 new Plane(stratingPoint , new Vector(0,1,0)).setMaterial(material).setEmisson(new Color(PINK)), // bot  * 
+			new Plane(stratingPoint , new Vector(0,0,1)).setMaterial(material).setEmisson(new Color(YELLOW)) , // right *
+		   new Plane(max , new Vector(0,0,1)).setMaterial(material).setEmisson(new Color(BLACK)) //left 
+		};
+		scene1.add(planes); 
+		 Max = new Point(100.0,100.0,50.0);
+		 Min = new Point(-100.0,-100.0,-150.0).add(new Vector(40,190,150));
+		 dir = Max.subtract(Min);
+		 ray = new Ray(Min.add(dir.scale(-1)),dir);
+		//Point{xyz=(-100.0,-100.0,-150.0)}
+		//Point{xyz=(100.0,100.0,50.0)}
+		//20.0
+		//10
+		scene1.add(new Tube(ray, 3).setMaterial(material).setEmisson(new Color(ORANGE)));
+		System.out.println(trc.getGrid().collision(ray));
+		assertTrue(trc.getGrid().collision(ray));
+		System.out.println(trc.getGrid().findFirstAndLastVoxel(ray));
+		
+		// 150 + - is 7 * 20 voxels on z  + half - so 7 voxels on z 
+		// 190 - is 20 * 9- so 9.5 - so 9  voxels on y
+		// 200 - is 20 * 10  - so 10 voxels on x
+		//assertEquals(trc.getGrid().findFirstAndLastVoxel(ray), List.of(new Double3(2,9,7) ,new Double3(10,10,10) ,Min.xyz,Max.xyz),"Voxels didnt found");
+		camera1.setWriter(imageWriter) //
+		.setRayTrace(trc) //
+		.renderImage() //
+		.writeToImage(); 
+
+		/**
+		try 1: 
+		Point{xyz=(-100.0,-100.0,-150.0)}
+		Point{xyz=(100.0,100.0,50.0)}
+		20.0
+		10
+		true
+		[(-1.0,-1.0,-1.0), (10.0,10.0,10.0), (-116.21621621621622,-116.21621621621622,-150.00000000000003), (100.00000000000006,100.00000000000006,50.0)]
+		 */
+
+	
+
+	}
+
+
+
 	
 
 }
