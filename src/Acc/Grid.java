@@ -21,12 +21,12 @@ public class Grid {
     double length ; 
     Point stratingPoint ; 
     final List<List<List<Voxel>>> voxels; // 3d grid voxels 
-    
-    public Grid(List<Intersectable> objects ,int size ){
+    final Plane [] planes   ; 
+
+    public Grid(List<Voxelable> objects ,int size ){
         MaxMin minMaxTotal =null  ; 
-        for(Intersectable object : objects){
-            if(object instanceof Voxelable){
-                MaxMin  minMaxLocal = ((Voxelable)object).getMaxMin() ; 
+        for(Voxelable object : objects){
+                MaxMin  minMaxLocal = object.getMaxMin() ; 
                 if(minMaxTotal == null){   
                     minMaxTotal = minMaxLocal ; 
                 }
@@ -64,12 +64,12 @@ public class Grid {
                 }
             }
          
-        }
         if(minMaxTotal == null){
             this.length = 0 ; 
             this.size = 0 ; 
             this.stratingPoint = null ; 
             this.voxels = null ;
+            planes = null ;
             
         }
         else{
@@ -109,15 +109,23 @@ public class Grid {
                 }
                 voxels.add(column);
             }
+            Point max = getMax(); 
+            planes  = new Plane [] {   new Plane(stratingPoint , new Vector(1,0,0)), //front*
+                new Plane(max , new Vector(1,0,0)) , //back -
+                 new Plane(max, new Vector(0,1,0)) , // top - 
+                 new Plane(stratingPoint , new Vector(0,1,0)), // bot  * 
+                new Plane(stratingPoint , new Vector(0,0,1)) , // right *
+               new Plane(max , new Vector(0,0,1)) };
     }
+        
     }
-    
-    public Grid(Geometries objects , int size ){
-        this(objects.getItems(),size);
-    }
-    
+               
     public Voxel getVoxel(int i , int j , int k ){
         return voxels.get(i).get(j).get(k);
+    }
+
+    public Voxel getVoxel(Double3 indexes){
+        return voxels.get((int)indexes.d1).get((int)indexes.d2).get((int)indexes.d3);
     }
 
     public Point getStartingPoint(){
@@ -197,36 +205,38 @@ public class Grid {
         return true; 
     }
 
-
-    public Double3 findFirstVoxel(Ray ray){
+    public List<Double3> findFirstAndLastVoxel(Ray ray){
         Point strat = ray.getP0() ,
          min = getMin(), 
          max  = getMax() ;  
-        Point stratInter = null ; 
+        Point closet = null ; 
+        Point farest = null ; 
          if(strat.getX()  >= min.getX() && strat.getY() >= min.getY() && strat.getZ() >= min.getZ() && strat.getX() <= max.getX() && strat.getY() < max.getX() && strat.getZ() < max.getZ()){
-            stratInter = strat ; 
+            closet = strat ; 
         }
-        else {
-            if(collision(ray)){
-                Plane [] planes ={   new Plane(stratingPoint , new Vector(1,0,0)), //front
-                 new Plane(stratingPoint , new Vector(1,0,0)) , //back 
-                  new Plane(max, new Vector(0,1,0)) , // top - 
-                  new Plane(max , new Vector(0,1,0)), // bot  - 
-                 new Plane(stratingPoint , new Vector(0,0,1)) , // right 
-                new Plane(max , new Vector(0,0,1)) }  ; // left - 
-                Point closet = null ; 
-                for(Plane plane : planes ){
-                    if(closet == null || closet.dis)
+        if(collision(ray)){
+            for(Plane plane : planes ){
+                Point inter= plane.findGeoIntersections(ray).get(0).point;
+                if(inter != null &&(closet == null || closet.distanceSquared(strat) > inter.distanceSquared(strat))){
+                    closet = inter ; 
+                }
+                if(inter != null &&(farest == null || farest.distanceSquared(strat) < inter.distanceSquared(strat))){
+                    farest = inter ; 
                 }
             }
-            
-
-
-        } 
-
-
-
-        return  ;
+        }
+        if(closet == null ){
+            return null ; 
+        }
+        Vector startinOfGridMinusInter = closet.subtract(min); 
+        Vector farestMinysInter = farest.subtract(min);
+        return List.of(
+            new Double3(Math.floor(startinOfGridMinusInter.getX() / length) , Math.floor(startinOfGridMinusInter.getY() / length), Math.floor(startinOfGridMinusInter.getZ() / length)), 
+            new Double3(Math.floor(farestMinysInter.getX() / length) , Math.floor(farestMinysInter.getY() / length), Math.floor(farestMinysInter.getZ() / length)),
+             closet.xyz , farest.xyz
+            ); 
 
     }
+
+   
 }
