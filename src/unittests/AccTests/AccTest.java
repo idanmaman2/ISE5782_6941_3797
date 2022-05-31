@@ -104,6 +104,48 @@ public class AccTest {
 		}
       
 	@Test
+	public void PlaneTest(){
+		for(int i=0 ; i<6 ; i ++){
+			Scene scene1 = new Scene("Test scene 1 ");
+			Camera camera1 = new Camera(new Point(50, -50, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
+					.setVPSize(150, 150) //
+					.setVPDistance(350);
+			scene1.lights.add(new PointLight(new Point(20, -30, 20),new Color(555,555,0)).setKL(0.001).setKQ(0.0002));
+			ImageWriter imageWriter = new ImageWriter("Plane" + i , 1000, 1000);
+			scene1.add(triangle1);
+			RayTracerBasic trc = new RayTracerBasic(scene1,false).setSize(10); 
+			System.out.println("try 1: ");
+			System.out.println(trc.getGrid().getMin());
+			System.out.println(trc.getGrid().getMax());
+			System.out.println(trc.getGrid().getLength());
+			System.out.println(trc.getGrid().getSize());
+			Point stratingPoint = trc.getGrid().getMin();
+			Point max = trc.getGrid().getMax();
+			scene1.lights.add(new PointLight(new Point(20, -30, 20),new Color(555,555,0)).setKL(0.001).setKQ(0.0002));
+			Geometry [] planes  = new Geometry [] {   
+				new Plane(stratingPoint , new Vector(1,0,0)).setMaterial(material).setEmisson(new Color(BLUE)), //front*
+				new Plane(max , new Vector(1,0,0)).setMaterial(material).setEmisson(new Color(GREEN)) , //back -
+				new Plane(max, new Vector(0,1,0)).setMaterial(material).setEmisson(new Color(GRAY)) , // top - 
+				 new Plane(stratingPoint , new Vector(0,1,0)).setMaterial(material).setEmisson(new Color(PINK)), // bot  * 
+				new Plane(stratingPoint , new Vector(0,0,1)).setMaterial(material).setEmisson(new Color(YELLOW)) , // right *
+			   new Plane(max , new Vector(0,0,1)).setMaterial(material).setEmisson(new Color(BLACK)) //left 
+			};
+			planes[i].setEmisson(new Color(RED)).setMaterial(new Material().setkS(new Double3(1)));
+			scene1.add(planes); 
+			camera1.setWriter(imageWriter) //
+			.setRayTrace(trc) //
+			.renderImage() //
+			.writeToImage(); 
+		}
+		
+
+		
+	}
+
+
+
+
+	@Test
 	public void GridCollisionTest(){
 
 		Scene scene1 = new Scene("Test scene 1 ");
