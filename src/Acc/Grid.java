@@ -9,7 +9,11 @@ import javax.management.ObjectName;
 import Acc.Voxelable.MaxMin;
 import geometries.Geometries;
 import geometries.Intersectable;
+import geometries.Plane;
+import primitives.Double3;
 import primitives.Point;
+import primitives.Ray;
+import primitives.Util;
 import primitives.Vector;
 
 public class Grid {
@@ -134,6 +138,95 @@ public class Grid {
 
     public boolean isEmpty(){
         return voxels == null || length == 0 || size ==0 ;
+
+    }
+
+    public Point getMin(){
+        return this.stratingPoint ; 
+    }
+
+    public Point getMax(){
+        return stratingPoint.add(Vector.X.scale(size*length)).add(Vector.Y.scale(size*length)).add(Vector.Z.scale(size*length));
+    }
+
+    public boolean collision(Ray ray){
+        Point vMin = getMin() , vMax = getMax() ; 
+        double tmin = Util.alignZero((vMin.getX() - ray.getP0().getX()) / ray.getDir().getX()); 
+        double tmax =Util.alignZero( (vMax.getX() - ray.getP0().getX()) / ray.getDir().getX()); 
+        if (tmin > tmax){
+            double tmp = tmin ; 
+            tmin = tmax ; 
+            tmax = tmp ; 
+        }
+        double  tymin = Util.alignZero((vMin.getY() - ray.getP0().getY()) / ray.getDir().getY()); 
+        double  tymax = Util.alignZero((vMax.getY() - ray.getP0().getY()) / ray.getDir().getY()); 
+     
+        if (tymin > tymax){
+            double tmp = tymin ; 
+            tymin = tymax ; 
+            tymax = tmp ; 
+        }
+     
+        if ((tmin > tymax) || (tymin > tmax)) 
+            return false; 
+     
+        if (tymin > tmin) 
+            tmin = tymin; 
+     
+        if (tymax < tmax) 
+            tmax = tymax; 
+     
+        double  tzmin = Util.alignZero((vMin.getZ() - ray.getP0().getZ()) / ray.getDir().getZ()); 
+        double  tzmax = Util.alignZero((vMax.getZ() - ray.getP0().getZ()) / ray.getDir().getZ()); 
+     
+        if (tzmin > tzmax) {
+        double tmp = tzmin ; 
+        tzmin = tzmax ; 
+        tzmax = tmp ; 
+    }
+     
+        if ((tmin > tzmax) || (tzmin > tmax)) 
+            return false; 
+     
+        if (tzmin > tmin) 
+            tmin = tzmin; 
+     
+        if (tzmax < tmax) 
+            tmax = tzmax; 
+     
+        return true; 
+    }
+
+
+    public Double3 findFirstVoxel(Ray ray){
+        Point strat = ray.getP0() ,
+         min = getMin(), 
+         max  = getMax() ;  
+        Point stratInter = null ; 
+         if(strat.getX()  >= min.getX() && strat.getY() >= min.getY() && strat.getZ() >= min.getZ() && strat.getX() <= max.getX() && strat.getY() < max.getX() && strat.getZ() < max.getZ()){
+            stratInter = strat ; 
+        }
+        else {
+            if(collision(ray)){
+                Plane [] planes ={   new Plane(stratingPoint , new Vector(1,0,0)), //front
+                 new Plane(stratingPoint , new Vector(1,0,0)) , //back 
+                  new Plane(max, new Vector(0,1,0)) , // top - 
+                  new Plane(max , new Vector(0,1,0)), // bot  - 
+                 new Plane(stratingPoint , new Vector(0,0,1)) , // right 
+                new Plane(max , new Vector(0,0,1)) }  ; // left - 
+                Point closet = null ; 
+                for(Plane plane : planes ){
+                    if(closet == null || closet.dis)
+                }
+            }
+            
+
+
+        } 
+
+
+
+        return  ;
 
     }
 }
