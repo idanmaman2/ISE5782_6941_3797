@@ -246,6 +246,47 @@ public class AccTest {
 		 */
 
 	
+		scene1 = new Scene("Test scene 3 ");
+		scene1.lights.add(new PointLight(new Point(20, -30, 20),new Color(555,555,0)).setKL(0.001).setKQ(0.0002));
+		 imageWriter = new ImageWriter("CollisionTest 3 ", 1000, 1000);
+		scene1.add(triangle1);
+		trc = new RayTracerBasic(scene1,false).setSize(10); 
+		System.out.println("try 1: ");
+		System.out.println(trc.getGrid().getMin());
+		System.out.println(trc.getGrid().getMax());
+		System.out.println(trc.getGrid().getLength());
+		System.out.println(trc.getGrid().getSize());
+		stratingPoint = trc.getGrid().getMin();
+		max = trc.getGrid().getMax();
+		scene1.lights.add(new PointLight(new Point(20, -30, 20),new Color(555,555,0)).setKL(0.001).setKQ(0.0002));
+		 planes  = new Geometry [] {   
+			new Plane(stratingPoint , new Vector(1,0,0)).setMaterial(material).setEmisson(new Color(BLUE)), //front*
+			new Plane(max , new Vector(1,0,0)).setMaterial(material).setEmisson(new Color(GREEN)) , //back -
+			new Plane(max, new Vector(0,1,0)).setMaterial(material).setEmisson(new Color(GRAY)) , // top - 
+			 new Plane(stratingPoint , new Vector(0,1,0)).setMaterial(material).setEmisson(new Color(PINK)), // bot  * 
+			new Plane(stratingPoint , new Vector(0,0,1)).setMaterial(material).setEmisson(new Color(YELLOW)) , // right *
+		   new Plane(max , new Vector(0,0,1)).setMaterial(material).setEmisson(new Color(BLACK)) //left 
+		};
+		scene1.add(planes); 
+		 Max = new Point(100.0,100.0,50.0).add(new Vector(289,210,267));
+		 Min = new Point(-100.0,-100.0,-150.0).add(new Vector(255,235,211));
+		 dir = Max.subtract(Min);
+		 ray = new Ray(Min,dir.scale(-1));
+		//Point{xyz=(-100.0,-100.0,-150.0)}
+		//Point{xyz=(100.0,100.0,50.0)}
+		//20.0
+		//10
+		scene1.add(new Tube(ray, 3).setMaterial(material).setEmisson(new Color(ORANGE)));
+		System.out.println(trc.getGrid().collision(ray));
+		//assertTrue(!trc.getGrid().collision(ray));
+		System.out.println(trc.getGrid().findFirstAndLastVoxel(ray));
+		scene1.add(new Sphere(Min, 50).setEmisson(new Color(YELLOW)).setMaterial(material));
+			scene1.add(new Sphere(Max, 50).setEmisson(new Color(YELLOW)).setMaterial(material));
+		camera1.setWriter(imageWriter) //
+		.setRayTrace(trc) //
+		.renderImage() //
+		.writeToImage(); 
+
 
 	}
 
