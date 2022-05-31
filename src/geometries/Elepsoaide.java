@@ -73,10 +73,10 @@ public class Elepsoaide extends Geometry{
         GeoPoint pt1 = new Intersectable.GeoPoint(new Point(h1*t1 + q1 , h2 * t1 + q2 , h3 * t1 + q3).subtract(centerOps), this),
         pt2 =  new Intersectable.GeoPoint(new Point(h1*t2 + q1 , h2 * t2 + q2 , h3 * t2 + q3).subtract(centerOps), this) ;
         LinkedList<GeoPoint> lst = new LinkedList<>();
-        if(t1 > 0 && Util.alignZero(pt1.point.distanceSquared(rayC.getP0()) - max * max ) <= 0 ){
+        if(t1 > 0 && Util.alignZero(pt1.point.distanceSquared(rayC.getP0()) - max  ) <= 0 ){
             lst.add(pt1); 
         }
-        if(t2 > 0 && Util.alignZero(pt2.point.distanceSquared(rayC.getP0()) - max * max ) <= 0 ){
+        if(t2 > 0 && Util.alignZero(pt2.point.distanceSquared(rayC.getP0()) - max ) <= 0 ){
             lst.add(pt2); 
         }
 

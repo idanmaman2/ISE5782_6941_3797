@@ -213,7 +213,7 @@ public class Camera {
     /**
      *Camera Renderer Image
      */
-    public Camera renderImage() {
+    public Camera renderImage( ) {
         if(this.rayTrace == null || 
         this.writer == null || 
         this.height == 0 || this.width == 0 || this.length == 0 || 
@@ -239,14 +239,7 @@ public class Camera {
 
 
 
-
     public Camera depthRenderImage() {
-
-
-
-
-
-
         if(this.rayTrace == null || 
         this.writer == null || 
         this.height == 0 || this.width == 0 || this.length == 0 || 
@@ -277,14 +270,6 @@ public class Camera {
         } 
         return this;
     }
-
-
-
-
-
-
-
-
 
 
     /**

@@ -38,6 +38,7 @@ public class Sphere extends Voxelable{
    
 
 
+
     @Override 
     public List<GeoPoint> findGeoIntersectionsHelper(Ray rayC,double max){
         if(center == rayC.getP0()){
@@ -57,27 +58,23 @@ public class Sphere extends Voxelable{
         }
         Point pt1 = null ;
         Point pt2 = null ; 
-        try { 
-          if(t1 > 0  ){
+        if(!Util.isZero(t1)){
            pt1 = rayC.getPoint(t1);
         }
-        } 
-        catch(Exception e){
+        if(!Util.isZero(t2)){
+            pt2 = rayC.getPoint(t2);
         }
-        try {
-            if(t2 > 0 ){
-                pt2 = rayC.getPoint(t2);
-            }
-        }catch(Exception e){}
         LinkedList<GeoPoint> arr = new LinkedList<>(); 
-        if(pt1 != null  && t1 > 0 && Util.alignZero(pt1.distanceSquared(rayC.getP0()) - max * max) <= 0 ){
+        if(pt1 != null  && t1 > 0 && Util.alignZero(pt1.distanceSquared(rayC.getP0()) - max ) <= 0 ){
             arr.add(new Intersectable.GeoPoint(rayC.getPoint(t1),this));
         }
-        if(pt2 != null && t2 > 0 && Util.alignZero(pt2.distanceSquared(rayC.getP0()) - max * max) <= 0 ){
+        if(pt2 != null && t2 > 0 && Util.alignZero(pt2.distanceSquared(rayC.getP0()) - max ) <= 0 ){
             arr.add(new Intersectable.GeoPoint(rayC.getPoint(t2),this) );
         }
         return arr.isEmpty() ? null : arr;
     }
+
+
 
     public Point getCenter() {
         return center;

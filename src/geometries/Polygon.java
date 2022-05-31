@@ -127,6 +127,9 @@ public class Polygon extends Voxelable {
     }
     return newGeoPoints;
     } 
+    
+    
+    
     public  MaxMin  getMaxMin(){
       double minX, minY, minZ, maxX, maxY, maxZ;
 

@@ -11,6 +11,7 @@ import geometries.Intersectable;
  * @author Idan and Eliyahu
  */
 public class Ray {
+    private static final double DELTA = 0.1;
 
     private final  Point p0;
     private final Vector dir;
@@ -28,25 +29,18 @@ public class Ray {
         this.p0 = p0;
         this.dir = dir.normalize();
     }
-    public Ray(Point p0, Vector dir1 , Vector dir2) { 
-        this.p0 = p0;
-        this.dir = dir1.crossProduct(dir2).normalize();
+
+public Ray(Point p0, Vector dir, Vector normal) {
+        Vector delta = normal.scale(normal.dotProduct(dir) > 0 ? DELTA : - DELTA);
+        this.p0 = p0.add(delta);
+        this.dir = dir;
     }
-    public List<Ray> createSpiralBeam(int interval ){
-        for(int t =0 ; t<360 ; t+=interval){
 
-        }
-
-        return null ; 
-
-
-    }
     @Override
     /**
     *
     *checks if the two equal
     *
-    * @author Idan and Eliyahu
     */
     public boolean equals(Object obj) { 
         return (obj instanceof Ray) && (((Ray)obj).p0.equals(this.p0) && ((Ray)obj).dir.equals(this.dir));
@@ -56,7 +50,6 @@ public class Ray {
     /**
     *converts ray obj to String 
     *
-    * @author Idan and Eliyahu
     */
     public String toString() {
         return "Ray{" +
@@ -81,7 +74,11 @@ public class Ray {
         }
         return closest;
     }
-
+    /**
+     *findClosestGeoPoint
+     *
+     * @author Idan and Eliyahu
+     */
     public Intersectable.GeoPoint findClosestGeoPoint (List<Intersectable.GeoPoint> lst){
         Intersectable.GeoPoint closest = lst.get(0); ;
         for(Intersectable.GeoPoint item :lst){

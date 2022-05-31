@@ -65,17 +65,14 @@ public class DepthOfFieldVideo {
 	public void DepthOfFieldVideoTest() throws FileNotFoundException, IOException {
         Texture tx = new Texture("wood.jpeg");
 		Texture tx2 = new Texture("tx3.jpeg");
-	for(int i=1;i<61;i++){
+	for(int i=1;i<=1;i++){
          Scene scene2 = new Scene("Test scene") //
         .setAl(new AmbientLight(new Color(WHITE), new Double3(0.15)));
      
 		scene2.geometries.add(new TPlane(new Point(800,-100,-2500),new Vector(0,1,0),tx).SetAngle(30).setEmisson(new Color(BLUE).reduce(2)) //
 		.setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300).setKR(new Double3(0.07)).setKT(new Double3(0.0015))));
-		scene2.geometries.add(new TPlane(new Point(800,-100,-25000),new Vector(0,0,1),tx2).setEmisson(new Color(BLUE).reduce(2)));
 		
-		scene2.geometries.add(new TSphere(new Point(100,200,7000), 150, tx2).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(200).setKR(new Double3(0.015)).setKT(new Double3(0.25))));
-		scene2.geometries.add(new TSphere(new Point(-50,100,5000), 150, tx2).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(100).setKR(new Double3(0.015)).setKT(new Double3(0.25))));
-		scene2.geometries.add(new TSphere(new Point(50,0,-5000), 150, tx2).setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(100).setKR(new Double3(0.015)).setKT(new Double3(0.25))));
+		
 		
 		List<LightSource> x = List.of(new PointLight(spPL,spCL).setKL(0.001).setKQ(0.0002),
 		new PointLight(spPL.add(new Vector(300,200,5050)),new Color(255,0,255)).setKL(0.001).setKQ(0.0002), 
@@ -95,14 +92,14 @@ public class DepthOfFieldVideo {
 		
 		
 
-		ImageWriter imageWriter = new ImageWriter("DepthOFieldPart"+i, 5000, 5000);	
+		ImageWriter imageWriter = new ImageWriter("DepthOFieldPart"+i, 1000, 1000);	
 		scene2.lights.addAll(x);
 		
 		
 		camera2.setFocalLength(5500).setFocalSize(i/1.5d);
 		camera2.setWriter(imageWriter) //
 				.setRayTrace(new RayTracerBasic(scene2)) //
-				.depthRenderImage() //
+				.renderImage() //
 				.writeToImage(String.format("apt length :5100 , apt size: %f ",i/1.5d), new ImageCords(50,50)) ; //
 
 

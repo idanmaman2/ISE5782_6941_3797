@@ -58,19 +58,22 @@ public class Plane extends Geometry {
     @Override 
     public List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double max){
 
-        double nv = this.getNormal().dotProduct(ray.getDir()); 
+        double nv =Util.alignZero(this.getNormal().dotProduct(ray.getDir())); 
         if(Util.isZero(nv)){
             return  null ; 
         } 
         else{
             double nqp =  Util.alignZero(this.getNormal().dotProduct(this.q0.subtract(ray.getP0())));
-            double t =nqp / nv  ; 
-            if(Util.alignZero(t) > 0 ){
-               return List.of(new Intersectable.GeoPoint( ray.getPoint(t), this));   
+            double t =Util.alignZero(nqp / nv)  ; 
+            if(t > 0  ){
+                GeoPoint p = new Intersectable.GeoPoint( ray.getPoint(t), this);
+                if(Util.alignZero(p.point.distanceSquared(ray.getP0()) - max ) <= 0 ){
+                    return List.of(p);  
+                }
+                
             }
-            else{
-                return null ; 
-            }
+             return null ; 
+            
         }
     }
 
