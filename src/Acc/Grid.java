@@ -10,6 +10,7 @@ import Acc.Voxelable.MaxMin;
 import geometries.Geometries;
 import geometries.Intersectable;
 import geometries.Plane;
+import geometries.Intersectable.GeoPoint;
 import primitives.Double3;
 import primitives.Point;
 import primitives.Ray;
@@ -22,7 +23,8 @@ public class Grid {
     Point stratingPoint ; 
     final List<List<List<Voxel>>> voxels; // 3d grid voxels 
     final Plane [] planes   ; 
-
+    
+    //TESTED 
     public Grid(List<Voxelable> objects ,int size ){
         MaxMin minMaxTotal =null  ; 
         for(Voxelable object : objects){
@@ -46,15 +48,15 @@ public class Grid {
                         maxx = minMaxLocal.max.getZ() ; 
                         changed = true ;    
                     }
-                    if(minMaxLocal.min.getX() > minMaxTotal.min.getX()){
+                    if(minMaxLocal.min.getX() < minMaxTotal.min.getX()){
                         minx = minMaxLocal.min.getX() ; 
                         changed = true ;    
                     }
-                    if(minMaxLocal.min.getY() > minMaxTotal.min.getY()){
+                    if(minMaxLocal.min.getY() < minMaxTotal.min.getY()){
                         miny = minMaxLocal.min.getY() ; 
                         changed = true ;    
                     }
-                    if(minMaxLocal.min.getZ() > minMaxTotal.min.getZ()){
+                    if(minMaxLocal.min.getZ() < minMaxTotal.min.getZ()){
                         minx = minMaxLocal.min.getZ() ; 
                         changed = true ;    
                     }
@@ -65,16 +67,13 @@ public class Grid {
             }
          
         if(minMaxTotal == null){
-            this.length = 0 ; 
-            this.size = 0 ; 
-            this.stratingPoint = null ; 
-            this.voxels = null ;
-            planes = null ;
+            throw new IllegalAccessError("cant create grid");
+    
             
         }
         else{
             this.stratingPoint = minMaxTotal.min ; 
-            this.length = Math.max(minMaxTotal.max.getX() - minMaxTotal.min.getX(), Math.max(minMaxTotal.max.getY() - minMaxTotal.min.getY(),minMaxTotal.max.getZ() - minMaxTotal.min.getZ()));
+            this.length = Math.max(minMaxTotal.max.getX() - minMaxTotal.min.getX(), Math.max(minMaxTotal.max.getY() - minMaxTotal.min.getY(),minMaxTotal.max.getZ() - minMaxTotal.min.getZ()))/ size ;
             this.size = size ; 
             this.voxels  = new ArrayList<List<List<Voxel>>>(size);
             for(int i = 0 ; i<size ; i++){
@@ -119,92 +118,133 @@ public class Grid {
     }
         
     }
-               
+            
+    //TESTED
     public Voxel getVoxel(int i , int j , int k ){
         return voxels.get(i).get(j).get(k);
     }
 
+    //TESTED
     public Voxel getVoxel(Double3 indexes){
         return voxels.get((int)indexes.d1).get((int)indexes.d2).get((int)indexes.d3);
     }
 
+    //TESTED
     public Point getStartingPoint(){
         return this.stratingPoint;
     }
 
+    //TESTED
     public double getLength(){
         return this.length;
     }
 
+    //TESTED
     public int getSize(){
         return size;
     }
 
+    //TESTED 
     public int getNumOfVoxels(){
         return size*size*size;
     }
 
+    //TESTED 
     public boolean isEmpty(){
         return voxels == null || length == 0 || size ==0 ;
 
     }
 
+    //TESTED 
     public Point getMin(){
         return this.stratingPoint ; 
     }
 
+    //TESTED 
     public Point getMax(){
         return stratingPoint.add(Vector.X.scale(size*length)).add(Vector.Y.scale(size*length)).add(Vector.Z.scale(size*length));
     }
 
+    //TO DO : TEST 
     public boolean collision(Ray ray){
-        Point vMin = getMin() , vMax = getMax() ; 
-        double tmin = Util.alignZero((vMin.getX() - ray.getP0().getX()) / ray.getDir().getX()); 
-        double tmax =Util.alignZero( (vMax.getX() - ray.getP0().getX()) / ray.getDir().getX()); 
-        if (tmin > tmax){
-            double tmp = tmin ; 
-            tmin = tmax ; 
-            tmax = tmp ; 
-        }
-        double  tymin = Util.alignZero((vMin.getY() - ray.getP0().getY()) / ray.getDir().getY()); 
-        double  tymax = Util.alignZero((vMax.getY() - ray.getP0().getY()) / ray.getDir().getY()); 
-     
-        if (tymin > tymax){
-            double tmp = tymin ; 
-            tymin = tymax ; 
-            tymax = tmp ; 
-        }
-     
-        if ((tmin > tymax) || (tymin > tmax)) 
-            return false; 
-     
-        if (tymin > tmin) 
-            tmin = tymin; 
-     
-        if (tymax < tmax) 
-            tmax = tymax; 
-     
-        double  tzmin = Util.alignZero((vMin.getZ() - ray.getP0().getZ()) / ray.getDir().getZ()); 
-        double  tzmax = Util.alignZero((vMax.getZ() - ray.getP0().getZ()) / ray.getDir().getZ()); 
-     
-        if (tzmin > tzmax) {
-        double tmp = tzmin ; 
-        tzmin = tzmax ; 
-        tzmax = tmp ; 
-    }
-     
-        if ((tmin > tzmax) || (tzmin > tmax)) 
-            return false; 
-     
-        if (tzmin > tmin) 
-            tmin = tzmin; 
-     
-        if (tzmax < tmax) 
-            tmax = tzmax; 
-     
-        return true; 
+          //the ray's head and direction points
+          Point dir = ray.getDir();
+          Point point = ray.getP0();
+        Point max = getMax(); 
+        Point min = getMin() ;
+         double minX = min.getX() , minY = min.getY() , minZ =min.getZ() , maxX = max.getX() , maxY = max.getY() , maxZ = max.getZ() ; 
+          double xMax, yMax, zMax, xMin, yMin, zMin;
+  
+          //if the vector's x coordinate is zero
+          if (Util.isZero(dir.getZ())) {
+              //if the point's x value is in the box,
+              if (maxX >= point.getX() && minX <= point.getX()) {
+                  xMax = Double.MAX_VALUE;
+                  xMin = Double.MIN_VALUE;
+              } else
+                  return false;
+          }
+  
+          //if the vector's x coordinate is not zero, we need to check if we have values
+          //where (MaxX - pointX) / dirX > (MinX - pointX) / dirX
+          else {
+              double t1 = (maxX - point.getX()) / dir.getX();
+              double t2 = (minX - point.getX()) / dir.getX();
+              xMin = Math.min(t1, t2);
+              xMax = Math.max(t1, t2);
+  
+          }
+  
+          //if the vector's y coordinate is zero
+          if (Util.isZero(dir.getY())) {
+              //if the point's y value is in the box,
+              if (maxX >= point.getY() && minY <= point.getY()) {
+                  yMax = Double.MAX_VALUE;
+                  yMin = Double.MIN_VALUE;
+              } else
+                  return false;
+          }
+  
+          //if the vector's y coordinate is not zero, we need to check if we have values
+          //where (MaxY - pointY) / dirY > (MinY - pointY) / dirY
+          else {
+              double t1 = (maxY - point.getY()) / dir.getY();
+              double t2 = (minY - point.getY()) / dir.getY();
+              yMin = Math.min(t1, t2);
+              yMax = Math.max(t1, t2);
+          }
+  
+          //if the vector's z coordinate is zero
+          if (Util.isZero(dir.getZ())) {
+              //if the point's z value is in the box,
+              if (maxZ >= point.getZ() && minZ <= point.getZ()) {
+                  zMax = Double.MAX_VALUE;
+                  zMin = Double.MIN_VALUE;
+              } else
+                  return false ;
+  
+          }
+  
+          //if the vector's z coordinate is not zero, we need to check if we have values
+          //where (MaxZ - pointZ) / dirZ > (MinZ - pointZ) / dirZ
+          else {
+              double t1 = (maxZ - point.getZ()) / dir.getZ();
+              double t2 = (minZ - point.getZ()) / dir.getZ();
+              zMin = Math.min(t1, t2);
+              zMax = Math.max(t1, t2);
+          }
+  
+          //check if such a point exists.
+          if (xMin > yMax || xMin > zMax ||
+                  yMin > xMax || yMin > zMax ||
+                  zMin > yMax || zMin > xMax)
+              return false;//if not return null
+  
+              //if they do, return all the intersection points of the contents of the box
+     return true;
     }
 
+    // TO DO : TEST 
     public List<Double3> findFirstAndLastVoxel(Ray ray){
         Point strat = ray.getP0() ,
          min = getMin(), 
@@ -216,11 +256,15 @@ public class Grid {
         }
         if(collision(ray)){
             for(Plane plane : planes ){
-                Point inter= plane.findGeoIntersections(ray).get(0).point;
-                if(inter != null &&(closet == null || closet.distanceSquared(strat) > inter.distanceSquared(strat))){
+                List<GeoPoint> pointsTemp = plane.findGeoIntersections(ray);
+                if(pointsTemp == null){
+                  continue ; 
+                }
+                Point inter  = pointsTemp.get(0).point;
+                if(closet == null || closet.distanceSquared(strat) > inter.distanceSquared(strat)){
                     closet = inter ; 
                 }
-                if(inter != null &&(farest == null || farest.distanceSquared(strat) < inter.distanceSquared(strat))){
+                if(farest == null || farest.distanceSquared(strat) < inter.distanceSquared(strat)){
                     farest = inter ; 
                 }
             }

@@ -3,6 +3,7 @@ import geometries.*;
 import primitives.Point;
 public abstract  class Voxelable extends Geometry {
 
+  //TESTED 
     public boolean colllisionWithVoxel(Voxel voxel){
         MaxMin minmax = this.getMaxMin();
         double minX = minmax.min.getX() , minY = minmax.min.getY() , minZ =  minmax.min.getZ() , 
@@ -28,8 +29,10 @@ public abstract  class Voxelable extends Geometry {
         return false;
     }
 
+    //TESTED 
     public abstract MaxMin  getMaxMin();
    
+    //NO NEED TO BE TESETD 
     public static class MaxMin { //PDS - Passive Data Structre 
         public final Point min ; 
         public final Point max ; 

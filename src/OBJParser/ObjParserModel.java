@@ -14,7 +14,7 @@ import primitives.Vector;
 
 public class ObjParserModel {
     final private Point start ; 
-    final private List<List<Vector>> lst  ;
+    final public  List<List<Vector>> lst  ;
     final private List<List<Texture.ImageCords>> lstTet ; 
     final double EPS = 0.0000001;
     final Vector VEPS = new Vector(EPS,EPS,EPS); 

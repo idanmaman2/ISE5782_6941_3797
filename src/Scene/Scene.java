@@ -49,10 +49,23 @@ public class Scene {
             }
         }
     }
+    public Scene add(Intersectable ... geo){
+        this.geometries.add(geo);;
+        for(Intersectable inter : geo){
+            if(inter instanceof Voxelable){
+                this.voxelableOnes.add((Voxelable)inter);
+            }
+            else{
+                this.regularOnes.add(inter);
+            }
+        }
+        return this ; 
+
+    }
     public AmbientLight al ;
     public Geometries geometries;
-    public Geometries regularOnes ; 
-    public VoxelGeometries voxelableOnes ;
+    public Geometries regularOnes = new Geometries() ; 
+    public VoxelGeometries voxelableOnes = new VoxelGeometries();
     public Scene (String senceName){
         this.lights = new LinkedList<LightSource>();
         this.senceName = senceName; 

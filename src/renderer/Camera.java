@@ -4,6 +4,8 @@ import java.net.Inet4Address;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.MissingResourceException;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.stream.IntStream;
 
 import primitives.*;
@@ -19,8 +21,23 @@ public class Camera {
     private double height,width,length,focalLength = 0 ,focalSize =0 ; 
     private ImageWriter writer ; 
     private RayTracerBase rayTrace ;
+    private double pixelCounter = 0 ; 
+    
+    private void startTimer() {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+                private long total = writer.getNx() * writer.getNy();
+                @Override
+                public void run() {
+                        System.out.format("%.1f%% : %,d pixels done from %,d\n",
+                                        ((double)pixelCounter/total) * 100,
+                                        pixelCounter,
+                                        total);
+                        //writeToImage();
+                }
+        }, 1000, 2000);
+    }
 
-  
     public Camera setFocalLength(double focalLength){
         this.focalLength = focalLength ; 
         return this; 
@@ -220,6 +237,7 @@ public class Camera {
         this.vTo == null || this.vUp == null || this.p0 == null){
             throw new MissingResourceException("enter all the values","Camera","i am not your slave");
         }
+        //startTimer();
         int sum = 0 ; 
         IntStream.range(0, writer.getNx()).parallel().forEach(i -> {
             IntStream.range(0, writer.getNy()).parallel().forEach(j-> {
@@ -231,7 +249,7 @@ public class Camera {
                 if(color !=null){
                     writer.writePixel(j, i, color);
                 }
-                
+                //pixelCounter++;
             });
         } );
         return this;
@@ -295,7 +313,7 @@ public class Camera {
         writer.writeToImage(string,imageCords);
     }
 
-    //TO DO -> CHNAGE DIR AND ANGLE OF CAMERA METHODS 
+
 
   
 

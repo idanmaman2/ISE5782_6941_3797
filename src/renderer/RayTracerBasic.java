@@ -173,12 +173,13 @@ public class RayTracerBasic extends RayTracerBase {
 
     private GeoPoint findClosestIntersectionFast(Ray ray){
         List<GeoPoint> intersections = sn.regularOnes.findGeoIntersections(ray);
-        GeoPoint closetUnVoxel =  ray.findClosestGeoPoint(intersections);
         GeoPoint closetVoxel = findClosestIntersectionFastVoxels(ray);
-        if(closetUnVoxel == null){
+        if (intersections == null){
             return closetVoxel ;
         }
+        GeoPoint closetUnVoxel =  ray.findClosestGeoPoint(intersections);
         if(closetVoxel == null ){
+            
             return closetUnVoxel; 
         }
         if(ray.getP0().distanceSquared(closetUnVoxel.point) > ray.getP0().distanceSquared(closetVoxel.point)){
@@ -187,6 +188,7 @@ public class RayTracerBasic extends RayTracerBase {
         return closetUnVoxel ; 
     }
 
+    //TO DO  : TEST
     private GeoPoint findClosestIntersectionFastVoxels(Ray ray) {
         List<Double3> indexes = getGrid().findFirstAndLastVoxel(ray); 
         if(indexes == null ){

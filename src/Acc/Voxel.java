@@ -11,19 +11,29 @@ public class Voxel {
     List<Voxelable> objects = null ;
     final Point vMin ; 
     final Point vMax;
+    
+    //TESTED
     public Voxel (Point vMin , Point vMax ){
         this.vMin = vMin ; 
         this.vMax = vMax ; 
 
     }
   
+    //TESTED
     public void add(Voxelable ... params){
-        if(objects == null){
+       
+        if(params == null || params.length == 0 ){
+            return ; 
+        }
+       
+        if(objects == null ){
             objects = new LinkedList<>(); 
         }
+       
         objects.addAll(List.of(params));
     }
    
+    //TESTED
     public List<GeoPoint> collisoned(Ray ray){
         if(objects == null){
             return null ; 
@@ -41,10 +51,12 @@ public class Voxel {
         return points ; 
     }
 
+    //TESTED 
     public Point getvMin(){
         return this.vMin;
     }
 
+    //TESTED 
     public Point getvMax(){
         return this.vMax ; 
     }
