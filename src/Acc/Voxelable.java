@@ -9,24 +9,14 @@ public abstract  class Voxelable extends Geometry {
         double minX = minmax.min.getX() , minY = minmax.min.getY() , minZ =  minmax.min.getZ() , 
         maxX = minmax.max.getX() , maxY =minmax.max.getY() , maxZ = minmax.max.getZ() ; 
         Point min  = voxel.getvMin() , max = voxel.getvMax() ; 
-        if(minX  >= min.getX() && minY >= min.getY() &&minZ >= min.getZ() && minX <= max.getX() && minY <= max.getX() && minZ <= max.getZ() ){
-          return true ; 
-        }
+        double bminX = min.getX() , bminY = min.getY() , bminZ = min.getZ(), bmaxX = max.getX(), bmaxY= max.getY(), bmaxZ = max.getZ() ;
   
-        if(minX  <= min.getX() && minY <=  min.getY() &&minZ  <= min.getZ() && maxX >= min.getX() && maxY >= min.getX() && maxZ >=  min.getZ() ){
-          return true ; 
-        }
-  
-        if(maxX  >= min.getX() && maxY >= min.getY() &&maxZ >= min.getZ() && maxX <= max.getX() && maxY <= max.getX() && maxZ <= max.getZ() ){
-          return true ; 
-        }
-  
-    
-        if(minX  <= max.getX() && minY <=  max.getY() &&minZ  <= max.getZ() && maxX >= max.getX() && maxY >= max.getX() && maxZ >=  max.getZ() ){
-          return true ; 
-        }
-  
-        return false;
+        return  (minX <= bmaxX && maxX >= bminX) &&
+        (minY <= bmaxY && maxY >= bminY) &&
+        (minZ <= bmaxZ && maxZ >= bminZ) ||
+        (bminX <= maxX && bmaxX >= minX) &&
+        (bminY <= maxY && bmaxY >= minY) &&
+        (bminZ <= maxZ && bmaxZ >= minZ);
     }
 
     //TESTED 

@@ -289,7 +289,8 @@ public class Grid {
         return List.of(
             new Double3(closetX ,closetY ,closetZ), 
             new Double3(farestX, farestY ,farestZ),
-             closet.xyz , farest.xyz
+             closet.xyz ,
+             farest.xyz
             ); 
 
     }

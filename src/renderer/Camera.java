@@ -207,7 +207,7 @@ public class Camera {
         } 
         for(double  ii=0 ;ii<=Rx ; ii=Util.alignZero(ii+Rx/interval*Math.max(0.5d,Math.random())) ){
             for(double jj=0 ; jj>=-Ry ; jj=Util.alignZero(jj-Ry/interval*Math.max(0.5d,Math.random()))){
-                Point ele = Util.randomInEllpiseArea(Rx, Ry, Pij, vUp, vRight);
+               // Point ele = Util.randomInEllpiseArea(Rx, Ry, Pij, vUp, vRight);
                 Point grid = Start ; 
                 if(ii != 0 ){
                     grid = grid.add(vRight.scale( ii )); 
@@ -215,7 +215,7 @@ public class Camera {
                 if(jj!=0 ){
                     grid = grid.add(vUp.scale(jj )); 
                 }
-                crt.add(new Ray(p0,grid.middle(ele, 1, 1).subtract(p0)));
+                crt.add(new Ray(p0,grid.subtract(p0)));
 
 
             }
