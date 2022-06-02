@@ -46,7 +46,7 @@ public class Grid {
                         changed = true ;    
                     }
                     if(minMaxLocal.max.getZ() > minMaxTotal.max.getZ()){
-                        maxx = minMaxLocal.max.getZ() ; 
+                        maxz = minMaxLocal.max.getZ() ; 
                         changed = true ;    
                     }
                     if(minMaxLocal.min.getX() < minMaxTotal.min.getX()){
@@ -58,7 +58,7 @@ public class Grid {
                         changed = true ;    
                     }
                     if(minMaxLocal.min.getZ() < minMaxTotal.min.getZ()){
-                        minx = minMaxLocal.min.getZ() ; 
+                        minz= minMaxLocal.min.getZ() ; 
                         changed = true ;    
                     }
                     if(changed){
@@ -254,7 +254,7 @@ public class Grid {
          max  = getMax() ;  
         Point closet = null ; 
         Point farest = null ; 
-         if(strat.getX()  >= min.getX() && strat.getY() >= min.getY() && strat.getZ() >= min.getZ() && strat.getX() <= max.getX() && strat.getY() < max.getX() && strat.getZ() < max.getZ()){
+         if(strat.getX()  >= min.getX() && strat.getY() >= min.getY() && strat.getZ() >= min.getZ() && strat.getX() <= max.getX() && strat.getY() < max.getY() && strat.getZ() < max.getZ()){
             closet = strat ; 
         }
      

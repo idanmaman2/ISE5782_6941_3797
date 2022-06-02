@@ -147,7 +147,7 @@ public class Polygon extends Voxelable {
         if(Util.alignZero(vertices.get(i).getX() - minX) <0) { minY = vertices.get(i).getY();}
         if(Util.alignZero(vertices.get(i).getX() - minX) <0) { minZ = vertices.get(i).getZ();}
       }
-      return new MaxMin(minX , minY , minZ , maxX , maxY ,maxZ);
+      return new MaxMin(minX , minY , minZ , maxX + 0.1 , maxY + 0.1 ,maxZ+0.1);
     }
 
 
