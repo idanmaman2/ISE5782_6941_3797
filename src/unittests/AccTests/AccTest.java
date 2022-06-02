@@ -40,7 +40,7 @@ public class AccTest {
 	private Point trPL = new Point(50, 30, -100); // Triangles test Position of Light
 	private Color trCL = new Color(800, 500, 250); // Triangles test Color of Light
 	private Vector trDL = new Vector(-2, -2, -2); // Triangles test Direction of Light
-	private Material material = new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300).setKT(new Double3(0.5));
+	private Material material = new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300).setKT(new Double3(0.999999999));
 	private Geometry triangle1 = new Triangle(p[0], p[1], p[2]).setMaterial(material);
 	private Geometry triangle2 = new Triangle(p[0], p[1], p[3]).setMaterial(material);
 
@@ -119,19 +119,22 @@ public class AccTest {
 			System.out.println(trc.getGrid().getMax());
 			System.out.println(trc.getGrid().getLength());
 			System.out.println(trc.getGrid().getSize());
+			double length = trc.getGrid().getLength() ; 
+			double size =trc.getGrid().getSize();
 			Point stratingPoint = trc.getGrid().getMin();
 			Point max = trc.getGrid().getMax();
 			scene1.lights.add(new PointLight(new Point(20, -30, 20),new Color(555,555,0)).setKL(0.001).setKQ(0.0002));
 			Geometry [] planes  = new Geometry [] {   
-				new Plane(stratingPoint , new Vector(1,0,0)).setMaterial(material).setEmisson(new Color(BLUE)), //front*
-				new Plane(max , new Vector(1,0,0)).setMaterial(material).setEmisson(new Color(GREEN)) , //back -
-				new Plane(max, new Vector(0,1,0)).setMaterial(material).setEmisson(new Color(GRAY)) , // top - 
-				 new Plane(stratingPoint , new Vector(0,1,0)).setMaterial(material).setEmisson(new Color(PINK)), // bot  * 
-				new Plane(stratingPoint , new Vector(0,0,1)).setMaterial(material).setEmisson(new Color(YELLOW)) , // right *
-			   new Plane(max , new Vector(0,0,1)).setMaterial(material).setEmisson(new Color(BLACK)) //left 
+				new Polygon(stratingPoint , stratingPoint.add(Vector.X.scale(size*length)),stratingPoint.add(Vector.X.scale(size*length).add(Vector.Y.scale(size*length))),stratingPoint.add(Vector.Y.scale(size*length))).setMaterial(material).setEmisson(new Color(BLUE)), //left*
+				new Polygon(stratingPoint , stratingPoint.add(Vector.Z.scale(size*length)),stratingPoint.add(Vector.Z.scale(size*length).add(Vector.Y.scale(size*length))),stratingPoint.add(Vector.Y.scale(size*length))).setMaterial(material).setEmisson(new Color(BLACK)), //front 
+				new Polygon(stratingPoint , stratingPoint.add(Vector.Z.scale(size*length)),stratingPoint.add(Vector.Z.scale(size*length).add(Vector.X.scale(size*length))),stratingPoint.add(Vector.X.scale(size*length))).setMaterial(material).setEmisson(new Color(PINK)), // bot  * 
+				new Polygon(max , max.add(Vector.Y.scale(size*length).scale(-1)),max.add(Vector.Y.scale(size*length).scale(-1)).add(Vector.Z.scale(size*length).scale(-1)),max.add(Vector.Z.scale(size*length).scale(-1))).setMaterial(material).setEmisson(new Color(GREEN)) , //back -
+				new Polygon(max , max.add(Vector.X.scale(size*length).scale(-1)),max.add(Vector.X.scale(size*length).scale(-1)).add(Vector.Z.scale(size*length).scale(-1)),max.add(Vector.Z.scale(size*length).scale(-1))).setMaterial(material).setEmisson(new Color(GRAY)) , // top - 
+				new Polygon(max , max.add(Vector.Y.scale(size*length).scale(-1)),max.add(Vector.Y.scale(size*length).scale(-1)).add(Vector.X.scale(size*length).scale(-1)),max.add(Vector.X.scale(size*length).scale(-1))).setMaterial(material).setEmisson(new Color(YELLOW)) // right *
+			  
 			};
-			planes[i].setEmisson(new Color(RED)).setMaterial(new Material().setkS(new Double3(1)));
-			scene1.add(planes); 
+			planes[i].setEmisson(new Color(RED)).setMaterial(new Material().setkS(new Double3(0)));
+			scene1.add(planes[i]); 
 			camera1.setWriter(imageWriter) //
 			.setRayTrace(trc) //
 			.renderImage() //
@@ -163,14 +166,17 @@ public class AccTest {
 		System.out.println(trc.getGrid().getSize());
 		Point stratingPoint = trc.getGrid().getMin();
 		Point max = trc.getGrid().getMax();
+		double length = trc.getGrid().getLength() ; 
+		double size =trc.getGrid().getSize();
 		scene1.lights.add(new PointLight(new Point(20, -30, 20),new Color(555,555,0)).setKL(0.001).setKQ(0.0002));
 		Geometry [] planes  = new Geometry [] {   
-			new Plane(stratingPoint , new Vector(1,0,0)).setMaterial(material).setEmisson(new Color(BLUE)), //front*
-			new Plane(max , new Vector(1,0,0)).setMaterial(material).setEmisson(new Color(GREEN)) , //back -
-			new Plane(max, new Vector(0,1,0)).setMaterial(material).setEmisson(new Color(GRAY)) , // top - 
-			 new Plane(stratingPoint , new Vector(0,1,0)).setMaterial(material).setEmisson(new Color(PINK)), // bot  * 
-			new Plane(stratingPoint , new Vector(0,0,1)).setMaterial(material).setEmisson(new Color(YELLOW)) , // right *
-		   new Plane(max , new Vector(0,0,1)).setMaterial(material).setEmisson(new Color(BLACK)) //left 
+			new Polygon(stratingPoint , stratingPoint.add(Vector.X.scale(size*length)),stratingPoint.add(Vector.X.scale(size*length).add(Vector.Y.scale(size*length))),stratingPoint.add(Vector.Y.scale(size*length))).setMaterial(material).setEmisson(new Color(BLUE)), //left*
+			new Polygon(stratingPoint , stratingPoint.add(Vector.Z.scale(size*length)),stratingPoint.add(Vector.Z.scale(size*length).add(Vector.Y.scale(size*length))),stratingPoint.add(Vector.Y.scale(size*length))).setMaterial(material).setEmisson(new Color(BLACK)), //front 
+			new Polygon(stratingPoint , stratingPoint.add(Vector.Z.scale(size*length)),stratingPoint.add(Vector.Z.scale(size*length).add(Vector.X.scale(size*length))),stratingPoint.add(Vector.X.scale(size*length))).setMaterial(material).setEmisson(new Color(PINK)), // bot  * 
+			new Polygon(max , max.add(Vector.Y.scale(size*length).scale(-1)),max.add(Vector.Y.scale(size*length).scale(-1)).add(Vector.Z.scale(size*length).scale(-1)),max.add(Vector.Z.scale(size*length).scale(-1))).setMaterial(material).setEmisson(new Color(GREEN)) , //back -
+			new Polygon(max , max.add(Vector.X.scale(size*length).scale(-1)),max.add(Vector.X.scale(size*length).scale(-1)).add(Vector.Z.scale(size*length).scale(-1)),max.add(Vector.Z.scale(size*length).scale(-1))).setMaterial(material).setEmisson(new Color(GRAY)) , // top - 
+			new Polygon(max , max.add(Vector.Y.scale(size*length).scale(-1)),max.add(Vector.Y.scale(size*length).scale(-1)).add(Vector.X.scale(size*length).scale(-1)),max.add(Vector.X.scale(size*length).scale(-1))).setMaterial(material).setEmisson(new Color(YELLOW)) // right *
+		  
 		};
 		scene1.add(planes); 
 		Point Max = new Point(100.0,100.0,50.0);
@@ -185,11 +191,11 @@ public class AccTest {
 		System.out.println(trc.getGrid().collision(ray));
 		assertTrue(trc.getGrid().collision(ray));
 		System.out.println(trc.getGrid().findFirstAndLastVoxel(ray));
-		assertEquals(trc.getGrid().findFirstAndLastVoxel(ray), List.of(new Double3(0,0,0) ,new Double3(10,10,10) ,Min.xyz,Max.xyz),"Voxels didnt found");
-		camera1.setWriter(imageWriter) //
-		.setRayTrace(trc) //
-		.renderImage() //
-		.writeToImage(); 
+		//assertEquals(trc.getGrid().findFirstAndLastVoxel(ray), List.of(new Double3(0,0,0) ,new Double3(10,10,10) ,Min.xyz,Max.xyz),"Voxels didnt found");
+		//camera1.setWriter(imageWriter) //
+		//.setRayTrace(trc) //
+		//.renderImage() //
+		//.writeToImage(); 
 
 		scene1 = new Scene("Test scene 2 ");
 		scene1.lights.add(new PointLight(new Point(20, -30, 20),new Color(555,555,0)).setKL(0.001).setKQ(0.0002));
@@ -201,16 +207,19 @@ public class AccTest {
 		System.out.println(trc.getGrid().getMax());
 		System.out.println(trc.getGrid().getLength());
 		System.out.println(trc.getGrid().getSize());
+		 length = trc.getGrid().getLength() ; 
+		 size =trc.getGrid().getSize();
 		stratingPoint = trc.getGrid().getMin();
 		max = trc.getGrid().getMax();
 		scene1.lights.add(new PointLight(new Point(20, -30, 20),new Color(555,555,0)).setKL(0.001).setKQ(0.0002));
-		 planes  = new Geometry [] {   
-			new Plane(stratingPoint , new Vector(1,0,0)).setMaterial(material).setEmisson(new Color(BLUE)), //front*
-			new Plane(max , new Vector(1,0,0)).setMaterial(material).setEmisson(new Color(GREEN)) , //back -
-			new Plane(max, new Vector(0,1,0)).setMaterial(material).setEmisson(new Color(GRAY)) , // top - 
-			 new Plane(stratingPoint , new Vector(0,1,0)).setMaterial(material).setEmisson(new Color(PINK)), // bot  * 
-			new Plane(stratingPoint , new Vector(0,0,1)).setMaterial(material).setEmisson(new Color(YELLOW)) , // right *
-		   new Plane(max , new Vector(0,0,1)).setMaterial(material).setEmisson(new Color(BLACK)) //left 
+		planes  = new Geometry [] {   
+			new Polygon(stratingPoint , stratingPoint.add(Vector.X.scale(size*length)),stratingPoint.add(Vector.X.scale(size*length).add(Vector.Y.scale(size*length))),stratingPoint.add(Vector.Y.scale(size*length))).setMaterial(material).setEmisson(new Color(BLUE)), //left*
+			new Polygon(stratingPoint , stratingPoint.add(Vector.Z.scale(size*length)),stratingPoint.add(Vector.Z.scale(size*length).add(Vector.Y.scale(size*length))),stratingPoint.add(Vector.Y.scale(size*length))).setMaterial(material).setEmisson(new Color(BLACK)), //front 
+			new Polygon(stratingPoint , stratingPoint.add(Vector.Z.scale(size*length)),stratingPoint.add(Vector.Z.scale(size*length).add(Vector.X.scale(size*length))),stratingPoint.add(Vector.X.scale(size*length))).setMaterial(material).setEmisson(new Color(PINK)), // bot  * 
+			new Polygon(max , max.add(Vector.Y.scale(size*length).scale(-1)),max.add(Vector.Y.scale(size*length).scale(-1)).add(Vector.Z.scale(size*length).scale(-1)),max.add(Vector.Z.scale(size*length).scale(-1))).setMaterial(material).setEmisson(new Color(GREEN)) , //back -
+			new Polygon(max , max.add(Vector.X.scale(size*length).scale(-1)),max.add(Vector.X.scale(size*length).scale(-1)).add(Vector.Z.scale(size*length).scale(-1)),max.add(Vector.Z.scale(size*length).scale(-1))).setMaterial(material).setEmisson(new Color(GRAY)) , // top - 
+			new Polygon(max , max.add(Vector.Y.scale(size*length).scale(-1)),max.add(Vector.Y.scale(size*length).scale(-1)).add(Vector.X.scale(size*length).scale(-1)),max.add(Vector.X.scale(size*length).scale(-1))).setMaterial(material).setEmisson(new Color(YELLOW)) // right *
+		  
 		};
 		scene1.add(planes); 
 		 Max = new Point(100.0,100.0,50.0);
@@ -228,7 +237,7 @@ public class AccTest {
 		
 		// 150 + - is 7 * 20 voxels on z  + half - so 7 voxels on z 
 		// 190 - is 20 * 9- so 9.5 - so 9  voxels on y
-		// 200 - is 20 * 10  - so 10 voxels on x
+		// 40 - is 2 * 10  - so 2 voxels on x
 		//assertEquals(trc.getGrid().findFirstAndLastVoxel(ray), List.of(new Double3(2,9,7) ,new Double3(10,10,10) ,Min.xyz,Max.xyz),"Voxels didnt found");
 		camera1.setWriter(imageWriter) //
 		.setRayTrace(trc) //
@@ -257,21 +266,24 @@ public class AccTest {
 		System.out.println(trc.getGrid().getLength());
 		System.out.println(trc.getGrid().getSize());
 		stratingPoint = trc.getGrid().getMin();
+		 length = trc.getGrid().getLength() ; 
+		 size =trc.getGrid().getSize();
 		max = trc.getGrid().getMax();
 		scene1.lights.add(new PointLight(new Point(20, -30, 20),new Color(555,555,0)).setKL(0.001).setKQ(0.0002));
-		 planes  = new Geometry [] {   
-			new Plane(stratingPoint , new Vector(1,0,0)).setMaterial(material).setEmisson(new Color(BLUE)), //front*
-			new Plane(max , new Vector(1,0,0)).setMaterial(material).setEmisson(new Color(GREEN)) , //back -
-			new Plane(max, new Vector(0,1,0)).setMaterial(material).setEmisson(new Color(GRAY)) , // top - 
-			 new Plane(stratingPoint , new Vector(0,1,0)).setMaterial(material).setEmisson(new Color(PINK)), // bot  * 
-			new Plane(stratingPoint , new Vector(0,0,1)).setMaterial(material).setEmisson(new Color(YELLOW)) , // right *
-		   new Plane(max , new Vector(0,0,1)).setMaterial(material).setEmisson(new Color(BLACK)) //left 
+	 planes  = new Geometry [] {   
+			new Polygon(stratingPoint , stratingPoint.add(Vector.X.scale(size*length)),stratingPoint.add(Vector.X.scale(size*length).add(Vector.Y.scale(size*length))),stratingPoint.add(Vector.Y.scale(size*length))).setMaterial(material).setEmisson(new Color(BLUE)), //left*
+			new Polygon(stratingPoint , stratingPoint.add(Vector.Z.scale(size*length)),stratingPoint.add(Vector.Z.scale(size*length).add(Vector.Y.scale(size*length))),stratingPoint.add(Vector.Y.scale(size*length))).setMaterial(material).setEmisson(new Color(BLACK)), //front 
+			new Polygon(stratingPoint , stratingPoint.add(Vector.Z.scale(size*length)),stratingPoint.add(Vector.Z.scale(size*length).add(Vector.X.scale(size*length))),stratingPoint.add(Vector.X.scale(size*length))).setMaterial(material).setEmisson(new Color(PINK)), // bot  * 
+			new Polygon(max , max.add(Vector.Y.scale(size*length).scale(-1)),max.add(Vector.Y.scale(size*length).scale(-1)).add(Vector.Z.scale(size*length).scale(-1)),max.add(Vector.Z.scale(size*length).scale(-1))).setMaterial(material).setEmisson(new Color(GREEN)) , //back -
+			new Polygon(max , max.add(Vector.X.scale(size*length).scale(-1)),max.add(Vector.X.scale(size*length).scale(-1)).add(Vector.Z.scale(size*length).scale(-1)),max.add(Vector.Z.scale(size*length).scale(-1))).setMaterial(material).setEmisson(new Color(GRAY)) , // top - 
+			new Polygon(max , max.add(Vector.Y.scale(size*length).scale(-1)),max.add(Vector.Y.scale(size*length).scale(-1)).add(Vector.X.scale(size*length).scale(-1)),max.add(Vector.X.scale(size*length).scale(-1))).setMaterial(material).setEmisson(new Color(YELLOW)) // right *
+		  
 		};
 		scene1.add(planes); 
 		 Max = new Point(100.0,100.0,50.0).add(new Vector(289,210,267));
 		 Min = new Point(-100.0,-100.0,-150.0).add(new Vector(255,235,211));
 		 dir = Max.subtract(Min);
-		 ray = new Ray(Min,dir.scale(-1));
+		 ray = new Ray(Min,new Vector(0,1,0));
 		//Point{xyz=(-100.0,-100.0,-150.0)}
 		//Point{xyz=(100.0,100.0,50.0)}
 		//20.0

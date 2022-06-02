@@ -17,6 +17,8 @@ public class RayTracerBasic extends RayTracerBase {
     private static final double MIN_CALC_COLOR_K = 0.001;
     private static final Double3 INITIAL_K = new Double3(1.0);
     private static final double EPS = 0.1;
+    static int total = 0 ; 
+    static int hit ; 
     private final boolean fast3DDDA ;
     private  int size ; 
     private Grid grid =null;
@@ -225,7 +227,7 @@ public class RayTracerBasic extends RayTracerBase {
           visited_voxels.add(current_voxel);
         }
       
-        while(last_voxel != current_voxel) {
+        while(!last_voxel.equals(current_voxel)  ) {
           if (tMaxX < tMaxY) {
             if (tMaxX < tMaxZ) {
               current_voxel =current_voxel.add(new Double3(stepX, 0, 0)) ;
@@ -243,15 +245,26 @@ public class RayTracerBasic extends RayTracerBase {
               tMaxZ += tDeltaZ;
             }
           }
-          visited_voxels.add(current_voxel);
+          int size = getGrid().getSize();
+       
+        if(current_voxel.d1 < 0 || current_voxel.d2 < 0 || current_voxel.d3 < 0 ||current_voxel.d1 > size || current_voxel.d2 > size || current_voxel.d3 > size ){
+            return null ; 
         }
-        for(Double3 index : visited_voxels){
-            Voxel curr = getGrid().getVoxel(index);
+            Voxel curr = getGrid().getVoxel(current_voxel);
             List<GeoPoint> points = curr.collisoned(ray);
+            total++;
             if(points != null){
-                return ray.findClosestGeoPoint(points);
-            }
+                hit++;
+               // System.out.println("total : " + total + " hit : " + hit + " precent : " + hit/(double)total);
+                GeoPoint closet =  ray.findClosestGeoPoint(points);
+              //  System.out.println(closet.point);
+                return closet;
+            
         }
+      
+        
+    }
+        
         return null ;
     }
 

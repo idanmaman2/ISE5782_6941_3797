@@ -10,6 +10,7 @@ import Acc.Voxelable.MaxMin;
 import geometries.Geometries;
 import geometries.Intersectable;
 import geometries.Plane;
+import geometries.Polygon;
 import geometries.Intersectable.GeoPoint;
 import primitives.Double3;
 import primitives.Point;
@@ -22,7 +23,7 @@ public class Grid {
     double length ; 
     Point stratingPoint ; 
     final List<List<List<Voxel>>> voxels; // 3d grid voxels 
-    final Plane [] planes   ; 
+    final Polygon [] planes   ; 
     
     //TESTED 
     public Grid(List<Voxelable> objects ,int size ){
@@ -93,12 +94,10 @@ public class Grid {
                         }
                         Point vMax  = vMin.add(Vector.X.scale(length)).add(Vector.Y.scale(length)).add(Vector.Z.scale(length));
                        Voxel voxel = new Voxel(vMin, vMax);
-                       for(Intersectable object : objects){
-                           if(object instanceof Voxelable){
-                               Voxelable objectVox = (Voxelable)object; 
+                       for(Voxelable object : objects){
+                               Voxelable objectVox = object; 
                                if(objectVox.colllisionWithVoxel(voxel)){
                                    voxel.add(objectVox);
-                               }
                            }
                        }
                        row.add(voxel);
@@ -109,12 +108,13 @@ public class Grid {
                 voxels.add(column);
             }
             Point max = getMax(); 
-            planes  = new Plane [] {   new Plane(stratingPoint , new Vector(1,0,0)), //front*
-                new Plane(max , new Vector(1,0,0)) , //back -
-                 new Plane(max, new Vector(0,1,0)) , // top - 
-                 new Plane(stratingPoint , new Vector(0,1,0)), // bot  * 
-                new Plane(stratingPoint , new Vector(0,0,1)) , // right *
-               new Plane(max , new Vector(0,0,1)) // left - 
+            planes  = new Polygon [] { 
+                new Polygon(stratingPoint , stratingPoint.add(Vector.X.scale(size*length)),stratingPoint.add(Vector.X.scale(size*length).add(Vector.Y.scale(size*length))),stratingPoint.add(Vector.Y.scale(size*length))), //left
+				new Polygon(stratingPoint , stratingPoint.add(Vector.Z.scale(size*length)),stratingPoint.add(Vector.Z.scale(size*length).add(Vector.Y.scale(size*length))),stratingPoint.add(Vector.Y.scale(size*length))), //front 
+				new Polygon(stratingPoint , stratingPoint.add(Vector.Z.scale(size*length)),stratingPoint.add(Vector.Z.scale(size*length).add(Vector.X.scale(size*length))),stratingPoint.add(Vector.X.scale(size*length))), // bot   
+				new Polygon(max , max.add(Vector.Y.scale(size*length).scale(-1)),max.add(Vector.Y.scale(size*length).scale(-1)).add(Vector.Z.scale(size*length).scale(-1)),max.add(Vector.Z.scale(size*length).scale(-1))) , //back 
+				new Polygon(max , max.add(Vector.X.scale(size*length).scale(-1)),max.add(Vector.X.scale(size*length).scale(-1)).add(Vector.Z.scale(size*length).scale(-1)),max.add(Vector.Z.scale(size*length).scale(-1))) , // top  
+				new Polygon(max , max.add(Vector.Y.scale(size*length).scale(-1)),max.add(Vector.Y.scale(size*length).scale(-1)).add(Vector.X.scale(size*length).scale(-1)),max.add(Vector.X.scale(size*length).scale(-1))) // right 
             };
     }
         
@@ -257,28 +257,38 @@ public class Grid {
          if(strat.getX()  >= min.getX() && strat.getY() >= min.getY() && strat.getZ() >= min.getZ() && strat.getX() <= max.getX() && strat.getY() < max.getX() && strat.getZ() < max.getZ()){
             closet = strat ; 
         }
-        if(collision(ray)){
-            for(Plane plane : planes ){
-                List<Point> pointsTemp = plane.findIntsersections(ray);
-                if(pointsTemp == null){
-                  continue ; 
-                }
-                Point inter  = pointsTemp.get(0);
-                if(closet == null || closet.distanceSquared(strat) > inter.distanceSquared(strat)){
-                    closet = inter ; 
-                }
-                if(farest == null || farest.distanceSquared(strat) < inter.distanceSquared(strat)){
-                    farest = inter ; 
-                }
+     
+        for(Polygon quadanle : planes ){
+            List<Point> pointsTemp = quadanle.findIntsersections(ray);
+            if(pointsTemp == null){
+                continue ; 
             }
-        }
+            Point inter  = pointsTemp.get(0);
+            if(closet == null || closet.distanceSquared(strat) > inter.distanceSquared(strat)){
+                closet = inter ; 
+            }
+            if(farest == null || farest.distanceSquared(strat) < inter.distanceSquared(strat)){
+                farest = inter ; 
+            }
+            }
+        
         if(closet == null ){
             return null ; 
         }
+
+        
+        int closetX =(int) Math.floor((closet.getX() - min.getX()) / length) , 
+        closetY = (int)Math.floor((closet.getY() - min.getY()) / length)
+         ,closetZ = (int)Math.floor((closet.getZ() - min.getZ()) / length) ; 
+        int farestX = (int)Math.floor((farest.getX() - min.getX()) / length) 
+        , farestY  =(int) Math.floor((farest.getY() - min.getY()) / length)
+        ,farestZ= (int)Math.floor((farest.getZ() - min.getZ())/ length); 
+        if(closetX < 0  || closetY < 0 || closetZ < 0 ||farestX < 0 ||farestY < 0 || farestZ <0){
+            return null;
+        }
         return List.of(
-            new Double3(Math.floor((closet.getX() - min.getX()) / length) , Math.floor((closet.getY() - min.getY()) / length), Math.floor((closet.getZ() - min.getZ()) / length)), 
-            new Double3(Math.floor((farest.getX() - min.getX()) / length) , Math.floor((farest.getY() - min.getY()) / length), Math.floor((farest.getZ() - min.getZ())
-            / length)),
+            new Double3(closetX ,closetY ,closetZ), 
+            new Double3(farestX, farestY ,farestZ),
              closet.xyz , farest.xyz
             ); 
 

@@ -270,13 +270,15 @@ public void RifleModelTest() throws WFException, IOException {
     scene1.lights.add(new PointLight(new Point(20, -30, 20),new Color(555,555,0)).setKL(0.001).setKQ(0.0002));
     scene1.lights.add(new DirectionalLight(spCL, new Vector(1, -4, -0.5)));
     scene1.lights.add(new DirectionalLight(spCL, new Vector(1, 1, -0.5)));
-    ImageWriter imageWriter = new ImageWriter("RIFLE", 10, 10);
-    ObjParser modelObjParser = new ObjParser("/Users/idang/Downloads/M4A1.obj") ;
-    scene1.add(modelObjParser.getObjParserModel().scale(20).rotate(-30,new Vector(0,1,0)).changeStartingPoint(new Point(100,-100,0)).getShapes().stream().map((e)->(Intersectable)e.setEmisson(new Color(BLUE).reduce(2)) //
+    ImageWriter imageWriter = new ImageWriter("RIFLEAFTER3DDDA", 100, 100);
+    ObjParser modelObjParser = new ObjParser("C:\\Users\\Idang\\Downloads\\capsule.obj") ;
+    scene1.add(modelObjParser.getObjParserModel().scale(200).rotate(-30,new Vector(0,1,0)).changeStartingPoint(new Point(100,-100,0)).getShapes().stream().map((e)->(Intersectable)e.setEmisson(new Color(BLUE).reduce(2)) //
     .setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300))).toArray(Intersectable[]::new));
-  
+    System.out.println("hiii");
+    RayTracerBasic trc = new RayTracerBasic(scene1,true).setSize(10) ;
+    System.out.println(trc.getGrid().getMax());
     camera1.setWriter(imageWriter) //
-    .setRayTrace(new RayTracerBasic(scene1,true).setSize(10)) //
+    .setRayTrace(trc) //
     .renderImage() //s
     .writeToImage(); //
 
