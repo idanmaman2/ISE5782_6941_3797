@@ -91,4 +91,7 @@ public class Point implements Comparable<Point> {
         Point q = x.getP0().add(x.getDir());
         return this.subtract(x.getP0()).crossProduct(this.subtract(q)).length() / ((double)q.subtract(x.getP0()).length());
     }
+    public Point alignZero(){
+        return new Point(Util.alignZero(xyz.d1),Util.alignZero(xyz.d2),Util.alignZero(xyz.d3));
+    }
 }

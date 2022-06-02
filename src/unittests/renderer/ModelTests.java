@@ -271,8 +271,8 @@ public void RifleModelTest() throws WFException, IOException {
     scene1.lights.add(new DirectionalLight(spCL, new Vector(1, -4, -0.5)));
     scene1.lights.add(new DirectionalLight(spCL, new Vector(1, 1, -0.5)));
     ImageWriter imageWriter = new ImageWriter("RIFLEAFTER3DDDA", 100, 100);
-    ObjParser modelObjParser = new ObjParser("C:\\Users\\Idang\\Downloads\\cube.obj") ;
-    scene1.add(modelObjParser.getObjParserModel().scale(100).rotate(-30,new Vector(0,1,0)).changeStartingPoint(new Point(100,-100,0)).getShapes().stream().map((e)->(Intersectable)e.setEmisson(new Color(BLUE).reduce(2)) //
+    ObjParser modelObjParser = new ObjParser("C:\\Users\\Idang\\Downloads\\capsule.obj") ;
+    scene1.add(modelObjParser.getObjParserModel().scale(200).rotate(-30,new Vector(0,1,0)).changeStartingPoint(new Point(100,-100,0)).getShapes().stream().map((e)->(Intersectable)e.setEmisson(new Color(BLUE).reduce(2)) //
     .setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300))).toArray(Intersectable[]::new));
     System.out.println("hiii");
     RayTracerBasic trc = new RayTracerBasic(scene1,true).setSize(4) ;

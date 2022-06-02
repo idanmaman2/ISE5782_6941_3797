@@ -161,7 +161,7 @@ public class RayTracerBasic extends RayTracerBase {
      */
     private GeoPoint findClosestIntersection(Ray ray) {
         if(fast3DDDA){
-            return findClosestIntersectionFast(ray);
+            return findCloserTest(ray);
         }
         return findClosestIntersectionSlow(ray);
     }
@@ -193,10 +193,10 @@ public class RayTracerBasic extends RayTracerBase {
 
     private GeoPoint findCloserTest(Ray ray){
         GeoPoint closet = null ;
-        for(int i= 0 ; i < grid.getSize() ; i++){ 
-            for(int j =0  ; j < grid.getSize() ; j++){
-                for(int k=0;k<grid.getSize() ; k++){
-                    List<GeoPoint> points = grid.getVoxel(i, j, k).collisoned(ray);
+        for(int i= 0 ; i < getGrid().getSize() ; i++){ 
+            for(int j =0  ; j < getGrid().getSize() ; j++){
+                for(int k=0;k<getGrid().getSize() ; k++){
+                    List<GeoPoint> points = getGrid().getVoxel(i, j, k).collisoned(ray);
                     if(points != null){
                         GeoPoint pot = ray.findClosestGeoPoint(points);
                         if(closet == null || pot.point.distanceSquared(ray.getP0()) < closet.point.distanceSquared(ray.getP0())){

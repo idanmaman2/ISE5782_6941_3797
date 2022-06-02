@@ -65,12 +65,12 @@ public class LightsTests {
 	 */
 	@Test
 	public void spherePoint() {
-		scene1.geometries.add(sphere);
+		scene1.add(sphere);
 		scene1.lights.add(new PointLight(spPL,spCL).setKL(0.001).setKQ(0.0002));
 
 		ImageWriter imageWriter = new ImageWriter("lightSpherePoint", 1500, 1500);
 		camera1.setWriter(imageWriter) //
-				.setRayTrace(new RayTracerBasic(scene1)) //
+				.setRayTrace(new RayTracerBasic(scene1,true).setSize(4)) //
 				.renderImage() //
 				.writeToImage(); //
 	}
@@ -122,12 +122,12 @@ public class LightsTests {
 	 */
 	@Test
 	public void trianglesDirectional() {
-		scene2.geometries.add(triangle1, triangle2);
+		scene2.add(triangle1, triangle2);
 		scene2.lights.add(new DirectionalLight(trCL, trDL));
 
 		ImageWriter imageWriter = new ImageWriter("lightTrianglesDirectional", 1500, 1500);
 		camera2.setWriter(imageWriter) //
-				.setRayTrace(new RayTracerBasic(scene2)) //
+				.setRayTrace(new RayTracerBasic(scene2,true).setSize(4)) //
 				.renderImage() //
 				.writeToImage(); //
 	}
