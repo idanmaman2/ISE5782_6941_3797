@@ -66,7 +66,7 @@ public class AccTest {
 		
 	
 			scene1.add(obj.getRandomColoredTriangles(new Double3(0.5), new Double3(0.5), new Double3(0.3),new Double3(0.9), 300));
-			RayTracerBasic trc = new RayTracerBasic(scene1,false).setSize(10); 
+			RayTracerBasic trc = new RayTracerBasic(scene1,false,0).setSize(10); 
 			System.out.println("try 1: ");
 			System.out.println(trc.getGrid().getMin());
 			System.out.println(trc.getGrid().getMax());
@@ -113,7 +113,7 @@ public class AccTest {
 			scene1.lights.add(new PointLight(new Point(20, -30, 20),new Color(555,555,0)).setKL(0.001).setKQ(0.0002));
 			ImageWriter imageWriter = new ImageWriter("Plane" + i , 1000, 1000);
 			scene1.add(triangle1);
-			RayTracerBasic trc = new RayTracerBasic(scene1,false).setSize(10); 
+			RayTracerBasic trc = new RayTracerBasic(scene1,false,0).setSize(10); 
 			System.out.println("try 1: ");
 			System.out.println(trc.getGrid().getMin());
 			System.out.println(trc.getGrid().getMax());
@@ -158,7 +158,7 @@ public class AccTest {
 		scene1.lights.add(new PointLight(new Point(20, -30, 20),new Color(555,555,0)).setKL(0.001).setKQ(0.0002));
 		ImageWriter imageWriter = new ImageWriter("CollisionTest", 1000, 1000);
 		scene1.add(triangle1);
-		RayTracerBasic trc = new RayTracerBasic(scene1,false).setSize(10); 
+		RayTracerBasic trc = new RayTracerBasic(scene1,false,0).setSize(10); 
 		System.out.println("try 1: ");
 		System.out.println(trc.getGrid().getMin());
 		System.out.println(trc.getGrid().getMax());
@@ -201,7 +201,7 @@ public class AccTest {
 		scene1.lights.add(new PointLight(new Point(20, -30, 20),new Color(555,555,0)).setKL(0.001).setKQ(0.0002));
 		 imageWriter = new ImageWriter("CollisionTest 2 ", 1000, 1000);
 		scene1.add(triangle1);
-		trc = new RayTracerBasic(scene1,false).setSize(10); 
+		trc = new RayTracerBasic(scene1,false,0).setSize(10); 
 		System.out.println("try 1: ");
 		System.out.println(trc.getGrid().getMin());
 		System.out.println(trc.getGrid().getMax());
@@ -259,7 +259,7 @@ public class AccTest {
 		scene1.lights.add(new PointLight(new Point(20, -30, 20),new Color(555,555,0)).setKL(0.001).setKQ(0.0002));
 		 imageWriter = new ImageWriter("CollisionTest 3 ", 1000, 1000);
 		scene1.add(triangle1);
-		trc = new RayTracerBasic(scene1,false).setSize(10); 
+		trc = new RayTracerBasic(scene1,false,0).setSize(10); 
 		System.out.println("try 1: ");
 		System.out.println(trc.getGrid().getMin());
 		System.out.println(trc.getGrid().getMax());

@@ -70,7 +70,7 @@ public class LightsTests {
 
 		ImageWriter imageWriter = new ImageWriter("lightSpherePoint", 1500, 1500);
 		camera1.setWriter(imageWriter) //
-				.setRayTrace(new RayTracerBasic(scene1,true).setSize(4)) //
+				.setRayTrace(new RayTracerBasic(scene1,true,0).setSize(4)) //
 				.renderImage() //
 				.writeToImage(); //
 	}
@@ -127,7 +127,7 @@ public class LightsTests {
 
 		ImageWriter imageWriter = new ImageWriter("lightTrianglesDirectional", 1500, 1500);
 		camera2.setWriter(imageWriter) //
-				.setRayTrace(new RayTracerBasic(scene2,true).setSize(4)) //
+				.setRayTrace(new RayTracerBasic(scene2,true,0).setSize(4)) //
 				.renderImage() //
 				.writeToImage(); //
 	}

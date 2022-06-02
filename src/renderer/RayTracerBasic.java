@@ -23,8 +23,10 @@ public class RayTracerBasic extends RayTracerBase {
     private  int size ; 
     private Grid grid =null;
     private int i =0, jy=0 , px=0 ,  py=0;
-    public RayTracerBasic (Scene scene , boolean fast3DDDA) {
+    public RayTracerBasic (Scene scene , boolean fast3DDDA,int i ) {
+   
         super(scene);
+        is= i ;
         this.fast3DDDA = fast3DDDA; 
     }
     public RayTracerBasic (Scene scene ) {
@@ -161,7 +163,7 @@ public class RayTracerBasic extends RayTracerBase {
      */
     private GeoPoint findClosestIntersection(Ray ray) {
         if(fast3DDDA){
-            return findCloserTest(ray);
+            return findCloserTest2(ray);
         }
         return findClosestIntersectionSlow(ray);
     }
@@ -196,7 +198,10 @@ public class RayTracerBasic extends RayTracerBase {
         for(int i= 0 ; i < getGrid().getSize() ; i++){ 
             for(int j =0  ; j < getGrid().getSize() ; j++){
                 for(int k=0;k<getGrid().getSize() ; k++){
-                    List<GeoPoint> points = getGrid().getVoxel(i, j, k).collisoned(ray);
+            
+                    if(grid.collision(ray)){
+                        Voxel vx =getGrid().getVoxel(i, j, k);
+                    List<GeoPoint> points =vx .collisoned(ray);
                     if(points != null){
                         GeoPoint pot = ray.findClosestGeoPoint(points);
                         if(closet == null || pot.point.distanceSquared(ray.getP0()) < closet.point.distanceSquared(ray.getP0())){
@@ -204,11 +209,32 @@ public class RayTracerBasic extends RayTracerBase {
                         }
                     }
                 }
+                }
             }
         }
         return closet ; 
 
     }
+     int  is = 0 ; 
+    private GeoPoint findCloserTest2(Ray ray){
+        GeoPoint closet = null ;
+        Voxel vx =getGrid().getVoxel((is/16)%4, (is/4)%4, is%4);
+                    List<GeoPoint> points =vx .collisoned(ray);
+                    if(points != null){
+                        GeoPoint pot = ray.findClosestGeoPoint(points);
+                        if(closet == null || pot.point.distanceSquared(ray.getP0()) < closet.point.distanceSquared(ray.getP0())){
+                            closet = pot ; 
+                        }
+                    }
+                
+                
+            
+        
+        return closet ; 
+
+    }
+
+
 
     //TO DO  : TEST
     private GeoPoint findClosestIntersectionFastVoxels(Ray ray) {
