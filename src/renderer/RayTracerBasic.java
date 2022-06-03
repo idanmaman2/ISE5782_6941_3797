@@ -218,7 +218,8 @@ public class RayTracerBasic extends RayTracerBase {
      int  is = 0 ; 
     private GeoPoint findCloserTest2(Ray ray){
         GeoPoint closet = null ;
-        Voxel vx =getGrid().getVoxel((is/16)%4, (is/4)%4, is%4);
+        int size = getGrid().getSize();
+        Voxel vx =getGrid().getVoxel((is/(size*size))%size, (is/size)%size, is%size);
                     List<GeoPoint> points =vx .collisoned(ray);
                     if(points != null){
                         GeoPoint pot = ray.findClosestGeoPoint(points);
