@@ -214,6 +214,28 @@ public class RayTracerBasic extends RayTracerBase {
         return closet ; 
 
     }
+<<<<<<< HEAD
+=======
+     int  is = 0 ; 
+    private GeoPoint findCloserTest2(Ray ray){
+        GeoPoint closet = null ;
+        int size = getGrid().getSize();
+        Voxel vx =getGrid().getVoxel((is/(size*size))%size, (is/size)%size, is%size);
+                    List<GeoPoint> points =vx .collisoned(ray);
+                    if(points != null){
+                        GeoPoint pot = ray.findClosestGeoPoint(points);
+                        if(closet == null || pot.point.distanceSquared(ray.getP0()) < closet.point.distanceSquared(ray.getP0())){
+                            closet = pot ; 
+                        }
+                    }
+                
+                
+            
+        
+        return closet ; 
+
+    }
+>>>>>>> f24d2b8c5af054fc9b79996d9fd09630b33492a6
 
 
 
