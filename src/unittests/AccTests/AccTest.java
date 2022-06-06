@@ -11,6 +11,8 @@ import primitives.*;
 import primitives.Texture.ImageCords;
 import renderer.*;
 import Scene.Scene;
+import Scene.TextureScene;
+
 import static java.awt.Color.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -29,6 +31,7 @@ import com.mokiat.data.front.parser.OBJModel;
  * @author Dan
  */
 public class AccTest {
+	private Material material2 = new Material().setkD(new Double3(0.000001)).setkS(new Double3(0.00000001)).setnShininess(1);
 	private Scene scene2 = new Scene("Test scene") //
 			.setAl(new AmbientLight(new Color(WHITE), new Double3(0.15)));
 	private Camera camera2 = new Camera(new Point(0, 0, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
@@ -58,7 +61,7 @@ public class AccTest {
 			
 	
 			ImageWriter imageWriter = new ImageWriter("CUBE", 1000, 1000);
-			ObjParser modelObjParser = new ObjParser("/Users/idang/Downloads/cube.obj") ;
+			ObjParser modelObjParser = new ObjParser("C:\\Users\\Idang\\Downloads\\mcd.obj") ;
 			ObjParserModel obj = modelObjParser.getObjParserModel().scale(50).rotate(30, new Vector(1,1,1));
 			for(List<Vector> v : obj.lst){
 				for(Vector vv : v){
@@ -307,16 +310,55 @@ public class AccTest {
 	@Test
 	public void MonsterFace() throws FileNotFoundException, IOException {
 		Instant start = Instant.now();
-			Scene scene1 = new Scene("Test scene").setBg(new Color(255,255,255));
+		Texture bg = new Texture("bg2.jpg");
+			Scene scene1 = new TextureScene("Test scene",bg).setBg(new Color(255,255,255));
 			Camera camera1 = new Camera(new Point(50, -50, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
 					.setVPSize(150, 150) //
 					.setVPDistance(350);
 			scene1.lights.add(new PointLight(new Point(20, -30, 20),new Color(555,555,0)).setKL(0.001).setKQ(0.0002));
-			ImageWriter imageWriter = new ImageWriter("Porche", 1000, 1000);
-			ObjParser modelObjParser = new ObjParser("/Users/idang/Downloads/Porsche_911_GT2.obj") ;
-			ObjParserModel obj = modelObjParser.getObjParserModel().scale(100).rotate(30, new Vector(0,1,0));
+			ImageWriter imageWriter = new ImageWriter("Porche", 500, 500);
+			ObjParser modelObjParser = new ObjParser("C:\\Users\\Idang\\Downloads\\leaves.obj") ;
+			
+			ObjParser modelObjParser2= new ObjParser("C:\\Users\\Idang\\Downloads\\coconut.obj") ;
+			scene1.lights.add(new DirectionalLight(new Color(java.awt.Color.BLUE), new Vector(0,-1,0)));
+		
+			
+			ObjParser modelObjParser3 = new ObjParser("C:\\Users\\Idang\\Downloads\\stem.obj") ;
+		
+			
+		
+			ObjParser modelObjParser4 = new ObjParser("C:\\Users\\Idang\\Downloads\\eve.obj") ;
+			ObjParserModel obj4 = modelObjParser4.getObjParserModel().scale(30).changeStartingPoint(new Point(0,0,0));
+
+			
+	
+			scene1.add(obj4.getRandomColoredTriangles(new Double3(0.5), new Double3(0.5), new Double3(0.3),new Double3(0.9), 300));
+
+
+			ObjParser modelObjParser5 = new ObjParser("C:\\Users\\Idang\\Downloads\\org.obj") ;
+			ObjParserModel obj5 = modelObjParser5.getObjParserModel().scale(30).changeStartingPoint(new Point(0,0,0));
+
+			
+	
+			scene1.add(obj5.getColoredTriangles(new Double3(0.5), new Double3(0.5), new Double3(0.3),new Double3(0.9), new Color(java.awt.Color.GREEN),300));
+
+			Texture tx = new Texture("gs.jpg");
+			scene1.add(new TPlane(new Plane(new Point(-200,-800,-200), new Vector(0,1,0)), tx).setEmisson(Color.BLACK).setMaterial(material2));
+
+
+		for(int i =0 ;i<60 ; i++ ){
+			Vector vec = new Vector(Util.random(-1000,1000), 0,-1 * Util.random(-2000,12000));
+			ObjParserModel obj3 = modelObjParser3.getObjParserModel().scale(100).changeStartingPoint(new Point(-70,-200,-200).add(vec));
+			scene1.add(obj3.getColoredTriangles(new Double3(0.5), new Double3(0.5), new Double3(0.3),new Double3(0.9), new Color(149,69,53) , 300));
+			ObjParserModel obj2 = modelObjParser2.getObjParserModel().scale(100).changeStartingPoint(new Point(0,-200,-200).add(vec));
+			scene1.add(obj2.getColoredTriangles(new Double3(0.5), new Double3(0.5), new Double3(0.3),new Double3(0.9), new Color(149,69,53) , 300));
+			ObjParserModel obj = modelObjParser.getObjParserModel().scale(100).changeStartingPoint(new Point(0,-200,-200).add(vec));
 			scene1.add(obj.getRandomColoredTriangles(new Double3(0.5), new Double3(0.5), new Double3(0.3),new Double3(0.9), 300));
-			RayTracerBasic trc = new RayTracerBasic(scene1,true).setSize(55); 
+		}
+
+
+
+			RayTracerBasic trc = new RayTracerBasic(scene1,true).setSize(60); 
 			System.out.println("try 1: ");
 	
 			System.out.println(trc.getGrid().getSize());
@@ -330,12 +372,41 @@ public class AccTest {
 			.renderImage(); 
 			Instant finish = Instant.now();
 			long timeElapsed = Duration.between(start, finish).toSeconds();
-			camera1.printGrid(50,  Color.BLACK);
-			camera1.writeToImage("by idan maman, " + "took : "+ timeElapsed + " ,3ddda stat : " + "ON" , new ImageCords(50, 50)); 
+			//camera1.printGrid(50,  Color.BLACK);
+			camera1.writeToImage(); 
 
 		}
       
 
+		@Test
+		public void  threeddda() throws FileNotFoundException, IOException {
+			Instant start = Instant.now();
+				Scene scene1 = new Scene("Test scene").setBg(new Color(255,255,255));
+				Camera camera1 = new Camera(new Point(50, -50, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
+						.setVPSize(150, 150) //
+						.setVPDistance(350);
+				scene1.lights.add(new PointLight(new Point(20, -30, 20),new Color(555,555,0)).setKL(0.001).setKQ(0.0002));
+				ImageWriter imageWriter = new ImageWriter("Porche", 1000, 1000);
+				ObjParser modelObjParser = new ObjParser("/Users/idang/Downloads/Porsche_911_GT2.obj") ;
+				ObjParserModel obj = modelObjParser.getObjParserModel().scale(100).rotate(30, new Vector(0,1,0));
+				scene1.add(obj.getRandomColoredTriangles(new Double3(0.5), new Double3(0.5), new Double3(0.3),new Double3(0.9), 300));
+				RayTracerBasic trc = new RayTracerBasic(scene1,true).setSize(55); 
+				System.out.println("try 1: ");
+		
+				System.out.println(trc.getGrid().getSize());
+		
+				// CODE HERE        
 	
+			
+	
+				camera1 =camera1.setWriter(imageWriter) //
+				.setRayTrace(trc) //
+				.renderImage(); 
+				Instant finish = Instant.now();
+				long timeElapsed = Duration.between(start, finish).toSeconds();
+				camera1.printGrid(50,  Color.BLACK);
+				camera1.writeToImage("by idan maman, " + "took : "+ timeElapsed + " ,3ddda stat : " + "ON" , new ImageCords(50, 50)); 
+	
+			}
 
 }
