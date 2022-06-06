@@ -176,7 +176,7 @@ public class Grid {
           double xMax, yMax, zMax, xMin, yMin, zMin;
   
           //if the vector's x coordinate is zero
-          if (Util.isZero(dir.getZ())) {
+          if (dir.getZ() == 0 ) {
               //if the point's x value is in the box,
               if (maxX >= point.getX() && minX <= point.getX()) {
                   xMax = Double.MAX_VALUE;
@@ -196,7 +196,7 @@ public class Grid {
           }
   
           //if the vector's y coordinate is zero
-          if (Util.isZero(dir.getY())) {
+          if (dir.getY() ==0 ) {
               //if the point's y value is in the box,
               if (maxX >= point.getY() && minY <= point.getY()) {
                   yMax = Double.MAX_VALUE;
@@ -215,7 +215,7 @@ public class Grid {
           }
   
           //if the vector's z coordinate is zero
-          if (Util.isZero(dir.getZ())) {
+          if (dir.getZ()== 0 ) {
               //if the point's z value is in the box,
               if (maxZ >= point.getZ() && minZ <= point.getZ()) {
                   zMax = Double.MAX_VALUE;
@@ -247,13 +247,9 @@ public class Grid {
 
     Double3 toIndex(Point closet){
         Point min = getMin();
-        int  closetX =(int) Math.floor((closet.getX() - min.getX()) / length) , 
-        closetY = (int)Math.floor((closet.getY() - min.getY()) / length),
-        closetZ = (int)Math.floor((closet.getZ() - min.getZ()) / length) ;
-
-        if(closetX < 0  || closetY < 0 || closetZ < 0){
-            return null;
-        }
+        double  closetX = Math.floor((closet.getX() - min.getX()) / length) , 
+        closetY = Math.floor((closet.getY() - min.getY()) / length),
+        closetZ = Math.floor((closet.getZ() - min.getZ()) / length) ;
         if(closetX == size ){
             closetX -- ;
         }
@@ -291,20 +287,21 @@ public class Grid {
         Point closet = null ; 
         //X_min <= X <= X_max and Y_min <= Y <= Y_max  and Z_min <= Z <= Z_max
         // ray starts inside the grid - kt/kr - not original ray . 
-         if(strat.getX()  >= min.getX() && strat.getY() >= min.getY() && strat.getZ() >= min.getZ() && strat.getX() <= max.getX() && strat.getY() < max.getY() && strat.getZ() < max.getZ()){
+         if(strat.getX()  >= min.getX() && strat.getY() >= min.getY() && strat.getZ() >= min.getZ() && strat.getX() <= max.getX() && strat.getY() <= max.getY() && strat.getZ() <= max.getZ()){
             closet = strat ; 
         }
-        for(Polygon quadanle : planes ){
-            List<Point> pointsTemp = quadanle.findIntsersections(ray);
-            if(pointsTemp == null){
-                continue ; 
-            }
-            Point inter  = pointsTemp.get(0);
-            if(closet == null || closet.distanceSquared(strat) > inter.distanceSquared(strat)){
-                closet = inter ; 
-            }
-         }
-        
+        if(collision(ray)){
+            for(Polygon quadanle : planes ){
+                List<Point> pointsTemp = quadanle.findIntsersections(ray);
+                if(pointsTemp == null){
+                    continue ; 
+                }
+                Point inter  = pointsTemp.get(0);
+                if(closet == null || closet.distanceSquared(strat) > inter.distanceSquared(strat)){
+                    closet = inter ; 
+                }
+             }
+        }
         if(closet == null ){ // if there is closet must be farest... - Logic 
             return null ; 
         } 

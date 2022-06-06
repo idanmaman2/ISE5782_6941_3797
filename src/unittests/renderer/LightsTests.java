@@ -127,7 +127,7 @@ public class LightsTests {
 
 		ImageWriter imageWriter = new ImageWriter("lightTrianglesDirectional", 1500, 1500);
 		camera2.setWriter(imageWriter) //
-				.setRayTrace(new RayTracerBasic(scene2,true).setSize(4)) //
+				.setRayTrace(new RayTracerBasic(scene2,true).setSize(20)) //
 				.renderImage() //
 				.writeToImage(); //
 	}

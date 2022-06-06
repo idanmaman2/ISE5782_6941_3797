@@ -219,14 +219,11 @@ public class RayTracerBasic extends RayTracerBase {
 
     //TO DO  : TEST
     private GeoPoint findClosestIntersectionFastVoxels(Ray ray) {
-      for(Voxel vox:grid.getPath(ray)){
-          if(vox != null){
+      for(Voxel vox:getGrid().getPath(ray)){
             List<GeoPoint> points = vox.collisoned(ray); 
             if(points != null ){
                 return ray.findClosestGeoPoint(points);
-            }
           }
-  
       }
       return null ; 
     }

@@ -140,14 +140,14 @@ public class Polygon extends Voxelable {
       //find the furthest coordinates of the pyramid's vertices
       for(int i=1; i<vertices.size(); i++)
       {
-        if(Util.alignZero(vertices.get(i).getX() - maxX) > 0 ) { maxX = vertices.get(i).getX();}
-        if(Util.alignZero(vertices.get(i).getY() - maxY) > 0) { maxY = vertices.get(i).getY();}
-        if(Util.alignZero(vertices.get(i).getZ() - maxZ) > 0) { maxZ = vertices.get(i).getZ();}
-        if(Util.alignZero(vertices.get(i).getX() - minX) <0) { minX = vertices.get(i).getX();}
-        if(Util.alignZero(vertices.get(i).getX() - minX) <0) { minY = vertices.get(i).getY();}
-        if(Util.alignZero(vertices.get(i).getX() - minX) <0) { minZ = vertices.get(i).getZ();}
+        if(vertices.get(i).getX()> maxX) { maxX = vertices.get(i).getX();}
+        if(vertices.get(i).getY() > maxY) { maxY = vertices.get(i).getY();}
+        if(vertices.get(i).getZ() > maxZ) { maxZ = vertices.get(i).getZ();}
+        if(vertices.get(i).getX() < minX) { minX = vertices.get(i).getX();}
+        if(vertices.get(i).getY() < minY) { minY = vertices.get(i).getY();}
+        if(vertices.get(i).getZ() < minZ) { minZ = vertices.get(i).getZ();}
       }
-      return new MaxMin(minX , minY , minZ , maxX + 0.1 , maxY + 0.1 ,maxZ+0.1);
+      return new MaxMin(minX , minY , minZ , maxX  , maxY  ,maxZ);
     }
 
 

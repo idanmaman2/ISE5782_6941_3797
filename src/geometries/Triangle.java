@@ -24,9 +24,6 @@ public class Triangle extends Polygon {
         return (obj instanceof Triangle) && super.equals(obj);
     }
     
-
-
-
     @Override 
     public List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double max){
         /**
@@ -69,6 +66,7 @@ try{
     } 
 
     } 
+   
     public double getS(){
         Point A = this.vertices.get(0); 
         Point B = this.vertices.get(1); 
