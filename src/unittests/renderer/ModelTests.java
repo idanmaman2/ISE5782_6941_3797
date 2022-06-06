@@ -263,11 +263,7 @@ public void TestObjParsedolphin() throws WFException, IOException {
 @Test
 public void RifleModelTest() throws WFException, IOException {
     
-<<<<<<< HEAD
    
-=======
-    for(int i=0 ; i < (20*20*20); i++){
->>>>>>> f24d2b8c5af054fc9b79996d9fd09630b33492a6
         Scene scene1 = new Scene("Rifle").setBg(new Color(PINK));
         Camera camera1 = new Camera(new Point(50, -50, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
                 .setVPSize(150, 150) //
@@ -280,11 +276,7 @@ public void RifleModelTest() throws WFException, IOException {
         scene1.add(modelObjParser.getObjParserModel().scale(200).rotate(-30,new Vector(0,1,0)).changeStartingPoint(new Point(100,-100,0)).getShapes().stream().map((e)->(Intersectable)e.setEmisson(new Color(BLUE).reduce(2)) //
         .setMaterial(new Material().setkD(new Double3(0.5)).setkS(new Double3(0.5)).setnShininess(300))).toArray(Intersectable[]::new));
         System.out.println("hiii");
-<<<<<<< HEAD
         RayTracerBasic trc = new RayTracerBasic(scene1,true).setSize(20) ;
-=======
-        RayTracerBasic trc = new RayTracerBasic(scene1,true,i).setSize(20) ;
->>>>>>> f24d2b8c5af054fc9b79996d9fd09630b33492a6
         System.out.println(trc.getGrid().getMax());
         
         camera1.setWriter(imageWriter) //

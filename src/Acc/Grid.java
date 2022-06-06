@@ -254,6 +254,15 @@ public class Grid {
         if(closetX < 0  || closetY < 0 || closetZ < 0){
             return null;
         }
+        if(closetX == size ){
+            closetX -- ;
+        }
+        if(closetY == size ){
+            closetY -- ;
+        }
+        if(closetZ == size ){
+            closetZ -- ;
+        }
         return new Double3(closetX ,closetY ,closetZ);
 
     }

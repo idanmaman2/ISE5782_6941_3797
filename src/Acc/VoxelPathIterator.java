@@ -9,25 +9,22 @@ import primitives.Ray;
 import primitives.Util;
 import primitives.Vector;
 
-public class VoxelPathIterator implements Iterator<Voxel>{
-    float vStart , vEnd , gridt ; 
-    Vector rayOrigin; 
-    double dx , dy , dz  ; 
-    Grid grid ; 
+public class VoxelPathIterator implements Iterator<Voxel>{    Grid grid ; 
     Ray ray ; 
     double tx , ty , tz ; 
-    Double3 delta ,currentIndex ; 
+    Double3 delta  ; 
+    Point currentIndex ; 
     VoxelPathIterator(Grid grid , Ray ray ){ //set up ;)
         this.grid = grid ; 
         this.ray = ray ; 
-        this.rayOrigin  = ray.getP0().subtract(grid.getMin());
+        Point rayOrigin  = ray.getP0().subtract(grid.getMin());
         this.delta = new Double3(
             Math.abs(grid.getLength() / ray.getDir().getX())
             ,Math.abs(grid.getLength() / ray.getDir().getY())
             , Math.abs(grid.getLength() / ray.getDir().getZ())
             );
         Double3 startIndex = grid.findFirstVoxel(ray);
-        this.currentIndex = startIndex ; 
+        this.currentIndex = grid.fromIndex(startIndex) ; 
         this.tx = ray.getDir().getX() < 0 ?  startIndex.d1 * grid.getLength() -rayOrigin.getX() 
          :  (startIndex.d1+1) * grid.getLength() -rayOrigin.getX() ;
          this.ty = ray.getDir().getY() < 0 ?  startIndex.d2 * grid.getLength() -rayOrigin.getY() 
@@ -43,12 +40,16 @@ public class VoxelPathIterator implements Iterator<Voxel>{
     }
 
 
-    private Voxel UpdateCurrent(double currentIndexXtmp , double currentIndexYtmp, double currentIndexZtmp){
-        this.currentIndex =grid.toIndex(new Point(currentIndexXtmp, currentIndexYtmp, currentIndexZtmp));
+    private Voxel UpdateCurrent(double currentIndexXtmp , double currentIndexYtmp, double currentIndexZtmp ){
         if(currentIndex == null){
-           return null ; 
-        }
-        return grid.getVoxel(currentIndex);
+            return null ; 
+         }
+         currentIndex = new Point(currentIndexXtmp,currentIndexYtmp,currentIndexZtmp);
+         Double3 inx = grid.toIndex(this.currentIndex); 
+         if(inx == null){
+             return null ;
+         }
+        return grid.getVoxel(inx);
     }
 
 
@@ -57,17 +58,21 @@ public class VoxelPathIterator implements Iterator<Voxel>{
     public boolean hasNext() {
         if(currentIndex == null){
             return false ;
-        }
-        int size = grid.getSize() ; 
-        int d1 =(int)currentIndex.d1, d2 = (int )currentIndex.d2 ,d3 =(int)currentIndex.d3;
-        return d1 <= size &&d2 <= size && d3 <= size && d1 >= 0 && d2 >= 0 && d3>= 0  ;
+        } 
+        Point min = grid.getMin() , max = grid.getMax() ; 
+        return !(
+        currentIndex.getX() < min.getX() || 
+        currentIndex.getX() > max.getX() || 
+        currentIndex.getZ()< min.getZ() || 
+        currentIndex.getZ()  >max.getZ() || 
+        currentIndex.getY() < min.getY() || 
+        currentIndex.getY() >max.getY() );
     }
 
     @Override
     public Voxel next() {
         Point min = grid.getMin() , max = grid.getMax() ; 
-        Point currentIndexTmp = grid.fromIndex(currentIndex);
-        double currentIndexXtmp = currentIndexTmp.getX(),currentIndexYtmp=currentIndexTmp.getY() ,currentIndexZtmp = currentIndexTmp.getZ() ;
+        double currentIndexXtmp = currentIndex.getX(),currentIndexYtmp=currentIndex.getY() ,currentIndexZtmp = currentIndex.getZ() ;
 			
         if (tx < ty) {
 				if (tx < tz) {
