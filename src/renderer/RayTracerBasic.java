@@ -23,10 +23,9 @@ public class RayTracerBasic extends RayTracerBase {
     private  int size ; 
     private Grid grid =null;
     private int i =0, jy=0 , px=0 ,  py=0;
-    public RayTracerBasic (Scene scene , boolean fast3DDDA,int i ) {
+    public RayTracerBasic (Scene scene , boolean fast3DDDA) {
    
         super(scene);
-        is= i ;
         this.fast3DDDA = fast3DDDA; 
     }
     public RayTracerBasic (Scene scene ) {
@@ -163,7 +162,7 @@ public class RayTracerBasic extends RayTracerBase {
      */
     private GeoPoint findClosestIntersection(Ray ray) {
         if(fast3DDDA){
-            return findCloserTest2(ray);
+            return findClosestIntersectionFast(ray);
         }
         return findClosestIntersectionSlow(ray);
     }
@@ -215,103 +214,21 @@ public class RayTracerBasic extends RayTracerBase {
         return closet ; 
 
     }
-     int  is = 0 ; 
-    private GeoPoint findCloserTest2(Ray ray){
-        GeoPoint closet = null ;
-        Voxel vx =getGrid().getVoxel((is/16)%4, (is/4)%4, is%4);
-                    List<GeoPoint> points =vx .collisoned(ray);
-                    if(points != null){
-                        GeoPoint pot = ray.findClosestGeoPoint(points);
-                        if(closet == null || pot.point.distanceSquared(ray.getP0()) < closet.point.distanceSquared(ray.getP0())){
-                            closet = pot ; 
-                        }
-                    }
-                
-                
-            
-        
-        return closet ; 
-
-    }
 
 
 
     //TO DO  : TEST
     private GeoPoint findClosestIntersectionFastVoxels(Ray ray) {
-        List<Double3> indexes = getGrid().findFirstAndLastVoxel(ray); 
-        if(indexes == null ){
-                return null ;
-        }
-        List<Double3> visited_voxels = new LinkedList<>() ; 
-        Double3 current_voxel =indexes.get(0); //first voxel 
-        Double3  last_voxel = indexes.get(1); 
-        double stepX = (ray.getDir().getX() >= 0) ? 1:-1; // correct
-        double stepY = (ray.getDir().getY() >= 0) ? 1:-1; // correct
-        double stepZ = (ray.getDir().getZ() >= 0) ? 1:-1; // correct
-        double next_voxel_boundary_x = (current_voxel.d1 +stepX)*getGrid().getSize(); // correct
-        double next_voxel_boundary_y = (current_voxel.d2+stepY)*getGrid().getSize(); // correct
-        double next_voxel_boundary_z = (current_voxel.d3+stepZ)*getGrid().getSize(); // correct
-        // tMaxX, tMaxY, tMaxZ -- distance until next intersection with voxel-border
-        // the value of t at which the ray crosses the first vertical voxel boundary
-        double tMaxX = (ray.getDir().getX()!=0) ? (next_voxel_boundary_x - indexes.get(2).d1)/ray.getDir().getX() : Double.POSITIVE_INFINITY; //
-        double tMaxY = (ray.getDir().getY()!=0) ? (next_voxel_boundary_y - indexes.get(2).d2)/ray.getDir().getY() : Double.POSITIVE_INFINITY; //
-        double tMaxZ = (ray.getDir().getZ()!=0) ? (next_voxel_boundary_z - indexes.get(2).d3)/ray.getDir().getZ() : Double.POSITIVE_INFINITY; //
-
-        double tDeltaX = (ray.getDir().getX()!=0) ? getGrid().getSize()/ray.getDir().getX()*stepX : Double.POSITIVE_INFINITY;
-        double tDeltaY = (ray.getDir().getY()!=0) ?  getGrid().getSize()/ray.getDir().getY()*stepY : Double.POSITIVE_INFINITY;
-        double tDeltaZ = (ray.getDir().getZ()!=0) ?  getGrid().getSize()/ray.getDir().getZ()*stepZ : Double.POSITIVE_INFINITY;
-
-     
-        boolean neg_ray=false;
-        double []  diff =new double[]{0,0,0};
-        if (current_voxel.d1!=last_voxel.d1 && ray.getDir().getX()<0) { diff[0]--; neg_ray=true; }
-        if (current_voxel.d2!=last_voxel.d2 && ray.getDir().getY()<0) { diff[1]--; neg_ray=true; }
-        if (current_voxel.d3!=last_voxel.d3 && ray.getDir().getZ()<0) { diff[2]--; neg_ray=true; }
-        visited_voxels.add(current_voxel);
-        if (neg_ray) {
-          current_voxel =current_voxel.add(new Double3(diff[0], diff[1], diff[2])) ;
-          visited_voxels.add(current_voxel);
-        }
-      
-        while(!last_voxel.equals(current_voxel)  ) {
-          if (tMaxX < tMaxY) {
-            if (tMaxX < tMaxZ) {
-              current_voxel =current_voxel.add(new Double3(stepX, 0, 0)) ;
-              tMaxX += tDeltaX;
-            } else {
-                current_voxel =current_voxel.add(new Double3(0, 0, stepZ)) ;
-              tMaxZ += tDeltaZ;
-            }
-          } else {
-            if (tMaxY < tMaxZ) {
-                current_voxel =current_voxel.add(new Double3(0, stepY, 0)) ;
-              tMaxY += tDeltaY;
-            } else {
-             current_voxel =current_voxel.add(new Double3(0, 0, stepZ)) ;
-              tMaxZ += tDeltaZ;
+      for(Voxel vox:grid.getPath(ray)){
+          if(vox != null){
+            List<GeoPoint> points = vox.collisoned(ray); 
+            if(points != null ){
+                return ray.findClosestGeoPoint(points);
             }
           }
-          int size = getGrid().getSize();
-       
-        if(current_voxel.d1 < 0 || current_voxel.d2 < 0 || current_voxel.d3 < 0 ||current_voxel.d1 >= size || current_voxel.d2 >= size || current_voxel.d3 >= size ){
-            return null ; 
-        }
-            Voxel curr = getGrid().getVoxel(current_voxel);
-            List<GeoPoint> points = curr.collisoned(ray);
-            total++;
-            if(points != null){
-                hit++;
-               // System.out.println("total : " + total + " hit : " + hit + " precent : " + hit/(double)total);
-                GeoPoint closet =  ray.findClosestGeoPoint(points);
-              //  System.out.println(closet.point);
-                return closet;
-            
-        }
-      
-        
-    }
-        
-        return null ;
+  
+      }
+      return null ; 
     }
 
 

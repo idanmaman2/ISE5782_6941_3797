@@ -41,7 +41,7 @@ public class ReflectionRefractionTests {
 						.setKL(0.0004).setKQ(0.0000006));
 
 		camera.setWriter(new ImageWriter("refractionTwoSpheres", 500, 500)).
-				setRayTrace(new RayTracerBasic(scene,true,0).setSize(10)) //
+				setRayTrace(new RayTracerBasic(scene,true).setSize(10)) //
 				.renderImage() //
 				.writeToImage();
 	}

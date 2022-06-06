@@ -24,7 +24,9 @@ public class Grid {
     Point stratingPoint ; 
     final List<List<List<Voxel>>> voxels; // 3d grid voxels 
     final Polygon [] planes   ; 
-    
+   
+
+
     //TESTED 
     public Grid(List<Voxelable> objects ,int size ){
         MaxMin minMaxTotal =null  ; 
@@ -68,9 +70,7 @@ public class Grid {
             }
          
         if(minMaxTotal == null){
-            throw new IllegalAccessError("cant create grid");
-    
-            
+            throw new IllegalAccessError("cant create grid");  
         }
         else{
             this.stratingPoint = minMaxTotal.min ; 
@@ -129,7 +129,7 @@ public class Grid {
 
     //TESTED
     public Voxel getVoxel(Double3 indexes){
-        return voxels.get((int)indexes.d1).get((int)indexes.d2).get((int)indexes.d3);
+        return getVoxel((int)indexes.d1,(int)indexes.d2, (int)indexes.d3);
     }
 
     //TESTED
@@ -141,21 +141,18 @@ public class Grid {
     public double getLength(){
         return this.length;
     }
-
+   
     //TESTED
     public int getSize(){
         return size;
     }
 
+    public VoxelPath getPath(Ray ray){
+        return new VoxelPath(this, ray);
+    }
     //TESTED 
     public int getNumOfVoxels(){
         return size*size*size;
-    }
-
-    //TESTED 
-    public boolean isEmpty(){
-        return voxels == null || length == 0 || size ==0 ;
-
     }
 
     //TESTED 
@@ -168,7 +165,7 @@ public class Grid {
         return stratingPoint.add(Vector.X.scale(size*length)).add(Vector.Y.scale(size*length)).add(Vector.Z.scale(size*length));
     }
 
-    //TO DO : TEST 
+    //TESTED 
     public boolean collision(Ray ray){
           //the ray's head and direction points
           Point dir = ray.getDir();
@@ -247,17 +244,47 @@ public class Grid {
      return true;
     }
 
+
+    Double3 toIndex(Point closet){
+        Point min = getMin();
+        int  closetX =(int) Math.floor((closet.getX() - min.getX()) / length) , 
+        closetY = (int)Math.floor((closet.getY() - min.getY()) / length),
+        closetZ = (int)Math.floor((closet.getZ() - min.getZ()) / length) ;
+
+        if(closetX < 0  || closetY < 0 || closetZ < 0){
+            return null;
+        }
+        return new Double3(closetX ,closetY ,closetZ);
+
+    }
+   
+    Point fromIndex(Double3 index){
+        Point vMin = stratingPoint;
+        if(index.d1!=0 ){
+            vMin = vMin.add(Vector.X.scale(index.d1*length));
+        }
+        if(index.d2!=0){
+            vMin = vMin.add(Vector.Y.scale(index.d2*length));
+        }
+        if(index.d3!=0){
+            vMin = vMin.add(Vector.Z.scale(index.d3*length));
+        }
+        
+        return vMin;
+
+    }
+
     // TO DO : TEST 
-    public List<Double3> findFirstAndLastVoxel(Ray ray){
+    public Double3 findFirstVoxel(Ray ray){
         Point strat = ray.getP0() ,
          min = getMin(), 
          max  = getMax() ;  
         Point closet = null ; 
-        Point farest = null ; 
+        //X_min <= X <= X_max and Y_min <= Y <= Y_max  and Z_min <= Z <= Z_max
+        // ray starts inside the grid - kt/kr - not original ray . 
          if(strat.getX()  >= min.getX() && strat.getY() >= min.getY() && strat.getZ() >= min.getZ() && strat.getX() <= max.getX() && strat.getY() < max.getY() && strat.getZ() < max.getZ()){
             closet = strat ; 
         }
-     
         for(Polygon quadanle : planes ){
             List<Point> pointsTemp = quadanle.findIntsersections(ray);
             if(pointsTemp == null){
@@ -267,30 +294,14 @@ public class Grid {
             if(closet == null || closet.distanceSquared(strat) > inter.distanceSquared(strat)){
                 closet = inter ; 
             }
-            if(farest == null || farest.distanceSquared(strat) < inter.distanceSquared(strat)){
-                farest = inter ; 
-            }
-            }
+         }
         
-        if(closet == null ){
+        if(closet == null ){ // if there is closet must be farest... - Logic 
             return null ; 
-        }
-
-        
-        int closetX =(int) Math.floor((closet.getX() - min.getX()) / length) , 
-        closetY = (int)Math.floor((closet.getY() - min.getY()) / length)
-         ,closetZ = (int)Math.floor((closet.getZ() - min.getZ()) / length) ; 
-        int farestX = (int)Math.floor((farest.getX() - min.getX()) / length) 
-        , farestY  =(int) Math.floor((farest.getY() - min.getY()) / length)
-        ,farestZ= (int)Math.floor((farest.getZ() - min.getZ())/ length); 
-        if(closetX < 0  || closetY < 0 || closetZ < 0 ||farestX < 0 ||farestY < 0 || farestZ <0){
-            return null;
-        }
-        return List.of(
-            new Double3(closetX ,closetY ,closetZ), 
-            new Double3(farestX, farestY ,farestZ),
-             closet.xyz ,farest.xyz
-            ); 
+        } 
+        return toIndex(closet);
+       
+             
 
     }
 

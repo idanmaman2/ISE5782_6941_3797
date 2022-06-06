@@ -66,7 +66,7 @@ public class AccTest {
 		
 	
 			scene1.add(obj.getRandomColoredTriangles(new Double3(0.5), new Double3(0.5), new Double3(0.3),new Double3(0.9), 300));
-			RayTracerBasic trc = new RayTracerBasic(scene1,false,0).setSize(10); 
+			RayTracerBasic trc = new RayTracerBasic(scene1,false).setSize(10); 
 			System.out.println("try 1: ");
 			System.out.println(trc.getGrid().getMin());
 			System.out.println(trc.getGrid().getMax());
@@ -113,7 +113,7 @@ public class AccTest {
 			scene1.lights.add(new PointLight(new Point(20, -30, 20),new Color(555,555,0)).setKL(0.001).setKQ(0.0002));
 			ImageWriter imageWriter = new ImageWriter("Plane" + i , 1000, 1000);
 			scene1.add(triangle1);
-			RayTracerBasic trc = new RayTracerBasic(scene1,false,0).setSize(10); 
+			RayTracerBasic trc = new RayTracerBasic(scene1,false).setSize(10); 
 			System.out.println("try 1: ");
 			System.out.println(trc.getGrid().getMin());
 			System.out.println(trc.getGrid().getMax());
@@ -158,7 +158,7 @@ public class AccTest {
 		scene1.lights.add(new PointLight(new Point(20, -30, 20),new Color(555,555,0)).setKL(0.001).setKQ(0.0002));
 		ImageWriter imageWriter = new ImageWriter("CollisionTest", 1000, 1000);
 		scene1.add(triangle1);
-		RayTracerBasic trc = new RayTracerBasic(scene1,false,0).setSize(10); 
+		RayTracerBasic trc = new RayTracerBasic(scene1,false).setSize(10); 
 		System.out.println("try 1: ");
 		System.out.println(trc.getGrid().getMin());
 		System.out.println(trc.getGrid().getMax());
@@ -190,8 +190,8 @@ public class AccTest {
 		scene1.add(new Tube(ray, 3).setMaterial(material).setEmisson(new Color(ORANGE)));
 		System.out.println(trc.getGrid().collision(ray));
 		assertTrue(trc.getGrid().collision(ray));
-		System.out.println(trc.getGrid().findFirstAndLastVoxel(ray));
-		//assertEquals(trc.getGrid().findFirstAndLastVoxel(ray), List.of(new Double3(0,0,0) ,new Double3(10,10,10) ,Min.xyz,Max.xyz),"Voxels didnt found");
+		System.out.println(trc.getGrid().findFirstVoxel(ray));
+		//assertEquals(trc.getGrid().findFirstVoxel(ray), List.of(new Double3(0,0,0) ,new Double3(10,10,10) ,Min.xyz,Max.xyz),"Voxels didnt found");
 		//camera1.setWriter(imageWriter) //
 		//.setRayTrace(trc) //
 		//.renderImage() //
@@ -201,7 +201,7 @@ public class AccTest {
 		scene1.lights.add(new PointLight(new Point(20, -30, 20),new Color(555,555,0)).setKL(0.001).setKQ(0.0002));
 		 imageWriter = new ImageWriter("CollisionTest 2 ", 1000, 1000);
 		scene1.add(triangle1);
-		trc = new RayTracerBasic(scene1,false,0).setSize(10); 
+		trc = new RayTracerBasic(scene1,false).setSize(10); 
 		System.out.println("try 1: ");
 		System.out.println(trc.getGrid().getMin());
 		System.out.println(trc.getGrid().getMax());
@@ -233,12 +233,12 @@ public class AccTest {
 		scene1.add(new Tube(ray, 3).setMaterial(material).setEmisson(new Color(ORANGE)));
 		System.out.println(trc.getGrid().collision(ray));
 		assertTrue(trc.getGrid().collision(ray));
-		System.out.println(trc.getGrid().findFirstAndLastVoxel(ray));
+		System.out.println(trc.getGrid().findFirstVoxel(ray));
 		
 		// 150 + - is 7 * 20 voxels on z  + half - so 7 voxels on z 
 		// 190 - is 20 * 9- so 9.5 - so 9  voxels on y
 		// 40 - is 2 * 10  - so 2 voxels on x
-		//assertEquals(trc.getGrid().findFirstAndLastVoxel(ray), List.of(new Double3(2,9,7) ,new Double3(10,10,10) ,Min.xyz,Max.xyz),"Voxels didnt found");
+		//assertEquals(trc.getGrid().findFirstVoxel(ray), List.of(new Double3(2,9,7) ,new Double3(10,10,10) ,Min.xyz,Max.xyz),"Voxels didnt found");
 		camera1.setWriter(imageWriter) //
 		.setRayTrace(trc) //
 		.renderImage() //
@@ -259,7 +259,7 @@ public class AccTest {
 		scene1.lights.add(new PointLight(new Point(20, -30, 20),new Color(555,555,0)).setKL(0.001).setKQ(0.0002));
 		 imageWriter = new ImageWriter("CollisionTest 3 ", 1000, 1000);
 		scene1.add(triangle1);
-		trc = new RayTracerBasic(scene1,false,0).setSize(10); 
+		trc = new RayTracerBasic(scene1,false).setSize(10); 
 		System.out.println("try 1: ");
 		System.out.println(trc.getGrid().getMin());
 		System.out.println(trc.getGrid().getMax());
@@ -291,7 +291,7 @@ public class AccTest {
 		scene1.add(new Tube(ray, 3).setMaterial(material).setEmisson(new Color(ORANGE)));
 		System.out.println(trc.getGrid().collision(ray));
 		//assertTrue(!trc.getGrid().collision(ray));
-		System.out.println(trc.getGrid().findFirstAndLastVoxel(ray));
+		System.out.println(trc.getGrid().findFirstVoxel(ray));
 		scene1.add(new Sphere(Min, 50).setEmisson(new Color(YELLOW)).setMaterial(material));
 			scene1.add(new Sphere(Max, 50).setEmisson(new Color(YELLOW)).setMaterial(material));
 		camera1.setWriter(imageWriter) //
