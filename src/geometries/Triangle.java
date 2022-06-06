@@ -47,7 +47,7 @@ try{
         double u = Math.sqrt(uSquared);
         double v = Math.sqrt(vSquared);
         double w = Math.sqrt(wSqaured);
-        if( Util.alignZero(u-1) < 0  && Util.alignZero(v-1)< 0 &&Util.alignZero(w-1)< 0 &&  Util.isZero(w+v+u-1) ){
+        if(   Util.isZero(w+v+u-1) ){
             GeoPoint pt = new Intersectable.GeoPoint(P,this);
             if(Util.alignZero(pt.point.distanceSquared(ray.getP0()) -max * max  ) <= 0 ){
                 return List.of(pt) ; 

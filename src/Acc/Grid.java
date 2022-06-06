@@ -25,16 +25,15 @@ public class Grid {
     final List<List<List<Voxel>>> voxels; // 3d grid voxels 
     final Polygon [] planes   ; 
    
-
+    Point Max = null ; 
 
     //TESTED 
     public Grid(List<Voxelable> objects ,int size ){
-        MaxMin minMaxTotal =null  ; 
+        boolean cahnged = false;
         double maxXT = 0  , maxYT =0  , maxZT =0  , minXT =0  , minYT =0 , minZT = 0 ; 
-
         for(Voxelable object : objects){
                 MaxMin  minMaxLocal = object.getMaxMin() ; 
-                if(minMaxTotal == null){   
+                if(!cahnged){   
                     Point min = minMaxLocal.min , max = minMaxLocal.max ;
                     minXT = min.getX() ; 
                     minYT = min.getY() ; 
@@ -42,11 +41,10 @@ public class Grid {
                     maxXT = max.getX() ; 
                     maxYT = max.getY() ; 
                     maxZT = max.getZ() ;  
+                    cahnged = true  ;
                     continue ;
                 }
                 else{
-                   
-                  
                     if(minMaxLocal.max.getX() > maxXT){
                         maxXT = minMaxLocal.max.getX() ;   
                     }
@@ -68,59 +66,64 @@ public class Grid {
            
                 }
             }
-    minMaxTotal = new MaxMin(minXT ,minYT ,minZT ,maxXT, maxYT , maxZT );
-        if(minMaxTotal == null){
+        if(!cahnged){
             throw new IllegalAccessError("cant create grid");  
         }
-        else{
-            this.stratingPoint = minMaxTotal.min ; 
-            this.length = Math.max(minMaxTotal.max.getX() - minMaxTotal.min.getX(), Math.max(minMaxTotal.max.getY() - minMaxTotal.min.getY(),minMaxTotal.max.getZ() - minMaxTotal.min.getZ()))/ size ;
-            this.size = size ; 
-            this.voxels  = new ArrayList<List<List<Voxel>>>(size);
-            for(int i = 0 ; i<size ; i++){
-                List<List<Voxel>> column = new ArrayList<List<Voxel>>(size);
-                for(int j=0;j<size ; j++){
-                    List<Voxel> row = new ArrayList<Voxel>(size);
-                    for(int k = 0 ; k < size ; k++){
-                        Point vMin = stratingPoint;
+        this.stratingPoint = new Point(minXT,minYT,minZT) ; 
+        this.length = Math.max(maxXT - minXT, Math.max(maxYT - minYT,maxZT - minZT))/ size ;
+        this.size = size ; 
+        this.voxels  = new ArrayList<List<List<Voxel>>>(size);
+        for(int i = 0 ; i<size ; i++){
+            List<List<Voxel>> column = new ArrayList<List<Voxel>>(size);
+            double il = i * length ;
+            for(int j=0;j<size ; j++){
+                double  jl = j * length ;
+                List<Voxel> row = new ArrayList<Voxel>(size);
+                for(int k = 0 ; k < size ; k++){
+                    Point vMin = null;
+                    if(j > 0 && i > 0 && k >0  ){
+                            vMin = this.getVoxel(i -1 , j-1, k - 1 ).getvMax() ; 
+                    }
+                    else {
+                        vMin = stratingPoint  ;
                         if(i!=0 ){
-                            vMin = vMin.add(Vector.X.scale(i*length));
+                            vMin = vMin.add(Vector.X.scale(il));
                         }
                         if(j!=0){
-                            vMin = vMin.add(Vector.Y.scale(j*length));
+                            vMin = vMin.add(Vector.Y.scale(jl));
                         }
                         if(k!=0){
                             vMin = vMin.add(Vector.Z.scale(k*length));
                         }
-                        Point vMax  = vMin.add(Vector.X.scale(length)).add(Vector.Y.scale(length)).add(Vector.Z.scale(length));
-                       Voxel voxel = new Voxel(vMin, vMax);
-                       for(Voxelable object : objects){
-                               Voxelable objectVox = object; 
-                               if(objectVox.colllisionWithVoxel(voxel)){
-                                   voxel.add(objectVox);
-                           }
-                       }
-                       row.add(voxel);
-
                     }
-                    column.add(row);
+                    Point vMax  = vMin.add(Vector.X.scale(length)).add(Vector.Y.scale(length)).add(Vector.Z.scale(length));
+                    Voxel voxel = new Voxel(vMin, vMax);
+                    for(Voxelable object : objects){
+                            Voxelable objectVox = object; 
+                            if(objectVox.colllisionWithVoxel(voxel)){
+                                voxel.add(objectVox);
+                        }
+                    }
+                    row.add(voxel);
+
                 }
-                voxels.add(column);
+                column.add(row);
             }
-            Point max = getMax(); 
-            planes  = new Polygon [] { 
-                new Polygon(stratingPoint , stratingPoint.add(Vector.X.scale(size*length)),stratingPoint.add(Vector.X.scale(size*length).add(Vector.Y.scale(size*length))),stratingPoint.add(Vector.Y.scale(size*length))), //left
-				new Polygon(stratingPoint , stratingPoint.add(Vector.Z.scale(size*length)),stratingPoint.add(Vector.Z.scale(size*length).add(Vector.Y.scale(size*length))),stratingPoint.add(Vector.Y.scale(size*length))), //front 
-				new Polygon(stratingPoint , stratingPoint.add(Vector.Z.scale(size*length)),stratingPoint.add(Vector.Z.scale(size*length).add(Vector.X.scale(size*length))),stratingPoint.add(Vector.X.scale(size*length))), // bot   
-				new Polygon(max , max.add(Vector.Y.scale(size*length).scale(-1)),max.add(Vector.Y.scale(size*length).scale(-1)).add(Vector.Z.scale(size*length).scale(-1)),max.add(Vector.Z.scale(size*length).scale(-1))) , //back 
-				new Polygon(max , max.add(Vector.X.scale(size*length).scale(-1)),max.add(Vector.X.scale(size*length).scale(-1)).add(Vector.Z.scale(size*length).scale(-1)),max.add(Vector.Z.scale(size*length).scale(-1))) , // top  
-				new Polygon(max , max.add(Vector.Y.scale(size*length).scale(-1)),max.add(Vector.Y.scale(size*length).scale(-1)).add(Vector.X.scale(size*length).scale(-1)),max.add(Vector.X.scale(size*length).scale(-1))) // right 
-            };
-    }
-        
+            voxels.add(column);
+        }
+        Point max = getMax(); 
+        planes  = new Polygon [] { 
+            new Polygon(stratingPoint , stratingPoint.add(Vector.X.scale(size*length)),stratingPoint.add(Vector.X.scale(size*length).add(Vector.Y.scale(size*length))),stratingPoint.add(Vector.Y.scale(size*length))), //left
+            new Polygon(stratingPoint , stratingPoint.add(Vector.Z.scale(size*length)),stratingPoint.add(Vector.Z.scale(size*length).add(Vector.Y.scale(size*length))),stratingPoint.add(Vector.Y.scale(size*length))), //front 
+            new Polygon(stratingPoint , stratingPoint.add(Vector.Z.scale(size*length)),stratingPoint.add(Vector.Z.scale(size*length).add(Vector.X.scale(size*length))),stratingPoint.add(Vector.X.scale(size*length))), // bot   
+            new Polygon(max , max.add(Vector.Y.scale(size*length).scale(-1)),max.add(Vector.Y.scale(size*length).scale(-1)).add(Vector.Z.scale(size*length).scale(-1)),max.add(Vector.Z.scale(size*length).scale(-1))) , //back 
+            new Polygon(max , max.add(Vector.X.scale(size*length).scale(-1)),max.add(Vector.X.scale(size*length).scale(-1)).add(Vector.Z.scale(size*length).scale(-1)),max.add(Vector.Z.scale(size*length).scale(-1))) , // top  
+            new Polygon(max , max.add(Vector.Y.scale(size*length).scale(-1)),max.add(Vector.Y.scale(size*length).scale(-1)).add(Vector.X.scale(size*length).scale(-1)),max.add(Vector.X.scale(size*length).scale(-1))) // right 
+        };
+}
+    
 
 
-    }
             
     //TESTED
     public Voxel getVoxel(int i , int j , int k ){
@@ -162,7 +165,12 @@ public class Grid {
 
     //TESTED 
     public Point getMax(){
-        return stratingPoint.add(Vector.X.scale(size*length)).add(Vector.Y.scale(size*length)).add(Vector.Z.scale(size*length));
+        if(this.Max == null){
+            double sizeLength = size*length ; 
+            this.Max =  stratingPoint.add(Vector.X.scale(sizeLength)).add(Vector.Y.scale(sizeLength)).add(Vector.Z.scale(sizeLength));
+        }
+        return Max ; 
+       
     }
 
     //TESTED 
@@ -263,22 +271,6 @@ public class Grid {
 
     }
    
-    Point fromIndex(Double3 index){
-        Point vMin = stratingPoint;
-        if(index.d1!=0 ){
-            vMin = vMin.add(Vector.X.scale(index.d1*length));
-        }
-        if(index.d2!=0){
-            vMin = vMin.add(Vector.Y.scale(index.d2*length));
-        }
-        if(index.d3!=0){
-            vMin = vMin.add(Vector.Z.scale(index.d3*length));
-        }
-        
-        return vMin;
-
-    }
-
     // TO DO : TEST 
     public Double3 findFirstVoxel(Ray ray){
         Point strat = ray.getP0() ,

@@ -312,14 +312,14 @@ public class AccTest {
 					.setVPSize(150, 150) //
 					.setVPDistance(350);
 			scene1.lights.add(new PointLight(new Point(20, -30, 20),new Color(555,555,0)).setKL(0.001).setKQ(0.0002));
-			ImageWriter imageWriter = new ImageWriter("Porche", 100, 100);
+			ImageWriter imageWriter = new ImageWriter("Porche", 1000, 1000);
 			ObjParser modelObjParser = new ObjParser("/Users/idang/Downloads/Porsche_911_GT2.obj") ;
 			ObjParserModel obj = modelObjParser.getObjParserModel().scale(100).rotate(30, new Vector(0,1,0));
-			scene1.geometries.add(obj.getRandomColoredTriangles(new Double3(0.5), new Double3(0.5), new Double3(0.3),new Double3(0.9), 300));
-			RayTracerBasic trc = new RayTracerBasic(scene1); 
-			//System.out.println("try 1: ");
+			scene1.add(obj.getRandomColoredTriangles(new Double3(0.5), new Double3(0.5), new Double3(0.3),new Double3(0.9), 300));
+			RayTracerBasic trc = new RayTracerBasic(scene1,true).setSize(55); 
+			System.out.println("try 1: ");
 	
-			//System.out.println(trc.getGrid().getSize());
+			System.out.println(trc.getGrid().getSize());
 	
 			// CODE HERE        
 
@@ -330,9 +330,8 @@ public class AccTest {
 			.renderImage(); 
 			Instant finish = Instant.now();
 			long timeElapsed = Duration.between(start, finish).toSeconds();
-			System.out.println(timeElapsed);
-			camera1.printGrid(5,  Color.BLACK);
-			camera1.writeToImage(); 
+			camera1.printGrid(50,  Color.BLACK);
+			camera1.writeToImage("by idan maman, " + "took : "+ timeElapsed + " ,3ddda stat : " + "ON" , new ImageCords(50, 50)); 
 
 		}
       
