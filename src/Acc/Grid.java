@@ -30,45 +30,45 @@ public class Grid {
     //TESTED 
     public Grid(List<Voxelable> objects ,int size ){
         MaxMin minMaxTotal =null  ; 
+        double maxXT = 0  , maxYT =0  , maxZT =0  , minXT =0  , minYT =0 , minZT = 0 ; 
+
         for(Voxelable object : objects){
                 MaxMin  minMaxLocal = object.getMaxMin() ; 
                 if(minMaxTotal == null){   
-                    minMaxTotal = minMaxLocal ; 
+                    Point min = minMaxLocal.min , max = minMaxLocal.max ;
+                    minXT = min.getX() ; 
+                    minYT = min.getY() ; 
+                    minZT = min.getZ();
+                    maxXT = max.getX() ; 
+                    maxYT = max.getY() ; 
+                    maxZT = max.getZ() ;  
+                    continue ;
                 }
                 else{
-                    double minx =minMaxTotal.min.getX()  , miny = minMaxTotal.min.getY() ,minz = minMaxTotal.min.getZ() ,
-                     maxx = minMaxTotal.max.getX() , maxy = minMaxTotal.max.getY() , maxz = minMaxTotal.max.getZ() ; 
-                    boolean changed =false ;  
-                    if(minMaxLocal.max.getX() > minMaxTotal.max.getX()){
-                        maxx = minMaxLocal.max.getX() ; 
-                        changed = true ;    
+                   
+                  
+                    if(minMaxLocal.max.getX() > maxXT){
+                        maxXT = minMaxLocal.max.getX() ;   
                     }
-                    if(minMaxLocal.max.getY() > minMaxTotal.max.getY()){
-                        maxy = minMaxLocal.max.getY() ; 
-                        changed = true ;    
+                    if(minMaxLocal.max.getY() > maxYT){
+                        maxYT = minMaxLocal.max.getY() ;     
                     }
-                    if(minMaxLocal.max.getZ() > minMaxTotal.max.getZ()){
-                        maxz = minMaxLocal.max.getZ() ; 
-                        changed = true ;    
+                    if(minMaxLocal.max.getZ() >maxZT){
+                        maxZT = minMaxLocal.max.getZ() ;  
                     }
-                    if(minMaxLocal.min.getX() < minMaxTotal.min.getX()){
-                        minx = minMaxLocal.min.getX() ; 
-                        changed = true ;    
+                    if(minMaxLocal.min.getX() < minXT){
+                        minXT = minMaxLocal.min.getX() ;    
                     }
-                    if(minMaxLocal.min.getY() < minMaxTotal.min.getY()){
-                        miny = minMaxLocal.min.getY() ; 
-                        changed = true ;    
+                    if(minMaxLocal.min.getY() < minYT){
+                        minYT = minMaxLocal.min.getY() ;   
                     }
-                    if(minMaxLocal.min.getZ() < minMaxTotal.min.getZ()){
-                        minz= minMaxLocal.min.getZ() ; 
-                        changed = true ;    
+                    if(minMaxLocal.min.getZ() <minZT){
+                        minZT= minMaxLocal.min.getZ() ; 
                     }
-                    if(changed){
-                        minMaxTotal = new MaxMin(minx ,miny ,minz ,maxx, maxy , maxz );
-                    }
+           
                 }
             }
-         
+    minMaxTotal = new MaxMin(minXT ,minYT ,minZT ,maxXT, maxYT , maxZT );
         if(minMaxTotal == null){
             throw new IllegalAccessError("cant create grid");  
         }

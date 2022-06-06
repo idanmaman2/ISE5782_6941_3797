@@ -14,8 +14,9 @@ public class VoxelPathIterator implements Iterator<Voxel>{
     Ray ray ; 
     double tx , ty , tz ; 
     Double3 delta  ; 
-    Point currentIndex ; 
-    
+    boolean haveFirst = false ;
+    boolean first = true ;  
+    int i , j , k ; 
     VoxelPathIterator(Grid grid , Ray ray ){ //set up ;)
         this.grid = grid ; 
         this.ray = ray ; 
@@ -26,91 +27,92 @@ public class VoxelPathIterator implements Iterator<Voxel>{
             , Math.abs(grid.getLength() / ray.getDir().getZ())
             );
         Double3 startIndex = grid.findFirstVoxel(ray);
-        this.currentIndex = grid.fromIndex(startIndex) ; 
+        if(startIndex == null ){
+            return ; 
+        }
+        this.haveFirst = true ;
+        i = (int)startIndex.d1 ;
+        j = (int)startIndex.d2 ;
+        k=(int)startIndex.d3 ; 
+
         Vector dir = ray.getDir();
         double dirX = ray.getDir().getX() , dirY = dir.getY() , dirZ = dir.getZ() ;  
-        this.tx = dirX < 0 ?  startIndex.d1 * grid.getLength() -rayOrigin.getX() 
+        this.tx = dirX == 0 ? Double.POSITIVE_INFINITY  :
+        dirX < 0 ?  startIndex.d1 * grid.getLength() -rayOrigin.getX() 
          :  (startIndex.d1+1) * grid.getLength() -rayOrigin.getX() ;
-         this.ty = dirY < 0 ?  startIndex.d2 * grid.getLength() -rayOrigin.getY() 
+         this.ty = dirY == 0 ? Double.POSITIVE_INFINITY :  
+         dirY < 0 ?  startIndex.d2 * grid.getLength() -rayOrigin.getY() 
          :  (startIndex.d2+1) * grid.getLength() -rayOrigin.getY() ;
-         this.tz = dirZ < 0 ?  startIndex.d3 * grid.getLength() -rayOrigin.getZ() 
+         this.tz =dirZ == 0 ?  Double.POSITIVE_INFINITY :
+          dirZ < 0 ?  startIndex.d3 * grid.getLength() -rayOrigin.getZ() 
          :  (startIndex.d3+1) * grid.getLength() -rayOrigin.getZ() ;
-        this.tx = tx / dirX ; 
+        
+         this.tx = tx / dirX ; 
         this.ty = ty / dirY ; 
         this.tz = tz / dirZ  ;   
+        
 
 
 
     }
-
-
-    private Voxel UpdateCurrent(double currentIndexXtmp , double currentIndexYtmp, double currentIndexZtmp ){
-        Double3 inx = grid.toIndex(this.currentIndex); 
-        if(inx == null){
-            return null ;
-        }
-        Voxel vx = grid.getVoxel(inx) ;
-         currentIndex = new Point(currentIndexXtmp,currentIndexYtmp,currentIndexZtmp);
-   
-        return vx;
-    }
-
-
 
     @Override
     public boolean hasNext() {
-        if(currentIndex == null){
+        if(!this.haveFirst){
             return false ;
-        } 
-        Point min = grid.getMin() , max = grid.getMax() ; 
+        }
+        int size = grid.getSize() ; 
         return !(
-        currentIndex.getX() < min.getX() || 
-        currentIndex.getX() > max.getX() || 
-        currentIndex.getZ()< min.getZ() || 
-        currentIndex.getZ()  > max.getZ() || 
-        currentIndex.getY() < min.getY() || 
-        currentIndex.getY() > max.getY() );
+            k < 0 || k >= size || 
+            i < 0 || i >= size ||
+            j< 0 || j >= size );
     }
 
     @Override
     public Voxel next() {
-        Point min = grid.getMin() , max = grid.getMax() ; 
-        double currentIndexXtmp = currentIndex.getX(),currentIndexYtmp=currentIndex.getY() ,currentIndexZtmp = currentIndex.getZ() ;
-			
+        if(first){
+            first = false ;
+            return grid.getVoxel(i,j,k);
+        }
+		int size = grid.getSize() ; 
         if (tx < ty) {
 				if (tx < tz) {
-					tx += delta.d1;
-					currentIndexXtmp += ray.getDir().getX() < 0 ? -1 : 1;
-					if (currentIndexXtmp < min.getX() || currentIndexXtmp > max.getX() ){
-                        return UpdateCurrent(currentIndexXtmp, currentIndexYtmp, currentIndexZtmp);
+                    int stepX =  ray.getDir().getX() < 0 ? -1 : 1;
+                    this.i  +=stepX ; 
+                    if(i < 0 || i >= size ){
+                        return null ;
                     }
+                    tx += delta.d1;
 				} else {
-					tz += delta.d3;
-					currentIndexZtmp += ray.getDir().getZ() < 0 ? -1 : 1;
-					if (currentIndexZtmp < min.getZ() || currentIndexZtmp > max.getZ()){
-                        return UpdateCurrent(currentIndexXtmp, currentIndexYtmp, currentIndexZtmp);
+                    int stepZ =  ray.getDir().getZ() < 0 ? -1 : 1;
+                    k += stepZ ; 
+                    if(k < 0 || k >= size ){
+                        return null ;
                     }
+					tz += delta.d3;
 				}
 			} 
             
         else {
 			if (ty< tz) {
-				ty += delta.d2;
-				currentIndexYtmp += ray.getDir().getY() < 0 ? -1 : 1;
-				if (currentIndexYtmp < min.getY() || currentIndexYtmp > max.getY()){
-                    return UpdateCurrent(currentIndexXtmp, currentIndexYtmp, currentIndexZtmp);
+                int stepY = ray.getDir().getY() < 0 ? -1 : 1;
+                j += stepY ; 
+				if(j< 0 || j >= size ){
+                    return null;
                 }
+                ty += delta.d2;
 			} 
             else {
-				tz  += delta.d3;
-				currentIndexZtmp+= ray.getDir().getZ() < 0 ? -1 : 1;
-                if (currentIndexZtmp < min.getZ() || currentIndexZtmp > max.getZ()){
-                    return UpdateCurrent(currentIndexXtmp, currentIndexYtmp, currentIndexZtmp);
+                int stepZ =  ray.getDir().getZ() < 0 ? -1 : 1;
+                k += stepZ ; 
+                if(k < 0 || k >= size ){
+                    return null;
                 }
+                tz += delta.d3;
 			}
 		}
 
-        return UpdateCurrent(currentIndexXtmp, currentIndexYtmp, currentIndexZtmp );
+        return grid.getVoxel(i,j,k) ;
 
       
     }

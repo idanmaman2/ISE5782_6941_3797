@@ -39,20 +39,15 @@ try{
         Point C = this.vertices.get(2);     
         Vector CA = C.subtract(A);
         Vector BA = B.subtract(A);
-        Vector PA;
-        PA = P.subtract(A);
-        double capArea = CA.crossProduct(PA).lengthSquared();
+        Vector PA =P.subtract(A);
         double abcArea = CA.crossProduct(BA).lengthSquared();
-        double abpArea = BA.crossProduct(PA).lengthSquared();
-        double bcpArea;
-        bcpArea = (B.subtract(P)).crossProduct(C.subtract(P)).lengthSquared(); 
-        double uSquared = Util.alignZero(capArea / abcArea)  ; 
-        double vSquared = Util.alignZero(abpArea / abcArea )   ; 
-        double wSqaured =  Util.alignZero(bcpArea / abcArea)    ; 
+        double uSquared = Util.alignZero( CA.crossProduct(PA).lengthSquared() / abcArea)  ; 
+        double vSquared = Util.alignZero(BA.crossProduct(PA).lengthSquared() / abcArea )   ; 
+        double wSqaured =  Util.alignZero((B.subtract(P)).crossProduct(C.subtract(P)).lengthSquared() / abcArea)    ; 
         double u = Math.sqrt(uSquared);
         double v = Math.sqrt(vSquared);
         double w = Math.sqrt(wSqaured);
-        if( Util.alignZero(u-1) < 0  && Util.alignZero(v-1)< 0 &&Util.alignZero(w-1)< 0 && !Util.isZero(u) && !Util.isZero(v)  && !Util.isZero(w) &&  Util.isZero(w+v+u-1) ){
+        if( Util.alignZero(u-1) < 0  && Util.alignZero(v-1)< 0 &&Util.alignZero(w-1)< 0 &&  Util.isZero(w+v+u-1) ){
             GeoPoint pt = new Intersectable.GeoPoint(P,this);
             if(Util.alignZero(pt.point.distanceSquared(ray.getP0()) -max * max  ) <= 0 ){
                 return List.of(pt) ; 

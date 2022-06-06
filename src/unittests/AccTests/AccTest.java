@@ -17,6 +17,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 
 import com.mokiat.data.front.parser.OBJModel;
@@ -302,7 +304,38 @@ public class AccTest {
 
 	}
 
+	@Test
+	public void MonsterFace() throws FileNotFoundException, IOException {
+		Instant start = Instant.now();
+			Scene scene1 = new Scene("Test scene").setBg(new Color(255,255,255));
+			Camera camera1 = new Camera(new Point(50, -50, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
+					.setVPSize(150, 150) //
+					.setVPDistance(350);
+			scene1.lights.add(new PointLight(new Point(20, -30, 20),new Color(555,555,0)).setKL(0.001).setKQ(0.0002));
+			ImageWriter imageWriter = new ImageWriter("Porche", 100, 100);
+			ObjParser modelObjParser = new ObjParser("/Users/idang/Downloads/Porsche_911_GT2.obj") ;
+			ObjParserModel obj = modelObjParser.getObjParserModel().scale(100).rotate(30, new Vector(0,1,0));
+			scene1.geometries.add(obj.getRandomColoredTriangles(new Double3(0.5), new Double3(0.5), new Double3(0.3),new Double3(0.9), 300));
+			RayTracerBasic trc = new RayTracerBasic(scene1); 
+			//System.out.println("try 1: ");
+	
+			//System.out.println(trc.getGrid().getSize());
+	
+			// CODE HERE        
 
+		
+
+			camera1 =camera1.setWriter(imageWriter) //
+			.setRayTrace(trc) //
+			.renderImage(); 
+			Instant finish = Instant.now();
+			long timeElapsed = Duration.between(start, finish).toSeconds();
+			System.out.println(timeElapsed);
+			camera1.printGrid(5,  Color.BLACK);
+			camera1.writeToImage(); 
+
+		}
+      
 
 	
 
